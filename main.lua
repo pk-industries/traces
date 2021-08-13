@@ -1,12 +1,16 @@
 gfx = love.graphics
+--Sets window when running love game to 400x240 pixels.
+love.window.setMode(400, 240)
 
 function love.load()
 
-  mainWall1, mainWall2, mainWall3, mainWall4 = gfx.newImage("pics/mainWall1.png"), gfx.newImage("pics/mainWall2.png"), gfx.newImage("pics/mainWall3.png"), gfx.newImage("pics/mainWall4.png")
+    --require "darkScreen"
 
-  mainWalls = {mainWall1, mainWall2, mainWall3, mainWall4}
+    mainWall1, mainWall2, mainWall3, mainWall4 = gfx.newImage("pics/mainWall1.png"), gfx.newImage("pics/mainWall2.png"), gfx.newImage("pics/mainWall3.png"), gfx.newImage("pics/mainWall4.png")
 
-  currentWall = mainWall1
+    mainWalls = {mainWall1, mainWall2, mainWall3, mainWall4}
+
+    currentWall = mainWall1
 
 end
 
