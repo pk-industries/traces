@@ -1,47 +1,47 @@
-gfx = love.graphics
+Gfx = love.graphics
 --Sets window when running love game to 400x240 pixels.
 love.window.setMode(400, 240)
 
 function love.load()
 
-    --require "darkScreen"
+    --require "DarkScreen"
 
-    mainWall1, mainWall2, mainWall3, mainWall4 = gfx.newImage("pics/mainWall1.png"), gfx.newImage("pics/mainWall2.png"), gfx.newImage("pics/mainWall3.png"), gfx.newImage("pics/mainWall4.png")
+    MainWall1, MainWall2, MainWall3, MainWall4 = Gfx.newImage("pics/mainWall1.png"), Gfx.newImage("pics/mainWall2.png"), Gfx.newImage("pics/mainWall3.png"), Gfx.newImage("pics/mainWall4.png")
 
-    mainWalls = {mainWall1, mainWall2, mainWall3, mainWall4}
+    MainWalls = {MainWall1, MainWall2, MainWall3, MainWall4}
 
-    currentWall = mainWall1
+    CurrentWall = MainWall1
 
 end
 
 function love.keypressed(key)
-    if currentWall == mainWall1 then
+    if CurrentWall == MainWall1 then
         if key == "right" then
-            currentWall = mainWall2
+            CurrentWall = MainWall2
         elseif key == "left" then
-            currentWall = mainWall4
+            CurrentWall = MainWall4
         end
-    elseif currentWall == mainWall2 then
+    elseif CurrentWall == MainWall2 then
         if key == "right" then
-            currentWall = mainWall3
+            CurrentWall = MainWall3
         elseif key == "left" then
-            currentWall = mainWall1
+            CurrentWall = MainWall1
         end
-    elseif currentWall == mainWall3 then
+    elseif CurrentWall == MainWall3 then
         if key == "right" then
-            currentWall = mainWall4
+            CurrentWall = MainWall4
         elseif key == "left" then
-            currentWall = mainWall2
+            CurrentWall = MainWall2
         end
-    elseif currentWall == mainWall4 then
+    elseif CurrentWall == MainWall4 then
         if key == "right" then
-            currentWall = mainWall1
+            CurrentWall = MainWall1
         elseif key == "left" then
-            currentWall = mainWall3
+            CurrentWall = MainWall3
         end
     end
 end
 
 function love.draw()
-    gfx.draw(currentWall, 0, 0)
+    Gfx.draw(CurrentWall, 0, 0)
 end

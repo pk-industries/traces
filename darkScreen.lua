@@ -1,15 +1,15 @@
 -- darkScreen is used for fading to black and adding darkness to the screen
 
-darkScreen = {}
-darkScreen.state = 0 -- 0 is stable, 1 is getting dark, -1 is getting lighter
-darkScreen.alpha = 0
-darkScreen.time = 1 -- time in seconds for the blackScreen fade/unfade
+DarkScreen = {}
+DarkScreen.state = 0 -- 0 is stable, 1 is getting dark, -1 is getting lighter
+DarkScreen.alpha = 0
+DarkScreen.time = 1 -- time in seconds for the blackScreen fade/unfade
 
-gameWidth = 400
-gameHeight = 240
-scale = 1
+GameWidth = 400
+GameHeight = 240
+Scale = 1
 
-function darkScreen:update(dt)
+function DarkScreen:update(dt)
 
   if self.state ~= 0 then
     self.alpha = self.alpha + (self.state / self.time * dt)
@@ -27,14 +27,14 @@ function darkScreen:update(dt)
 
 end
 
-function darkScreen:draw()
+function DarkScreen:draw()
 
   love.graphics.setColor(1, 0, 0, self.alpha)
-  love.graphics.rectangle("fill", -20, -20, (gameWidth + 40) * scale, (gameHeight + 40) * scale)
+  love.graphics.rectangle("fill", -20, -20, (GameWidth + 40) * Scale, (GameHeight + 40) * Scale)
 
 end
 
-function darkScreen:fadeIn(t)
+function DarkScreen:fadeIn(t)
 
   self.alpha = 1
   self.state = -1
@@ -42,7 +42,7 @@ function darkScreen:fadeIn(t)
 
 end
 
-function darkScreen:fadeOut(t)
+function DarkScreen:fadeOut(t)
 
   self.alpha = 0
   self.state = 1
