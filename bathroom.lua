@@ -1,4 +1,4 @@
---Holds bathroom state, 2 walls(shower and sink walls?)
+--Holds bathroom state, 2 walls(shower and sink walls??)
 
 Gfx = love.graphics
 Bathroom = {}
