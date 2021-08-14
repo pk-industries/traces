@@ -1,0 +1,1 @@
+--5  views (towards living room door, towards bathroom, towards bed, towards closet, towards desk), state of closet door, desk, 

@@ -1,0 +1,1 @@
+--holds kitchen state, kitchen light, laundry room locked, cabinets, dishwasher, blinds/window

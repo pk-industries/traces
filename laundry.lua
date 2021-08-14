@@ -1,0 +1,1 @@
+--state of laundry room, if door is unlocked, washer/dryer

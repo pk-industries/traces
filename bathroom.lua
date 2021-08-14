@@ -1,0 +1,1 @@
+--Holds bathroom state, 2 walls(shower and sink walls?)

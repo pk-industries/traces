@@ -1,0 +1,1 @@
+--Holds living room state, 4 walls, (state of kitchen light?)
