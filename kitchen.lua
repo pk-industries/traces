@@ -2,5 +2,5 @@
 
 Gfx = love.graphics
 Kitchen = {}
---by default, you have not "entered" the room. This must be set to true by walking through one of the doors to the room.
+--by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
 Kitchen.entered = false
