@@ -2,7 +2,7 @@
 
 Gfx = love.graphics
 Bathroom = {}
---by default, you have not "entered" the room. This must be set to true by walking through one of the doors to the room.
+--by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
 Bathroom.entered = false
 
 function Bathroom:load()
@@ -32,6 +32,6 @@ function love.keypressed(key)
     end
 end
 
-function love.draw()
+function Bathroom:draw()
     Gfx.draw(CurrentWall, 0, 0)
 end

@@ -1,4 +1,5 @@
 -- darkScreen is used for fading to black and adding darkness to the screen
+--TODO: Use this on room change, most likely when [room].entered value changes.
 
 DarkScreen = {}
 DarkScreen.state = 0 -- 0 is stable, 1 is getting dark, -1 is getting lighter

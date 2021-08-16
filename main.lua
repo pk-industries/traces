@@ -6,15 +6,21 @@ function love.load()
 
     require "livingRoom"
     require "bathroom"
+    require "closetOne"
 
-    if LivingRoom.entered == true then
+    if LivingRoom.entered then
         LivingRoom:load()
-    elseif Bathroom.entered == true then
+    elseif Bathroom.entered then
         Bathroom:load()
+    elseif ClosetOne.entered then
+        ClosetOne:load()
     end
 
 end
 
 function love.draw()
-    
+    --TODO: don't need this if we load above? research this...
+    --if Bathroom.entered then
+        --Bathroom:draw()
+    --end
 end
