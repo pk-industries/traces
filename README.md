@@ -1,1 +1,3 @@
-# untitled-pd
+# North of Odessa
+
+Playdate Horror game being written in Love2D, then refactored to be playable on the Playdate.
