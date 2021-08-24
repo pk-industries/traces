@@ -8,7 +8,7 @@ ClosetTwo.entered = false
 function ClosetTwo:load()
     --This could be a good chance for an animation, e.g. moving downwards from eye level. This closet will probably just be one wall.
     ClosetTwoWalls = {}
-    CurrentWall = CurrentWall
+    --CurrentWall = CurrentWall
 end
 
 --TODO: If crank is  turning, then play the animation. Else, stop in the loop.

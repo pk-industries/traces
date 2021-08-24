@@ -32,6 +32,7 @@ function love.keypressed(key)
     end
 end
 
+
 function Bathroom:draw()
     Gfx.draw(CurrentWall, 0, 0)
 end

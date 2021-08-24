@@ -3,11 +3,10 @@ Gfx = love.graphics
 love.window.setMode(800, 480)
 
 function love.load()
-
+    --we broke some stuff last time with the order of these requires. Research this.
     require "livingRoom"
     require "bathroom"
     require "closetOne"
-
     if LivingRoom.entered then
         LivingRoom:load()
     elseif Bathroom.entered then
@@ -20,7 +19,12 @@ end
 
 function love.draw()
     --TODO: don't need this if we load above? research this...
-    --if Bathroom.entered then
-        --Bathroom:draw()
-    --end
+    if LivingRoom.entered then
+        LivingRoom:draw()
+    elseif Bathroom.entered then
+        Bathroom:draw()
+    elseif ClosetOne.entered then
+        ClosetOne:draw()
+    end
+
 end
