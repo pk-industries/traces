@@ -30,7 +30,7 @@ function Bathroom:load()
             end
         end
     end
-
+    
 end
 
 
