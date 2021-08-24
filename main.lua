@@ -7,6 +7,7 @@ function love.load()
     require "livingRoom"
     require "bathroom"
     require "closetOne"
+    require "bedroom"
     
     if LivingRoom.entered then
         LivingRoom:load()
@@ -14,6 +15,8 @@ function love.load()
         Bathroom:load()
     elseif ClosetOne.entered then
         ClosetOne:load()
+    elseif Bedroom.entered then
+        Bedroom:load()
     end
 
 end
@@ -25,5 +28,7 @@ function love.draw()
         Bathroom:draw()
     elseif ClosetOne.entered then
         ClosetOne:draw()
+    elseif Bedroom.entered then
+        Bedroom:draw()
     end
 end
