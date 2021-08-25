@@ -1,3 +1,4 @@
+
 Gfx = love.graphics
 
 Hallway = {}
@@ -28,6 +29,16 @@ function Hallway:load()
                 CurrentWall = HallBackWall
             elseif key == "right" then
                 CurrentWall = HallFrontWall
+
+            --check if key is space (to enter bedroom door), if so then load Bedroom    
+            elseif key == "space" then
+                Bedroom.entered = true
+                Hallway.entered = false
+
+                if Bedroom.entered then
+                    Bedroom:load()
+                end
+
             end
         elseif CurrentWall == HallBackWall then
             if key == "left" then

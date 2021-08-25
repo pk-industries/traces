@@ -12,30 +12,46 @@ function Bedroom:load()
     CurrentWall = HallWall
 
     function love.keypressed(key)
+
         if CurrentWall == HallWall then
            if key == "left" then
             CurrentWall = DresserWall
            elseif key == "right" then
             CurrentWall = BathWall
+
+           --use "space" to set Hallway.entered to true, then load the Hallway.
+           elseif key == "space" then
+            --TODO: AND if padlock is opened
+            Hallway.entered = true
+            Bedroom.entered = false
+
+            if Hallway.entered then
+                Hallway:load()
+            end
+
            end
+
         elseif CurrentWall == DresserWall then
            if key == "left" then
             CurrentWall = BedWall
            elseif key == "right" then
             CurrentWall = HallWall
            end
+
         elseif CurrentWall == BedWall then
             if key == "left" then
              CurrentWall = BathWall
             elseif key == "right" then
              CurrentWall = DresserWall
             end
+
         elseif CurrentWall == BathWall then
             if key == "left" then
              CurrentWall = HallWall
             elseif key == "right" then
              CurrentWall = BedWall
             end
+
         end
     end
 
