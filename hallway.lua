@@ -37,6 +37,7 @@ function Hallway:load()
 
                 if Bedroom.entered then
                     Bedroom:load()
+                    CurrentWall = BedWall
                 end
 
             end
