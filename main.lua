@@ -1,16 +1,24 @@
+--[NEXT SESH?
+--TODO: Implement dark screen fade in/out from bedroom to hallway
+--TODO: Refactor all CurrentWall instances to CurrentFrame
+--]
+
 Gfx = love.graphics
 --Sets window when running love game to 400x240 pixels.
 love.window.setMode(400, 240)
 
 function love.load()
 
+    require "startScreen"
     require "livingRoom"
     require "bathroom"
     require "closetOne"
     require "bedroom"
     require "hallway"
     
-    if LivingRoom.entered then
+    if StartScreen.entered then
+        StartScreen:load()
+    elseif LivingRoom.entered then
         LivingRoom:load()
     elseif Bathroom.entered then
         Bathroom:load()
@@ -25,7 +33,9 @@ function love.load()
 end
 
 function love.draw()
-    if LivingRoom.entered then
+    if StartScreen.entered then
+        StartScreen:draw()
+    elseif LivingRoom.entered then
         LivingRoom:draw()
     elseif Bathroom.entered then
         Bathroom:draw()
