@@ -9,26 +9,26 @@ function Hallway:load()
 
     HallLivingWall, HallBackWall, HallFrontWall, HallBedWall = Gfx.newImage("pics/HallLivingWall.png"), Gfx.newImage("pics/HallBackWall.png"), Gfx.newImage("pics/HallFrontWall.png"), Gfx.newImage("pics/HallBedWall.png")
     HallwayWalls = {HallLivingWall, HallBackWall, HallFrontWall, HallBedWall}
-    CurrentWall = HallLivingWall
+    CurrentFrame = HallLivingWall
 
     function love.keypressed(key)
-        if CurrentWall == HallLivingWall then
+        if CurrentFrame == HallLivingWall then
             if key == "left" then
-                CurrentWall = HallFrontWall
+                CurrentFrame = HallFrontWall
             elseif key == "right" then
-                CurrentWall = HallBackWall
+                CurrentFrame = HallBackWall
             end
-        elseif CurrentWall == HallFrontWall then
+        elseif CurrentFrame == HallFrontWall then
             if key == "left" then
-                CurrentWall = HallBedWall
+                CurrentFrame = HallBedWall
             elseif key == "right" then
-                CurrentWall = HallLivingWall
+                CurrentFrame = HallLivingWall
             end
-        elseif CurrentWall == HallBedWall then
+        elseif CurrentFrame == HallBedWall then
             if key == "left" then
-                CurrentWall = HallBackWall
+                CurrentFrame = HallBackWall
             elseif key == "right" then
-                CurrentWall = HallFrontWall
+                CurrentFrame = HallFrontWall
 
             --check if key is space (to enter bedroom door), if so then load Bedroom    
             elseif key == "space" then
@@ -37,15 +37,15 @@ function Hallway:load()
 
                 if Bedroom.entered then
                     Bedroom:load()
-                    CurrentWall = BedWall
+                    CurrentFrame = BedWall
                 end
 
             end
-        elseif CurrentWall == HallBackWall then
+        elseif CurrentFrame == HallBackWall then
             if key == "left" then
-                CurrentWall = HallLivingWall
+                CurrentFrame = HallLivingWall
             elseif key == "right" then
-                CurrentWall = HallBedWall
+                CurrentFrame = HallBedWall
             end
         end
     end
@@ -53,5 +53,5 @@ function Hallway:load()
 end
 
 function Hallway:draw()
-    Gfx.draw(CurrentWall, 0, 0)
+    Gfx.draw(CurrentFrame, 0, 0)
 end

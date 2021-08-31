@@ -8,18 +8,18 @@ ClosetOne.entered = false
 function ClosetOne:load()
     ClosetOneWall1, ClosetOneWall2 = Gfx.newImage("pics/ClosetOneWall1.png"), Gfx.newImage("pics/ClosetOneWall2.png")
     ClosetOneWalls = {ClosetOneWall1, ClosetOneWall2}
-    CurrentWall = ClosetOneWall1
+    CurrentFrame = ClosetOneWall1
 
     function love.keypressed(key)
-        if CurrentWall == ClosetOneWall1 then
+        if CurrentFrame == ClosetOneWall1 then
            if key == "down" then
              --TODO: exit closetOne
            elseif key == "right" then
-             CurrentWall = ClosetOneWall2
+             CurrentFrame = ClosetOneWall2
            end
-        elseif CurrentWall == ClosetOneWall2 then
+        elseif CurrentFrame == ClosetOneWall2 then
            if key == "left" then
-               CurrentWall = ClosetOneWall1
+               CurrentFrame = ClosetOneWall1
            end
         end
     end
@@ -27,5 +27,5 @@ function ClosetOne:load()
 end
 
 function ClosetOne:draw()
-    Gfx.draw(CurrentWall, 0, 0)
+    Gfx.draw(CurrentFrame, 0, 0)
 end

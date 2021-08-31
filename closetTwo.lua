@@ -8,7 +8,7 @@ ClosetTwo.entered = false
 function ClosetTwo:load()
     --This could be a good chance for an animation, e.g. moving downwards from eye level. This closet will probably just be one wall.
     ClosetTwoWalls = {}
-    --CurrentWall = CurrentWall
+    --CurrentFrame = CurrentFrame
 end
 
 --TODO: If crank is  turning, then play the animation. Else, stop in the loop.
@@ -16,5 +16,5 @@ end
 --From there, we can loop the list, and draw the next index in the list on each rotary position of the crank.
 
 function ClosetTwo:draw()
-    Gfx.draw(CurrentWall, 0, 0)
+    Gfx.draw(CurrentFrame, 0, 0)
 end

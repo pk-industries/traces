@@ -8,24 +8,24 @@ Bathroom.entered = false
 function Bathroom:load()
     BathWall1, BathWall2, SinkWall = Gfx.newImage("pics/BathWall1.png"), Gfx.newImage("pics/BathWall2.png"), Gfx.newImage("pics/SinkWall.png")
     BathWalls = {BathWall1, BathWall2, SinkWall}
-    CurrentWall = BathWall1
+    CurrentFrame = BathWall1
 
     function love.keypressed(key)
-        if CurrentWall == BathWall1 then
+        if CurrentFrame == BathWall1 then
             if key == "up" then
-                CurrentWall = SinkWall
+                CurrentFrame = SinkWall
             elseif key == "down" then
                 --TODO: ENTER BACK INTO BEDROOM
             end
-        elseif CurrentWall == SinkWall then
+        elseif CurrentFrame == SinkWall then
             if key == "left" then
-                CurrentWall = BathWall2
+                CurrentFrame = BathWall2
             elseif key == "down" then
-                CurrentWall = BathWall1
+                CurrentFrame = BathWall1
             end
-        elseif CurrentWall == BathWall2 then
+        elseif CurrentFrame == BathWall2 then
             if key == "right" then
-                CurrentWall = SinkWall
+                CurrentFrame = SinkWall
             --TODO: DO SHOWER WALL STUFF
             end
         end
@@ -36,5 +36,5 @@ end
 
 
 function Bathroom:draw()
-    Gfx.draw(CurrentWall, 0, 0)
+    Gfx.draw(CurrentFrame, 0, 0)
 end

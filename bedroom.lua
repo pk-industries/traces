@@ -3,21 +3,21 @@
 Gfx = love.graphics
 Bedroom = {}
 --by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
-Bedroom.entered = true
+Bedroom.entered = false
 
 function Bedroom:load()
 
     HallWall, BathWall, DresserWall, BedWall = Gfx.newImage("pics/HallWall.png"), Gfx.newImage("pics/BathWall.png"), Gfx.newImage("pics/DresserWall.png"), Gfx.newImage("pics/BedWall.png")
     BedroomWalls = {HallWall, BathWall, DresserWall, BedWall}
-    CurrentWall = HallWall
+    CurrentFrame = HallWall
 
     function love.keypressed(key)
 
-        if CurrentWall == HallWall then
+        if CurrentFrame == HallWall then
            if key == "left" then
-            CurrentWall = DresserWall
+            CurrentFrame = DresserWall
            elseif key == "right" then
-            CurrentWall = BathWall
+            CurrentFrame = BathWall
 
            --use "space" to set Hallway.entered to true, then load the Hallway.
            elseif key == "space" then
@@ -31,25 +31,25 @@ function Bedroom:load()
 
            end
 
-        elseif CurrentWall == DresserWall then
+        elseif CurrentFrame == DresserWall then
            if key == "left" then
-            CurrentWall = BedWall
+            CurrentFrame = BedWall
            elseif key == "right" then
-            CurrentWall = HallWall
+            CurrentFrame = HallWall
            end
 
-        elseif CurrentWall == BedWall then
+        elseif CurrentFrame == BedWall then
             if key == "left" then
-             CurrentWall = BathWall
+             CurrentFrame = BathWall
             elseif key == "right" then
-             CurrentWall = DresserWall
+             CurrentFrame = DresserWall
             end
 
-        elseif CurrentWall == BathWall then
+        elseif CurrentFrame == BathWall then
             if key == "left" then
-             CurrentWall = HallWall
+             CurrentFrame = HallWall
             elseif key == "right" then
-             CurrentWall = BedWall
+             CurrentFrame = BedWall
             end
 
         end
@@ -57,6 +57,8 @@ function Bedroom:load()
 
 end
 
+
+
 function Bedroom:draw()
-    Gfx.draw(CurrentWall, 0, 0)
+    Gfx.draw(CurrentFrame, 0, 0)
 end

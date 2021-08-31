@@ -1,6 +1,4 @@
 --[NEXT SESH?
---TODO: Implement dark screen fade in/out from bedroom to hallway
---TODO: Refactor all CurrentWall instances to CurrentFrame
 --]
 
 Gfx = love.graphics
@@ -15,7 +13,7 @@ function love.load()
     require "closetOne"
     require "bedroom"
     require "hallway"
-    
+
     if StartScreen.entered then
         StartScreen:load()
     elseif LivingRoom.entered then
@@ -33,6 +31,7 @@ function love.load()
 end
 
 function love.draw()
+
     if StartScreen.entered then
         StartScreen:draw()
     elseif LivingRoom.entered then
