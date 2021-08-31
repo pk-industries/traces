@@ -1,16 +1,17 @@
 -- darkScreen is used for fading to black and adding darkness to the screen
---TODO: Use this on room change, most likely when [room].entered value changes.
+--TODO: i can't get this to work rn bc fade to black starts AFTER loading a room
+--i'll come back to this w/ a library or playdate sdk.....
 
 DarkScreen = {}
+DarkScreen.entered = false
+GameWidth = 400
+GameHeight = 240
+Scale = 1
+DarkScreen.r = 255
+DarkScreen.g = 255
+DarkScreen.b = 255
 
 function DarkScreen:load()
-
-  GameWidth = 400
-  GameHeight = 240
-  Scale = 1
-  DarkScreen.r = 255
-  DarkScreen.g = 255
-  DarkScreen.b = 255
   
 end
 
@@ -18,9 +19,9 @@ end
 
 function DarkScreen:update(dt)
 
-  DarkScreen.r = DarkScreen.r - 1
-  DarkScreen.g = DarkScreen.g - 1
-  DarkScreen.b = DarkScreen.b - 1 
+  DarkScreen.r = DarkScreen.r - 550 * dt
+  DarkScreen.g = DarkScreen.g - 550 * dt
+  DarkScreen.b = DarkScreen.b - 550 * dt
 
 end
 
