@@ -24,11 +24,9 @@ function Bedroom:load()
             --TODO: AND if padlock is opened
             Hallway.entered = true
             Bedroom.entered = false
-
             if Hallway.entered then
                 Hallway:load()
             end
-
            end
 
         elseif CurrentFrame == DresserWall then
@@ -36,6 +34,12 @@ function Bedroom:load()
             CurrentFrame = BedWall
            elseif key == "right" then
             CurrentFrame = HallWall
+           elseif key == "up" then
+            MusicBox.entered = true
+            --enter the music box
+            if MusicBox.entered then
+                MusicBox:load()
+            end
            end
 
         elseif CurrentFrame == BedWall then

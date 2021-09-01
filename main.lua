@@ -16,9 +16,12 @@ function love.load()
     require "closetOne"
     require "bedroom"
     require "hallway"
+    require "musicBox"
 
     if StartScreen.entered then
         StartScreen:load()
+    elseif MusicBox.entered then
+        MusicBox:load()
     elseif LivingRoom.entered then
         LivingRoom:load()
     elseif Bathroom.entered then
@@ -37,6 +40,8 @@ function love.draw()
 
     if StartScreen.entered then
         StartScreen:draw()
+    elseif MusicBox.entered then
+        MusicBox:draw()
     elseif LivingRoom.entered then
         LivingRoom:draw()
     elseif Bathroom.entered then
