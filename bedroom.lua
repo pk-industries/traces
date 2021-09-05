@@ -22,12 +22,12 @@ function Bedroom:load()
            --use "space" to set Hallway.entered to true, then load the Hallway.
            elseif key == "space" then
             --TODO: AND if padlock is opened
-            Hallway.entered = true
-            Bedroom.entered = false
-            if Hallway.entered then
-                Hallway:load()
-            end
-           end
+                Hallway.entered = true
+                Bedroom.entered = false
+                if Hallway.entered then
+                     Hallway:load()
+                end
+        end
 
         elseif CurrentFrame == DresserWall then
            if key == "left" then
@@ -35,12 +35,18 @@ function Bedroom:load()
            elseif key == "right" then
             CurrentFrame = HallWall
            elseif key == "up" then
-            MusicBox.entered = true
-            --enter the music box
-            if MusicBox.entered then
-                MusicBox:load()
+                MusicBox.entered = true
+                --enter the music box
+                if MusicBox.entered then
+                    MusicBox:load()
+                end
+            elseif key == "space" then
+                ClosetOne.entered = true
+                if ClosetOne.entered then
+                    ClosetOne:load()
+                end
             end
-           end
+        
 
         elseif CurrentFrame == BedWall then
             if key == "left" then
@@ -51,9 +57,14 @@ function Bedroom:load()
 
         elseif CurrentFrame == BathWall then
             if key == "left" then
-             CurrentFrame = HallWall
+                CurrentFrame = HallWall
             elseif key == "right" then
-             CurrentFrame = BedWall
+                CurrentFrame = BedWall
+            elseif key == "space" then
+                Bathroom.entered = true
+                if Bathroom.entered then
+                    Bathroom:load()
+                end
             end
 
         end

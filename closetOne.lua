@@ -13,7 +13,11 @@ function ClosetOne:load()
     function love.keypressed(key)
         if CurrentFrame == ClosetOneWall1 then
            if key == "down" then
-             --TODO: exit closetOne
+            Bedroom.entered = true
+            if Bedroom.entered then
+                Bedroom:load()
+                CurrentFrame = DresserWall
+            end
            elseif key == "right" then
              CurrentFrame = ClosetOneWall2
            end

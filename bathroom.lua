@@ -15,7 +15,11 @@ function Bathroom:load()
             if key == "up" then
                 CurrentFrame = SinkWall
             elseif key == "down" then
-                --TODO: ENTER BACK INTO BEDROOM
+                Bedroom.entered = true
+                if Bedroom.entered then
+                    Bedroom:load()
+                    CurrentFrame = BathWall
+                end
             end
         elseif CurrentFrame == SinkWall then
             if key == "left" then
