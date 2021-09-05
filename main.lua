@@ -1,7 +1,6 @@
 --[NEXT SESH?
 --TODO: Text box?
 --TODO: Music Box
---TODO: Refactor png file locations: split into separate folders
 --]
 
 Gfx = love.graphics

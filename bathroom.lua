@@ -6,7 +6,7 @@ Bathroom = {}
 Bathroom.entered = false
 
 function Bathroom:load()
-    BathWall1, BathWall2, SinkWall = Gfx.newImage("pics/BathWall1.png"), Gfx.newImage("pics/BathWall2.png"), Gfx.newImage("pics/SinkWall.png")
+    BathWall1, BathWall2, SinkWall = Gfx.newImage("pics/bathroom/BathWall1.png"), Gfx.newImage("pics/bathroom/BathWall2.png"), Gfx.newImage("pics/bathroom/SinkWall.png")
     BathWalls = {BathWall1, BathWall2, SinkWall}
     CurrentFrame = BathWall1
 

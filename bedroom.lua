@@ -7,7 +7,7 @@ Bedroom.entered = false
 
 function Bedroom:load()
 
-    HallWall, BathWall, DresserWall, BedWall = Gfx.newImage("pics/HallWall.png"), Gfx.newImage("pics/BathWall.png"), Gfx.newImage("pics/DresserWall.png"), Gfx.newImage("pics/BedWall.png")
+    HallWall, BathWall, DresserWall, BedWall = Gfx.newImage("pics/bedroom/HallWall.png"), Gfx.newImage("pics/bedroom/BathWall.png"), Gfx.newImage("pics/bedroom/DresserWall.png"), Gfx.newImage("pics/bedroom/BedWall.png")
     BedroomWalls = {HallWall, BathWall, DresserWall, BedWall}
     CurrentFrame = HallWall
 

@@ -4,7 +4,7 @@ MusicBox.entered = false
 
 function MusicBox:load()
 
-    MusicBoxMain, SelectorMark = Gfx.newImage("pics/MusicBox.png"), Gfx.newImage("pics/SelectorMark.png")
+    MusicBoxMain, SelectorMark = Gfx.newImage("pics/bedroom/MusicBox.png"), Gfx.newImage("pics/SelectorMark.png")
     
     function love.keypressed(key)
         --if you press the keys in the right order....bb^v<>aba

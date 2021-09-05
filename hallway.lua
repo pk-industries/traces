@@ -7,7 +7,7 @@ Hallway.entered = false
 
 function Hallway:load()
 
-    HallLivingWall, HallBackWall, HallFrontWall, HallBedWall = Gfx.newImage("pics/HallLivingWall.png"), Gfx.newImage("pics/HallBackWall.png"), Gfx.newImage("pics/HallFrontWall.png"), Gfx.newImage("pics/HallBedWall.png")
+    HallLivingWall, HallBackWall, HallFrontWall, HallBedWall = Gfx.newImage("pics/hall/HallLivingWall.png"), Gfx.newImage("pics/hall/HallBackWall.png"), Gfx.newImage("pics/hall/HallFrontWall.png"), Gfx.newImage("pics/hall/HallBedWall.png")
     HallwayWalls = {HallLivingWall, HallBackWall, HallFrontWall, HallBedWall}
     CurrentFrame = HallLivingWall
 

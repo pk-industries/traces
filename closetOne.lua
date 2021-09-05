@@ -6,7 +6,7 @@ ClosetOne = {}
 ClosetOne.entered = false
 
 function ClosetOne:load()
-    ClosetOneWall1, ClosetOneWall2 = Gfx.newImage("pics/ClosetOneWall1.png"), Gfx.newImage("pics/ClosetOneWall2.png")
+    ClosetOneWall1, ClosetOneWall2 = Gfx.newImage("pics/closetOne/ClosetOneWall1.png"), Gfx.newImage("pics/closetOne/ClosetOneWall2.png")
     ClosetOneWalls = {ClosetOneWall1, ClosetOneWall2}
     CurrentFrame = ClosetOneWall1
 
