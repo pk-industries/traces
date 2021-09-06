@@ -53,6 +53,13 @@ function Hallway:load()
         elseif CurrentFrame == HallFrontWall3 then
             if key == "left" then 
                 CurrentFrame = FuseBox
+            elseif key == "right" then
+                LivingRoom.entered = true
+                Hallway.entered = false
+                if LivingRoom.entered then
+                    LivingRoom:load()
+                    CurrentFrame = LivingFrontWall
+                end
             end
         elseif CurrentFrame == FuseBox then
             if key == "right" then

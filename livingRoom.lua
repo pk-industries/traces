@@ -6,34 +6,65 @@ LivingRoom = {}
 LivingRoom.entered = false
 
 function LivingRoom:load()
-    MainWall1, MainWall2, MainWall3, MainWall4 = Gfx.newImage("pics/mainWall1.png"), Gfx.newImage("pics/mainWall2.png"), Gfx.newImage("pics/mainWall3.png"), Gfx.newImage("pics/mainWall4.png")
-    MainWalls = {MainWall1, MainWall2, MainWall3, MainWall4}
-    CurrentFrame = MainWall1
+    LivingFrontWall, LivingKitchenWall, LivingBackWall, LivingHallWall, Calendar, FrontDoorLock, KitchenEntrance, RecordPlayer = Gfx.newImage("pics/livingRoom/LivingFrontWall.png"), Gfx.newImage("pics/livingRoom/LivingKitchenWall.png"), Gfx.newImage("pics/livingRoom/LivingBackWall.png"), Gfx.newImage("pics/livingRoom/LivingHallWall.png"), Gfx.newImage("pics/livingRoom/Calendar.png"), Gfx.newImage("pics/livingRoom/FrontDoorLock.png"), Gfx.newImage("pics/livingRoom/KitchenEntrance.png"), Gfx.newImage("pics/livingRoom/RecordPlayer.png")
+    LivingWalls = {LivingFrontWall, LivingKitchenWall, LivingBackWall, LivingHallWall, Calendar, FrontDoorLock, KitchenEntrance, RecordPlayer}
+    CurrentFrame = LivingFrontWall
 
     function love.keypressed(key)
-        if CurrentFrame == MainWall1 then
+        if CurrentFrame == LivingFrontWall then
             if key == "right" then
-                CurrentFrame = MainWall2
+                CurrentFrame = LivingKitchenWall
             elseif key == "left" then
-                CurrentFrame = MainWall4
+                CurrentFrame = LivingHallWall
+            elseif key == "up" then
+                CurrentFrame = FrontDoorLock
             end
-        elseif CurrentFrame == MainWall2 then
-            if key == "right" then
-                CurrentFrame = MainWall3
-            elseif key == "left" then
-                CurrentFrame = MainWall1
+        elseif CurrentFrame == FrontDoorLock then
+            if key == "down" then
+                CurrentFrame = LivingFrontWall
             end
-        elseif CurrentFrame == MainWall3 then
+        elseif CurrentFrame == LivingKitchenWall then
             if key == "right" then
-                CurrentFrame = MainWall4
+                CurrentFrame = LivingBackWall
             elseif key == "left" then
-                CurrentFrame = MainWall2
+                CurrentFrame = LivingFrontWall
+            elseif key == "space" then
+                CurrentFrame = KitchenEntrance
+            elseif key == "up" then
+                CurrentFrame = Calendar
             end
-        elseif CurrentFrame == MainWall4 then
+        elseif CurrentFrame == KitchenEntrance then
+            if key == "down" then
+                CurrentFrame = LivingKitchenWall
+            end
+        elseif CurrentFrame == Calendar then
+            if key == "down" then
+                CurrentFrame = LivingKitchenWall
+            end
+        elseif CurrentFrame == LivingBackWall then
             if key == "right" then
-                CurrentFrame = MainWall1
+                CurrentFrame = LivingHallWall
             elseif key == "left" then
-                CurrentFrame = MainWall3
+                CurrentFrame = LivingKitchenWall
+            elseif key == "up" then
+                CurrentFrame = RecordPlayer
+            end
+        elseif CurrentFrame == RecordPlayer then
+            if key == "down" then
+                CurrentFrame = LivingBackWall
+            end
+        elseif CurrentFrame == LivingHallWall then
+            if key == "right" then
+                CurrentFrame = LivingFrontWall
+            elseif key == "left" then
+                CurrentFrame = LivingBackWall
+            elseif key == "space" then
+                Hallway.entered = true
+                LivingRoom.entered = false
+                if Hallway.entered then
+                    Hallway:load()
+                    CurrentFrame = FuseBox
+                end
             end
         end
     end

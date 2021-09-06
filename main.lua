@@ -1,6 +1,7 @@
 --[NEXT SESH?
 --TODO: Text box?
 --TODO: Music Box
+--TODO: General first time door opening animation
 --]
 
 Gfx = love.graphics
