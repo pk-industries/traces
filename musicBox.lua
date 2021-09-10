@@ -3,7 +3,7 @@ MusicBox = {}
 MusicBox.entered = false
 
 function MusicBox:load()
-
+    TextBox.entered = true    
     MusicBoxMain, SelectorMark = Gfx.newImage("pics/bedroom/MusicBox.png"), Gfx.newImage("pics/SelectorMark.png")
     CurrentFrame = MusicBoxMain
 

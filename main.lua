@@ -1,5 +1,5 @@
 --[NEXT SESH?
---TODO: Text box?
+--TODO: Text box: See text.lua for current state of functionality
 --TODO: Music Box
 --TODO: General first time door opening animation
 --]
@@ -17,11 +17,12 @@ function love.load()
     require "bedroom"
     require "hallway"
     require "musicBox"
+    require "text"
 
     if StartScreen.entered then
         StartScreen:load()
     elseif MusicBox.entered then
-        MusicBox:load()
+        TextBox:load()
     elseif LivingRoom.entered then
         LivingRoom:load()
     elseif Bathroom.entered then
@@ -34,6 +35,17 @@ function love.load()
         Hallway:load()
     end
 
+    --TextBox needs to be a lone conditional bc it will be drawn on the screen with other things
+    if TextBox.entered then
+        TextBox:load()
+    end
+
+end
+
+function love.update()
+    if TextBox.entered then
+        TextBox:update()
+    end
 end
 
 function love.draw()
@@ -53,4 +65,11 @@ function love.draw()
     elseif Hallway.entered then
         Hallway:draw()
     end
+
+    --TextBox needs to be a lone conditional bc it will be drawn on the screen with other things
+    --Needs to be drawn after everything else since it's on top of everything on the screen
+    if TextBox.entered then
+        TextBox:draw()
+    end
+    
 end
