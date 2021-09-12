@@ -22,7 +22,7 @@ function love.load()
     if StartScreen.entered then
         StartScreen:load()
     elseif MusicBox.entered then
-        TextBox:load()
+        MusicBox:load()
     elseif LivingRoom.entered then
         LivingRoom:load()
     elseif Bathroom.entered then
@@ -43,9 +43,34 @@ function love.load()
 end
 
 function love.update()
+
+    --Had to switch over key pressed handlers to the update() function,
+    --because I found that the textbox would pop up, then I would control room changing stuff with
+    --the textbox still up.
+
+    --TODO: Figure out WHY my conditionals have to be structured this way for textbox logic to work -_-
+    if MusicBox.entered then
+        MusicBox:update()
+    elseif Bedroom.entered then
+        Bedroom:update()
+    elseif Bathroom.entered then
+        Bathroom:update()
+    elseif ClosetOne.entered then
+        ClosetOne:update()
+    end
+
+    if ClosetOne.entered then
+        ClosetOne:update()
+    end
+
+    if Bathroom.entered then
+        Bathroom:update()
+    end
+
     if TextBox.entered then
         TextBox:update()
     end
+
 end
 
 function love.draw()

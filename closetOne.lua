@@ -9,11 +9,14 @@ function ClosetOne:load()
     ClosetOneWall1, ClosetOneWall2 = Gfx.newImage("pics/closetOne/ClosetOneWall1.png"), Gfx.newImage("pics/closetOne/ClosetOneWall2.png")
     ClosetOneWalls = {ClosetOneWall1, ClosetOneWall2}
     CurrentFrame = ClosetOneWall1
+end
 
+function ClosetOne:update()
     function love.keypressed(key)
         if CurrentFrame == ClosetOneWall1 then
            if key == "down" then
             Bedroom.entered = true
+            ClosetOne.entered = false
             if Bedroom.entered then
                 Bedroom:load()
                 CurrentFrame = DresserWall
@@ -27,7 +30,6 @@ function ClosetOne:load()
            end
         end
     end
-
 end
 
 function ClosetOne:draw()

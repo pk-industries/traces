@@ -11,6 +11,10 @@ function Bedroom:load()
     BedroomWalls = {HallWall, BathWall, DresserWall, BedWall}
     CurrentFrame = HallWall
 
+
+end
+
+function Bedroom:update()
     function love.keypressed(key)
 
         if CurrentFrame == HallWall then
@@ -69,10 +73,7 @@ function Bedroom:load()
 
         end
     end
-
 end
-
-
 
 function Bedroom:draw()
     Gfx.draw(CurrentFrame, 0, 0)

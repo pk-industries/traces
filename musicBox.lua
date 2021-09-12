@@ -3,13 +3,16 @@ MusicBox = {}
 MusicBox.entered = false
 
 function MusicBox:load()
-    TextBox.entered = true    
+    TextBox.entered = true
     MusicBoxMain, SelectorMark = Gfx.newImage("pics/bedroom/MusicBox.png"), Gfx.newImage("pics/SelectorMark.png")
     CurrentFrame = MusicBoxMain
+end
 
+function MusicBox:update()
     function love.keypressed(key)
         if key == "down" then
             Bedroom.entered = true
+            MusicBox.entered = false
             if Bedroom.entered then
                 Bedroom:load()
                 CurrentFrame = DresserWall
@@ -22,8 +25,6 @@ function MusicBox:load()
         --else key pressed order == anything else
         --then music box does bad animation, spookyMusic1 = spookyMusic2
     end
-
-
 end
 
 function MusicBox:draw()

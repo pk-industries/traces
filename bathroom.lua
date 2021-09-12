@@ -6,16 +6,20 @@ Bathroom = {}
 Bathroom.entered = false
 
 function Bathroom:load()
+    TextBox.entered = true   
     BathWall1, BathWall2, SinkWall = Gfx.newImage("pics/bathroom/BathWall1.png"), Gfx.newImage("pics/bathroom/BathWall2.png"), Gfx.newImage("pics/bathroom/SinkWall.png")
     BathWalls = {BathWall1, BathWall2, SinkWall}
     CurrentFrame = BathWall1
+end
 
+function Bathroom:update()
     function love.keypressed(key)
         if CurrentFrame == BathWall1 then
             if key == "up" then
                 CurrentFrame = SinkWall
             elseif key == "down" then
                 Bedroom.entered = true
+                Bathroom.entered = false
                 if Bedroom.entered then
                     Bedroom:load()
                     CurrentFrame = BathWall
@@ -34,10 +38,7 @@ function Bathroom:load()
             end
         end
     end
-    
 end
-
-
 
 function Bathroom:draw()
     Gfx.draw(CurrentFrame, 0, 0)
