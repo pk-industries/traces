@@ -91,10 +91,11 @@ function love.draw()
         Hallway:draw()
     end
 
-    --TextBox needs to be a lone conditional bc it will be drawn on the screen with other things
-    --Needs to be drawn after everything else since it's on top of everything on the screen
-    if TextBox.entered then
-        TextBox:draw()
+    --Passes the correct text based on whatcha want as an argument to text.lua's TextBox:draw()
+    if TextBox.entered and MusicBox.entered then
+        TextBox:draw(TextBox.musicBoxText)
+    elseif TextBox.entered and Bathroom.entered then
+        TextBox:draw(TextBox.bathroomText)
     end
     
 end
