@@ -1,10 +1,8 @@
-Gfx = love.graphics
 StartScreen = {}
 StartScreen.entered = true
 
 function StartScreen:load()
     StartScreenMain, Start, Options = Gfx.newImage("pics/startScreen.png"), Gfx.newImage("pics/startScreenStart.png"), Gfx.newImage("pics/startScreenOptions.png")
-    StartScreenFrames = {StartScreenMain, Start, Options}
     CurrentFrame = StartScreenMain
 
     function love.keypressed(key)

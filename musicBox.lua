@@ -1,10 +1,9 @@
-Gfx = love.graphics
 MusicBox = {}
 MusicBox.entered = false
 
 function MusicBox:load()
     TextBox.entered = true
-    MusicBoxMain, SelectorMark = Gfx.newImage("pics/bedroom/MusicBox.png"), Gfx.newImage("pics/SelectorMark.png")
+    MusicBoxMain = Gfx.newImage("pics/bedroom/MusicBox.png")
     CurrentFrame = MusicBoxMain
 end
 
@@ -29,5 +28,4 @@ end
 
 function MusicBox:draw()
     Gfx.draw(CurrentFrame, 0, 0)
-    --Gfx.draw(SelectorMark, 200, 100)
 end

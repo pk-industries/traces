@@ -1,6 +1,3 @@
-
-Gfx = love.graphics
-
 Hallway = {}
 --entered set to true upon entering the hallway
 Hallway.entered = false
@@ -8,7 +5,6 @@ Hallway.entered = false
 function Hallway:load()
 
     HallLivingWall, HallBackWall, HallFrontWall, HallBedWall, FuseBox, HallBackWall2, HallFrontWall2, HallFrontWall3 = Gfx.newImage("pics/hall/HallLivingWall.png"), Gfx.newImage("pics/hall/HallBackWall.png"), Gfx.newImage("pics/hall/HallFrontWall.png"), Gfx.newImage("pics/hall/HallBedWall.png"), Gfx.newImage("pics/hall/FuseBox.png"), Gfx.newImage("pics/hall/HallBackWall2.png"), Gfx.newImage("pics/hall/HallFrontWall2.png"), Gfx.newImage("pics/hall/HallFrontWall3.png")
-    HallwayWalls = {HallLivingWall, HallBackWall, HallFrontWall, HallBedWall}
     CurrentFrame = HallLivingWall
 
     function love.keypressed(key)
@@ -75,7 +71,6 @@ function Hallway:load()
             end
         end
     end
-
 end
 
 function Hallway:draw()

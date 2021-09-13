@@ -1,5 +1,3 @@
-Gfx = love.graphics
-
 Attic = {}
 Attic.entered = false
 

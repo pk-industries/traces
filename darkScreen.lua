@@ -18,16 +18,12 @@ end
 
 
 function DarkScreen:update(dt)
-
   DarkScreen.r = DarkScreen.r - 550 * dt
   DarkScreen.g = DarkScreen.g - 550 * dt
   DarkScreen.b = DarkScreen.b - 550 * dt
-
 end
 
 function DarkScreen:draw()
-
   love.graphics.setColor(DarkScreen.r/255, DarkScreen.g/255, DarkScreen.b/255)
   love.graphics.rectangle("fill", -20, -20, (GameWidth + 40) * Scale, (GameHeight + 40) * Scale)
-
 end

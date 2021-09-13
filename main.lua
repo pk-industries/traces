@@ -1,5 +1,5 @@
 --[NEXT SESH?
---TODO: Text box: See text.lua for current state of functionality
+--TODO: Text box: incrementer for amount of times entered room
 --TODO: Music Box
 --TODO: General first time door opening animation
 --]

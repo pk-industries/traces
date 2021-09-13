@@ -1,13 +1,9 @@
---Holds living room state, 4 walls, (state of kitchen light?)
-
-Gfx = love.graphics
 LivingRoom = {}
 --by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
 LivingRoom.entered = false
 
 function LivingRoom:load()
     LivingFrontWall, LivingKitchenWall, LivingBackWall, LivingHallWall, Calendar, FrontDoorLock, KitchenEntrance, RecordPlayer = Gfx.newImage("pics/livingRoom/LivingFrontWall.png"), Gfx.newImage("pics/livingRoom/LivingKitchenWall.png"), Gfx.newImage("pics/livingRoom/LivingBackWall.png"), Gfx.newImage("pics/livingRoom/LivingHallWall.png"), Gfx.newImage("pics/livingRoom/Calendar.png"), Gfx.newImage("pics/livingRoom/FrontDoorLock.png"), Gfx.newImage("pics/livingRoom/KitchenEntrance.png"), Gfx.newImage("pics/livingRoom/RecordPlayer.png")
-    LivingWalls = {LivingFrontWall, LivingKitchenWall, LivingBackWall, LivingHallWall, Calendar, FrontDoorLock, KitchenEntrance, RecordPlayer}
     CurrentFrame = LivingFrontWall
 
     function love.keypressed(key)
