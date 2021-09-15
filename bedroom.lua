@@ -5,9 +5,11 @@ Bedroom.entered = false
 function Bedroom:load()
     HallWall, BathWall, DresserWall, BedWall = Gfx.newImage("pics/bedroom/HallWall.png"), Gfx.newImage("pics/bedroom/BathWall.png"), Gfx.newImage("pics/bedroom/DresserWall.png"), Gfx.newImage("pics/bedroom/BedWall.png")
     CurrentFrame = HallWall
+    Animation = NewAnimation(Gfx.newImage("pics/bedroom/doorOpenSheet.png"), 312, 232, 2)
 end
 
-function Bedroom:update()
+function Bedroom:update(dt)
+
     function love.keypressed(key)
         if CurrentFrame == HallWall then
            if key == "left" then
@@ -59,8 +61,16 @@ function Bedroom:update()
             end
         end
     end
+
+    Animation.currentTime = Animation.currentTime + dt
+    if Animation.currentTime >= Animation.duration then
+        Animation.currentTime = Animation.currentTime - Animation.duration
+    end
+
 end
 
 function Bedroom:draw()
-    Gfx.draw(CurrentFrame, 0, 0)
+    SpriteNum = math.floor(Animation.currentTime / Animation.duration * #Animation.quads) + 1
+    Gfx.draw(Animation.spriteSheet, Animation.quads[SpriteNum], 0, 0, 0, 1)
+    --Gfx.draw(CurrentFrame, 0, 0)
 end

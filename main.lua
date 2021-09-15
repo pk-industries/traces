@@ -2,6 +2,7 @@
 --TODO: Text box: incrementer for amount of times entered room
 --TODO: Music Box
 --TODO: General first time door opening animation
+--TODO: State machine instead of .entered for each room/puzzle/etc?
 --]
 
 Gfx = love.graphics
@@ -42,7 +43,7 @@ function love.load()
 
 end
 
-function love.update()
+function love.update(dt)
 
     --Had to switch over key pressed handlers to the update() function,
     --because I found that the textbox would pop up, then I would control room changing stuff with
@@ -52,7 +53,7 @@ function love.update()
     if MusicBox.entered then
         MusicBox:update()
     elseif Bedroom.entered then
-        Bedroom:update()
+        Bedroom:update(dt)
     elseif Bathroom.entered then
         Bathroom:update()
     elseif ClosetOne.entered then
@@ -98,4 +99,22 @@ function love.draw()
         TextBox:draw(TextBox.bathroomText)
     end
     
+end
+
+
+--General animation function, ripped from https://love2d.org/wiki/Tutorial:Animation
+function NewAnimation(image, width, height, duration)
+    local animation = {}
+    animation.spriteSheet = image;
+    animation.quads = {};
+    
+    for y = 0, image:getHeight() - height, height do
+        for x = 0, image:getWidth() - width, width do
+            table.insert(animation.quads,
+            Gfx.newQuad(x, y, width, height, image:getDimensions()))
+        end
+    end
+    animation.duration = duration or 1
+    animation.currentTime = 0
+    return animation
 end
