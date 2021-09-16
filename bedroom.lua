@@ -5,7 +5,16 @@ Bedroom.entered = false
 function Bedroom:load()
     HallWall, BathWall, DresserWall, BedWall = Gfx.newImage("pics/bedroom/HallWall.png"), Gfx.newImage("pics/bedroom/BathWall.png"), Gfx.newImage("pics/bedroom/DresserWall.png"), Gfx.newImage("pics/bedroom/BedWall.png")
     CurrentFrame = HallWall
-    Animation = NewAnimation(Gfx.newImage("pics/bedroom/doorOpenSheet.png"), 312, 232, 2)
+    BedDoorSheet = Gfx.newImage("pics/bedroom/doorOpenSheet.png")
+    local width = BedDoorSheet:getWidth()
+    local height = BedDoorSheet:getHeight()
+    Frames = {}
+    local frame_width = 312
+    local frame_height = 232
+    for i=0,4 do
+        table.insert(Frames, Gfx.newQuad(i * frame_width, 0, frame_width, frame_height, width, height))
+    end
+    NowFrame = 1
 end
 
 function Bedroom:update(dt)
@@ -62,15 +71,15 @@ function Bedroom:update(dt)
         end
     end
 
-    Animation.currentTime = Animation.currentTime + dt
-    if Animation.currentTime >= Animation.duration then
-        Animation.currentTime = Animation.currentTime - Animation.duration
+    NowFrame = NowFrame + 10 * dt
+    if NowFrame >= 5 then
+        --this decleration makes sure the frame stays on the last one
+        NowFrame = 5
     end
 
 end
 
 function Bedroom:draw()
-    SpriteNum = math.floor(Animation.currentTime / Animation.duration * #Animation.quads) + 1
-    Gfx.draw(Animation.spriteSheet, Animation.quads[SpriteNum], 0, 0, 0, 1)
+    Gfx.draw(BedDoorSheet, Frames[math.floor(NowFrame)])
     --Gfx.draw(CurrentFrame, 0, 0)
 end
