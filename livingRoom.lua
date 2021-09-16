@@ -44,6 +44,12 @@ function LivingRoom:load()
                 CurrentFrame = LivingKitchenWall
             elseif key == "up" then
                 CurrentFrame = RecordPlayer
+            elseif key == "space" then
+                LivingRoom.entered = false
+                ClosetTwo.entered = true
+                if ClosetTwo.entered then
+                    ClosetTwo:load()
+                end
             end
         elseif CurrentFrame == RecordPlayer then
             if key == "down" then
