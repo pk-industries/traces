@@ -14,7 +14,7 @@ function Bedroom:load()
     for i=0,4 do
         table.insert(Frames, Gfx.newQuad(i * frame_width, 0, frame_width, frame_height, width, height))
     end
-    NowFrame = 1
+    Bedroom.NowFrame = 1
 end
 
 function Bedroom:update(dt)
@@ -71,15 +71,15 @@ function Bedroom:update(dt)
         end
     end
 
-    NowFrame = NowFrame + 10 * dt
-    if NowFrame >= 5 then
-        --this decleration makes sure the frame stays on the last one
-        NowFrame = 5
+    Bedroom.NowFrame = Bedroom.NowFrame + 10 * dt
+    if Bedroom.NowFrame >= 5 then
+        --this declaration makes sure the frame stays on the last one
+        Bedroom.NowFrame = 5
     end
 
 end
 
 function Bedroom:draw()
-    Gfx.draw(BedDoorSheet, Frames[math.floor(NowFrame)])
-    --Gfx.draw(CurrentFrame, 0, 0)
+    --Gfx.draw(BedDoorSheet, Frames[math.floor(Bedroom.NowFrame)])
+    Gfx.draw(CurrentFrame, 0, 0)
 end
