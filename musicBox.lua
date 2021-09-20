@@ -1,8 +1,12 @@
 MusicBox = {}
 MusicBox.entered = false
+MusicBox.textBoxDone = false
 
 function MusicBox:load()
-    TextBox.entered = true
+    --if the textbox has been shown once already
+    if MusicBox.textBoxDone == false then
+        TextBox.entered = true
+    end
     MusicBoxMain = Gfx.newImage("pics/bedroom/MusicBox.png")
     CurrentFrame = MusicBoxMain
 end
@@ -24,6 +28,7 @@ function MusicBox:update()
         --else key pressed order == anything else
         --then music box does bad animation, spookyMusic1 = spookyMusic2
     end
+    MusicBox.textBoxDone = true
 end
 
 function MusicBox:draw()
