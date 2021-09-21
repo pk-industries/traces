@@ -32,6 +32,12 @@ function LivingRoom:load()
         elseif CurrentFrame == KitchenEntrance then
             if key == "down" then
                 CurrentFrame = LivingKitchenWall
+            elseif key == "up" then
+                LivingRoom.entered = false
+                Kitchen.entered = true
+                if Kitchen.entered then
+                    Kitchen:load()
+                end
             end
         elseif CurrentFrame == Calendar then
             if key == "down" then

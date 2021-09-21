@@ -1,8 +1,6 @@
 --[NEXT SESH?
---TODO: Text box: incrementer for amount of times entered room
 --TODO: Music Box
 --TODO: State machine instead of .entered for each room/puzzle/etc?
---TODO: Hard code numbers in for each animation, per Sheepolution's animation section
 --]
 
 Gfx = love.graphics
@@ -20,6 +18,7 @@ function love.load()
     require "musicBox"
     require "text"
     require "closetTwo"
+    require "kitchen"
 
     if StartScreen.entered then
         StartScreen:load()
@@ -37,6 +36,8 @@ function love.load()
         Hallway:load()
     elseif ClosetTwo.entered then
         ClosetTwo:load()
+    elseif Kitchen.entered then
+        Kitchen:load()
     end
 
     --TextBox needs to be a lone conditional bc it will be drawn on the screen with other things
@@ -63,6 +64,8 @@ function love.update(dt)
         ClosetOne:update()
     elseif ClosetTwo.entered then
         ClosetTwo:update()
+    elseif Kitchen.entered then
+        Kitchen:update()
     end
 
     if ClosetOne.entered then
@@ -97,6 +100,8 @@ function love.draw()
         Hallway:draw()
     elseif ClosetTwo.entered then
         ClosetTwo:draw()
+    elseif Kitchen.entered then
+        Kitchen:draw()
     end
 
     --Passes the correct text based on whatcha want as an argument to text.lua's TextBox:draw()
