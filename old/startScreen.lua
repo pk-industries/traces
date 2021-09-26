@@ -1,4 +1,6 @@
-StartScreen = {}
+StartScreen = {
+    load
+}
 StartScreen.entered = true
 
 function StartScreen:load()

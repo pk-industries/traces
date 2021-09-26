@@ -1,100 +1,32 @@
--- [NEXT SESH?
--- TODO: Music Box
--- TODO: State machine instead of .entered for each room/puzzle/etc?
--- ]
 Gfx = love.graphics
+FRAME = false
+LOCATION = "menu"
+Menus = {}
 
--- sound = love.audio.newSource("pling.wav", "static") -- the "static" is better for short sound effects (load the file into memory)
+Menus.Start = {frame = love.graphics.newImage("pics/startScreen.png")}
+
+
 
 function love.load()
-    require("conf")
-    require("startScreen")
-    require("livingRoom")
-    require("bathroom")
-    require("closetOne")
-    require("bedroom")
-    require("hallway")
-    require("musicBox")
-    require("text")
-    require("closetTwo")
-    require("kitchen")
-
-    if StartScreen.entered then
-        StartScreen:load()
-    elseif MusicBox.entered then
-        MusicBox:load()
-    elseif LivingRoom.entered then
-        LivingRoom:load()
-    elseif Bathroom.entered then
-        Bathroom:load()
-    elseif ClosetOne.entered then
-        ClosetOne:load()
-    elseif Bedroom.entered then
-        Bedroom:load()
-    elseif Hallway.entered then
-        Hallway:load()
-    elseif ClosetTwo.entered then
-        ClosetTwo:load()
-    elseif Kitchen.entered then
-        Kitchen:load()
-    end
-
-    -- TextBox needs to be a lone conditional bc it will be drawn on the screen with other things
-    if TextBox.entered then TextBox:load() end
+    LOCATION = "menu"
+    -- FRAME = Menus.Start.frame
 end
 
 function love.update(dt)
-    -- Had to switch over key pressed handlers to the update() function,
-    -- because I found that the textbox would pop up, then I would control room changing stuff with
-    -- the textbox still up.
-
-    -- TODO: Figure out WHY my conditionals have to be structured this way for textbox logic to work -_-
-    if MusicBox.entered then
-        MusicBox:update()
-    elseif Bedroom.entered then
-        Bedroom:update(dt)
-    elseif Bathroom.entered then
-        Bathroom:update()
-    elseif ClosetOne.entered then
-        ClosetOne:update()
-    elseif ClosetTwo.entered then
-        ClosetTwo:update()
-    elseif Kitchen.entered then
-        Kitchen:update()
+    -- Gfx.draw(state.rooms.StartScreen, 0, 0)
+    function love:keypressed(key)
+        love.window.setTitle("L: " ..tostring(LOCATION))
     end
 
-    if ClosetOne.entered then ClosetOne:update() end
 
-    if Bathroom.entered then Bathroom:update() end
-
-    if TextBox.entered then TextBox:update() end
+    if LOCATION == "menu" then
+        FRAME = Menus.Start.frame
+        function love:keypressed(key)
+            love.window.setTitle("L: " ..tostring(key))
+        end
+    end
 end
 
-function love.draw()
-    if StartScreen.entered then
-        StartScreen:draw()
-    elseif MusicBox.entered then
-        MusicBox:draw()
-    elseif LivingRoom.entered then
-        LivingRoom:draw()
-    elseif Bathroom.entered then
-        Bathroom:draw()
-    elseif ClosetOne.entered then
-        ClosetOne:draw()
-    elseif Bedroom.entered then
-        Bedroom:draw()
-    elseif Hallway.entered then
-        Hallway:draw()
-    elseif ClosetTwo.entered then
-        ClosetTwo:draw()
-    elseif Kitchen.entered then
-        Kitchen:draw()
-    end
-
-    -- Passes the correct text based on whatcha want as an argument to text.lua's TextBox:draw()
-    if TextBox.entered and MusicBox.entered then
-        TextBox:draw(TextBox.musicBoxText)
-    elseif TextBox.entered and Bathroom.entered then
-        TextBox:draw(TextBox.bathroomText)
-    end
+function love.draw(dt)
+    Gfx.draw(FRAME, 0, 0)
 end
