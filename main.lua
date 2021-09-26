@@ -3,20 +3,21 @@
 -- TODO: State machine instead of .entered for each room/puzzle/etc?
 -- ]
 Gfx = love.graphics
--- Sets window when running love game to 400x240 pixels.
-love.window.setMode(400, 240)
+
+-- sound = love.audio.newSource("pling.wav", "static") -- the "static" is better for short sound effects (load the file into memory)
 
 function love.load()
-    require "startScreen"
-    require "livingRoom"
-    require "bathroom"
-    require "closetOne"
-    require "bedroom"
-    require "hallway"
-    require "musicBox"
-    require "text"
-        require "closetTwo"
-    require "kitchen"
+    require("conf")
+    require("startScreen")
+    require("livingRoom")
+    require("bathroom")
+    require("closetOne")
+    require("bedroom")
+    require("hallway")
+    require("musicBox")
+    require("text")
+    require("closetTwo")
+    require("kitchen")
 
     if StartScreen.entered then
         StartScreen:load()
