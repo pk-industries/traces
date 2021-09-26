@@ -1,10 +1,13 @@
 Bathroom = {}
---by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
+-- by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
 Bathroom.entered = false
 
 function Bathroom:load()
-    TextBox.entered = true   
-    BathWall1, BathWall2, SinkWall = Gfx.newImage("pics/bathroom/BathWall1.png"), Gfx.newImage("pics/bathroom/BathWall2.png"), Gfx.newImage("pics/bathroom/SinkWall.png")
+    TextBox.entered = true
+    BathWall1, BathWall2, SinkWall =
+        Gfx.newImage("pics/bathroom/BathWall1.png"),
+        Gfx.newImage("pics/bathroom/BathWall2.png"),
+        Gfx.newImage("pics/bathroom/SinkWall.png")
     BathWalls = {BathWall1, BathWall2, SinkWall}
     CurrentFrame = BathWall1
 end
@@ -31,12 +34,10 @@ function Bathroom:update()
         elseif CurrentFrame == BathWall2 then
             if key == "right" then
                 CurrentFrame = SinkWall
-            --TODO: DO SHOWER WALL STUFF
+                -- TODO: DO SHOWER WALL STUFF
             end
         end
     end
 end
 
-function Bathroom:draw()
-    Gfx.draw(CurrentFrame, 0, 0)
-end
+function Bathroom:draw() Gfx.draw(CurrentFrame, 0, 0) end

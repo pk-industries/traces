@@ -1,14 +1,12 @@
---[NEXT SESH?
---TODO: Music Box
---TODO: State machine instead of .entered for each room/puzzle/etc?
---]
-
+-- [NEXT SESH?
+-- TODO: Music Box
+-- TODO: State machine instead of .entered for each room/puzzle/etc?
+-- ]
 Gfx = love.graphics
---Sets window when running love game to 400x240 pixels.
+-- Sets window when running love game to 400x240 pixels.
 love.window.setMode(400, 240)
 
 function love.load()
-
     require "startScreen"
     require "livingRoom"
     require "bathroom"
@@ -17,7 +15,7 @@ function love.load()
     require "hallway"
     require "musicBox"
     require "text"
-    require "closetTwo"
+        require "closetTwo"
     require "kitchen"
 
     if StartScreen.entered then
@@ -40,20 +38,16 @@ function love.load()
         Kitchen:load()
     end
 
-    --TextBox needs to be a lone conditional bc it will be drawn on the screen with other things
-    if TextBox.entered then
-        TextBox:load()
-    end
-
+    -- TextBox needs to be a lone conditional bc it will be drawn on the screen with other things
+    if TextBox.entered then TextBox:load() end
 end
 
 function love.update(dt)
+    -- Had to switch over key pressed handlers to the update() function,
+    -- because I found that the textbox would pop up, then I would control room changing stuff with
+    -- the textbox still up.
 
-    --Had to switch over key pressed handlers to the update() function,
-    --because I found that the textbox would pop up, then I would control room changing stuff with
-    --the textbox still up.
-
-    --TODO: Figure out WHY my conditionals have to be structured this way for textbox logic to work -_-
+    -- TODO: Figure out WHY my conditionals have to be structured this way for textbox logic to work -_-
     if MusicBox.entered then
         MusicBox:update()
     elseif Bedroom.entered then
@@ -68,22 +62,14 @@ function love.update(dt)
         Kitchen:update()
     end
 
-    if ClosetOne.entered then
-        ClosetOne:update()
-    end
+    if ClosetOne.entered then ClosetOne:update() end
 
-    if Bathroom.entered then
-        Bathroom:update()
-    end
+    if Bathroom.entered then Bathroom:update() end
 
-    if TextBox.entered then
-        TextBox:update()
-    end
-
+    if TextBox.entered then TextBox:update() end
 end
 
 function love.draw()
-
     if StartScreen.entered then
         StartScreen:draw()
     elseif MusicBox.entered then
@@ -104,11 +90,10 @@ function love.draw()
         Kitchen:draw()
     end
 
-    --Passes the correct text based on whatcha want as an argument to text.lua's TextBox:draw()
+    -- Passes the correct text based on whatcha want as an argument to text.lua's TextBox:draw()
     if TextBox.entered and MusicBox.entered then
         TextBox:draw(TextBox.musicBoxText)
     elseif TextBox.entered and Bathroom.entered then
         TextBox:draw(TextBox.bathroomText)
     end
-    
 end

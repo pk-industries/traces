@@ -2,7 +2,9 @@ StartScreen = {}
 StartScreen.entered = true
 
 function StartScreen:load()
-    StartScreenMain, Start, Options = Gfx.newImage("pics/startScreen.png"), Gfx.newImage("pics/startScreenStart.png"), Gfx.newImage("pics/startScreenOptions.png")
+    StartScreenMain, Start, Options = Gfx.newImage("pics/startScreen.png"),
+                                      Gfx.newImage("pics/startScreenStart.png"),
+                                      Gfx.newImage("pics/startScreenOptions.png")
     CurrentFrame = StartScreenMain
 
     function love.keypressed(key)
@@ -16,19 +18,13 @@ function StartScreen:load()
             elseif key == "a" then
                 Bedroom.entered = true
                 StartScreen.entered = false
-                if Bedroom.entered then
-                    Bedroom:load()
-                end
+                if Bedroom.entered then Bedroom:load() end
             end
         elseif CurrentFrame == Options then
-            if key == "up" then 
-                CurrentFrame = Start
-            end
+            if key == "up" then CurrentFrame = Start end
         end
     end
 
 end
 
-function StartScreen:draw()
-    Gfx.draw(CurrentFrame, 0, 0)
-end
+function StartScreen:draw() Gfx.draw(CurrentFrame, 0, 0) end

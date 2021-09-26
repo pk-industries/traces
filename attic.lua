@@ -1,10 +1,6 @@
 Attic = {}
 Attic.entered = false
 
-function Attic:load()
+function Attic:load() end
 
-end
-
-function Attic:draw()
-
-end
+function Attic:draw() end

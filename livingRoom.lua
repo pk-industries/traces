@@ -1,9 +1,17 @@
 LivingRoom = {}
---by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
+-- by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
 LivingRoom.entered = false
 
 function LivingRoom:load()
-    LivingFrontWall, LivingKitchenWall, LivingBackWall, LivingHallWall, Calendar, FrontDoorLock, KitchenEntrance, RecordPlayer = Gfx.newImage("pics/livingRoom/LivingFrontWall.png"), Gfx.newImage("pics/livingRoom/LivingKitchenWall.png"), Gfx.newImage("pics/livingRoom/LivingBackWall.png"), Gfx.newImage("pics/livingRoom/LivingHallWall.png"), Gfx.newImage("pics/livingRoom/Calendar.png"), Gfx.newImage("pics/livingRoom/FrontDoorLock.png"), Gfx.newImage("pics/livingRoom/KitchenEntrance.png"), Gfx.newImage("pics/livingRoom/RecordPlayer.png")
+    LivingFrontWall, LivingKitchenWall, LivingBackWall, LivingHallWall, Calendar, FrontDoorLock, KitchenEntrance, RecordPlayer =
+        Gfx.newImage("pics/livingRoom/LivingFrontWall.png"),
+        Gfx.newImage("pics/livingRoom/LivingKitchenWall.png"),
+        Gfx.newImage("pics/livingRoom/LivingBackWall.png"),
+        Gfx.newImage("pics/livingRoom/LivingHallWall.png"),
+        Gfx.newImage("pics/livingRoom/Calendar.png"),
+        Gfx.newImage("pics/livingRoom/FrontDoorLock.png"),
+        Gfx.newImage("pics/livingRoom/KitchenEntrance.png"),
+        Gfx.newImage("pics/livingRoom/RecordPlayer.png")
     CurrentFrame = LivingFrontWall
 
     function love.keypressed(key)
@@ -16,9 +24,7 @@ function LivingRoom:load()
                 CurrentFrame = FrontDoorLock
             end
         elseif CurrentFrame == FrontDoorLock then
-            if key == "down" then
-                CurrentFrame = LivingFrontWall
-            end
+            if key == "down" then CurrentFrame = LivingFrontWall end
         elseif CurrentFrame == LivingKitchenWall then
             if key == "right" then
                 CurrentFrame = LivingBackWall
@@ -35,14 +41,10 @@ function LivingRoom:load()
             elseif key == "up" then
                 LivingRoom.entered = false
                 Kitchen.entered = true
-                if Kitchen.entered then
-                    Kitchen:load()
-                end
+                if Kitchen.entered then Kitchen:load() end
             end
         elseif CurrentFrame == Calendar then
-            if key == "down" then
-                CurrentFrame = LivingKitchenWall
-            end
+            if key == "down" then CurrentFrame = LivingKitchenWall end
         elseif CurrentFrame == LivingBackWall then
             if key == "right" then
                 CurrentFrame = LivingHallWall
@@ -53,14 +55,10 @@ function LivingRoom:load()
             elseif key == "space" then
                 LivingRoom.entered = false
                 ClosetTwo.entered = true
-                if ClosetTwo.entered then
-                    ClosetTwo:load()
-                end
+                if ClosetTwo.entered then ClosetTwo:load() end
             end
         elseif CurrentFrame == RecordPlayer then
-            if key == "down" then
-                CurrentFrame = LivingBackWall
-            end
+            if key == "down" then CurrentFrame = LivingBackWall end
         elseif CurrentFrame == LivingHallWall then
             if key == "right" then
                 CurrentFrame = LivingFrontWall
@@ -79,8 +77,4 @@ function LivingRoom:load()
 
 end
 
-
-
-function LivingRoom:draw()
-    Gfx.draw(CurrentFrame, 0, 0)
-end
+function LivingRoom:draw() Gfx.draw(CurrentFrame, 0, 0) end

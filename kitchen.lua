@@ -1,9 +1,16 @@
 Kitchen = {}
---by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
+-- by default, you have not "entered" the room. set to true by walking thru room door (if it is declared as true here it is only for debugging, or it is the starting room)
 Kitchen.entered = false
 
 function Kitchen:load()
-    KitchenSink, KitchenCabinet, KitchenLaundryDoor, KitchenLivingWall, KitchenBackWall, KitchenTable, KitchenFarLaundry = Gfx.newImage("pics/kitchen/KitchenSink.png"), Gfx.newImage("pics/kitchen/KitchenCabinet.png"), Gfx.newImage("pics/kitchen/KitchenLaundryDoor.png"), Gfx.newImage("pics/kitchen/KitchenLivingWall.png"), Gfx.newImage("pics/kitchen/KitchenBackWall.png"), Gfx.newImage("pics/kitchen/KitchenTable.png"), Gfx.newImage("pics/kitchen/KitchenFarLaundry.png")
+    KitchenSink, KitchenCabinet, KitchenLaundryDoor, KitchenLivingWall, KitchenBackWall, KitchenTable, KitchenFarLaundry =
+        Gfx.newImage("pics/kitchen/KitchenSink.png"),
+        Gfx.newImage("pics/kitchen/KitchenCabinet.png"),
+        Gfx.newImage("pics/kitchen/KitchenLaundryDoor.png"),
+        Gfx.newImage("pics/kitchen/KitchenLivingWall.png"),
+        Gfx.newImage("pics/kitchen/KitchenBackWall.png"),
+        Gfx.newImage("pics/kitchen/KitchenTable.png"),
+        Gfx.newImage("pics/kitchen/KitchenFarLaundry.png")
     CurrentFrame = KitchenSink
 end
 
@@ -18,9 +25,7 @@ function Kitchen:update()
             elseif key == "down" then
                 Kitchen.entered = false
                 LivingRoom.entered = true
-                if LivingRoom.entered then
-                    LivingRoom:load()
-                end
+                if LivingRoom.entered then LivingRoom:load() end
             end
         elseif CurrentFrame == KitchenCabinet then
             if key == "right" then
@@ -58,17 +63,13 @@ function Kitchen:update()
             elseif key == "left" then
                 Kitchen.entered = false
                 LivingRoom.entered = true
-                if LivingRoom.entered then
-                    LivingRoom:load()
-                end
+                if LivingRoom.entered then LivingRoom:load() end
             end
         elseif CurrentFrame == KitchenFarLaundry then
             if key == "right" then
                 Kitchen.entered = false
                 LivingRoom.entered = true
-                if LivingRoom.entered then
-                    LivingRoom:load()
-                end
+                if LivingRoom.entered then LivingRoom:load() end
             elseif key == "left" then
                 CurrentFrame = KitchenSink
             elseif key == "up" then
@@ -79,6 +80,4 @@ function Kitchen:update()
 
 end
 
-function Kitchen:draw()
-    Gfx.draw(CurrentFrame, 0, 0)
-end
+function Kitchen:draw() Gfx.draw(CurrentFrame, 0, 0) end
