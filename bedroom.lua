@@ -5,13 +5,13 @@ Bedroom.entered = false
 function Bedroom:load()
     HallWall, BathWall, DresserWall, BedWall = Gfx.newImage("pics/bedroom/HallWall.png"), Gfx.newImage("pics/bedroom/BathWall.png"), Gfx.newImage("pics/bedroom/DresserWall.png"), Gfx.newImage("pics/bedroom/BedWall.png")
     CurrentFrame = HallWall
-    BedDoorSheet = Gfx.newImage("pics/bedroom/doorOpenSheet.png")
+    BedDoorSheet = Gfx.newImage("pics/bedroom/bedDoor.png")
     local width = BedDoorSheet:getWidth()
     local height = BedDoorSheet:getHeight()
     Frames = {}
-    local frame_width = 312
-    local frame_height = 232
-    for i=0,4 do
+    local frame_width = 400
+    local frame_height = 240
+    for i=0,14 do
         table.insert(Frames, Gfx.newQuad(i * frame_width, 0, frame_width, frame_height, width, height))
     end
     Bedroom.NowFrame = 1
@@ -72,14 +72,14 @@ function Bedroom:update(dt)
     end
 
     Bedroom.NowFrame = Bedroom.NowFrame + 10 * dt
-    if Bedroom.NowFrame >= 5 then
+    if Bedroom.NowFrame >= 15 then
         --this declaration makes sure the frame stays on the last one
-        Bedroom.NowFrame = 5
+        Bedroom.NowFrame = 15
     end
 
 end
 
 function Bedroom:draw()
-    --Gfx.draw(BedDoorSheet, Frames[math.floor(Bedroom.NowFrame)])
-    Gfx.draw(CurrentFrame, 0, 0)
+    Gfx.draw(BedDoorSheet, Frames[math.floor(Bedroom.NowFrame)])
+    --Gfx.draw(CurrentFrame, 0, 0)
 end
