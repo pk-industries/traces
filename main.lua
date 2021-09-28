@@ -1,49 +1,48 @@
-Object = require "lib/classic"
-CreateRoom = require "createRoom"
-Bedroom =
-    CreateRoom(
-    {
-        "pics/bedroom/b/b_BathWall.png",
-        "pics/bedroom/b/b_BedWall.png",
-        "pics/bedroom/b/b_DresserWall.png",
-        "pics/bedroom/b/b_HallWall.png"
-    },
-    "bedroom",
-    "north"
-)
+-- Attaches console to vscode debugger while running the game
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+    require("lldebugger").start()
+end
 
-FRAME = false
-LOCATION = false
-DIRECTION = false
+-- * state modes are: "menu", "game"
+state = {}
 
-UP_KEY = "up"
-RIGHT_KEY = "right"
-DOWN_KEY = "down"
-LEFT_KEY = "left"
+rooms = require("rooms")
+menu = require("menu")
+game = {}
 
-SplashScreen = love.graphics.newImage("pics/startScreen.png")
+up_key = "up"
+right_key = "right"
+down_key = "down"
+left_key = "left"
+enter_key = "return"
 
 function love.load()
-    LOCATION = "menu"
-    FRAME = SplashScreen
+    state.mode = "menu"
+    menu:load()
 end
 
 function love.update(dt)
-
+    if state.mode == "game" then
+        if game then
+            game.update(dt)
+        end
+    else
+        game = rooms.Bedroom
+    end
 end
 
 function love.draw()
-    love.graphics.draw(FRAME, 0, 0)
+    if state.mode == "menu" then
+        menu.draw()
+    elseif state.mode == "game" then
+        game:draw()
+    end
 end
 
-function love.keypressed(key)
-    t = DIRECTION or "null"
-    if LOCATION == "menu" then
-        Bedroom:enter()
-
-    elseif LOCATION == Bedroom.name then
-        Bedroom:navigate(key)
+function love.keypressed(key, scancode, isrepeat)
+    if state.mode == "menu" then
+        menu:keypressed(key, scancode, isrepeat)
+    elseif state.mode == "game" then
+        game:keypressed(key, scancode, isrepeat)
     end
-
-    love.window.setTitle(tostring(t ..key ) )
 end
