@@ -27,7 +27,7 @@ function love.update(dt)
             game.update(dt)
         end
     else
-        game = rooms.Bedroom
+        game = rooms.bedroom
     end
 end
 

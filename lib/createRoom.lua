@@ -4,7 +4,7 @@ local move = require("lib/move")
 
 CreateRoom = class:extend()
 
-function CreateRoom:new(name, entrance, images, about)
+function CreateRoom:new(name, entrance, images, exits, about)
     self.name = name
     self.entrance = entrance
     self.about = about
@@ -14,10 +14,10 @@ function CreateRoom:new(name, entrance, images, about)
     self.east = newImage(images[002])
     self.south = newImage(images[003])
     self.west = newImage(images[004])
+    self.exits = exits
 end
 
 function CreateRoom:update(dt)
-
 end
 
 function CreateRoom:draw()
@@ -26,7 +26,22 @@ function CreateRoom:draw()
 end
 
 function CreateRoom:keypressed(key)
+    if not up_key or not down_key or not right_key or not left_key then
+        print("not")
+    else
+    end
+
+
+    if key == enter_key and self.exits[self.location] ~= nil then
+        print("enter " .. self.exits[self.location])
+        game = rooms[self.exits[self.location]]
+    end
+
+
     self.location = move(key, self.location)
+    -- print(self.exits[self.location])
+    if self.location == nil then
+    end
 end
 
 return CreateRoom

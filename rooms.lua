@@ -2,7 +2,7 @@ local createRoom = require("lib/createRoom")
 
 rooms = {}
 
-rooms.Bedroom =
+rooms.bedroom =
     createRoom(
     "bedroom",
     "east",
@@ -12,7 +12,32 @@ rooms.Bedroom =
         "pics/bedroom/navigate/south_closed_dresser.png",
         "pics/bedroom/navigate/west_door.png"
     },
+    {
+        ["north"] = "bathroom",
+        ["east"] = nil,
+        ["south"] = "closet",
+        ["west"] = "hall"
+    },
     "You are in a bedroom. There is a bed, a desk, and a dresser."
+)
+
+rooms.hall =
+    createRoom(
+    "hall",
+    "east",
+    {
+        "pics/hall/navigate/north_picture.png",
+        "pics/hall/navigate/east_bedroom_door.png",
+        "pics/hall/navigate/south_longview.png",
+        "pics/hall/navigate/west_livingroom_entrace.png",
+    },
+    {
+        ["north"] = "bathroom",
+        ["east"] = nil,
+        ["south"] = "closet",
+        ["west"] = "hall"
+    },
+    "This is a hall"
 )
 
 return rooms
