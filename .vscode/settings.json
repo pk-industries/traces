@@ -24,7 +24,8 @@
         "rooms",
         "Room",
         "enter_key",
-        "game"
+        "game",
+        "player"
     ],
     "editor.formatOnSave": true,
     "lua.targetVersion": "5.3"

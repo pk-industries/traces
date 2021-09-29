@@ -5,6 +5,7 @@
         "trixnz.vscode-lua",
         "actboy168.lua-debug",
         "sumneko.lua",
-        "keyring.lua"
+        "keyring.lua",
+        "tomblind.local-lua-debugger-vscode"
     ],
 }
