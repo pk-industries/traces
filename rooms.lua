@@ -5,7 +5,6 @@ rooms = {}
 rooms.bedroom =
     createRoom(
     "bedroom",
-    "east",
     {
         "pics/bedroom/navigate/north_door.png",
         "pics/bedroom/navigate/east_bed_nightstand.png",
@@ -14,7 +13,7 @@ rooms.bedroom =
     },
     {
         ["north"] = "bathroom",
-        ["east"] = nil,
+        -- ["east"] = nil,6
         ["south"] = "closet",
         ["west"] = "hall"
     },
@@ -24,7 +23,6 @@ rooms.bedroom =
 rooms.hall =
     createRoom(
     "hall",
-    "east",
     {
         "pics/hall/navigate/north_picture.png",
         "pics/hall/navigate/east_bedroom_door.png",
@@ -32,10 +30,10 @@ rooms.hall =
         "pics/hall/navigate/west_livingroom_entrace.png",
     },
     {
-        ["north"] = "bathroom",
-        ["east"] = nil,
-        ["south"] = "closet",
-        ["west"] = "hall"
+        -- ["north"] = nil,6
+        ["east"] = "bedroom",
+        -- ["south"] = nil,6
+        ["west"] = "livingroom"
     },
     "This is a hall"
 )

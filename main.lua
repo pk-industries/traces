@@ -9,6 +9,8 @@ state = {}
 rooms = require("rooms")
 menu = require("menu")
 game = {}
+player = {}
+
 
 up_key = "up"
 right_key = "right"
@@ -35,6 +37,12 @@ function love.draw()
     if state.mode == "menu" then
         menu.draw()
     elseif state.mode == "game" then
+        if not player.mode then
+            player.mode = "moving"
+        end
+        if not player.facing then
+            player.facing = "east"
+        end
         game:draw()
     end
 end

@@ -1,49 +1,49 @@
 
-local function move(key, currentD)
-    local d = currentD
-    if d == "north" then
+local function move(key)
+    local f = player.facing
+    if f == "north" then
         if key == up_key then
-            d = "north"
+            f = "north"
         elseif key == right_key then
-            d = "east"
+            f = "east"
         elseif key == down_key then
-            d = "south"
+            f = "south"
         elseif key == left_key then
-            d = "west"
+            f = "west"
         end
-    elseif d == "east" then
+    elseif f == "east" then
         if key == up_key then
-            d = "east"
+            f = "east"
         elseif key == right_key then
-            d = "south"
+            f = "south"
         elseif key == down_key then
-            d = "west"
+            f = "west"
         elseif key == left_key then
-            d = "north"
+            f = "north"
         end
-    elseif d == "south" then
+    elseif f == "south" then
         if key == up_key then
-            d = "south"
+            f = "south"
         elseif key == right_key then
-            d = "west"
+            f = "west"
         elseif key == down_key then
-            d = "north"
+            f = "north"
         elseif key == left_key then
-            d = "east"
+            f = "east"
         end
-    elseif d == "west" then
+    elseif f == "west" then
         if key == up_key then
-            d = "west"
+            f = "west"
         elseif key == right_key then
-            d = "north"
+            f = "north"
         elseif key == down_key then
-            d = "east"
+            f = "east"
         elseif key == left_key then
-            d = "south"
+            f = "south"
         end
     end
 
-    return d
+    return f
 end
 
 return move
