@@ -26,15 +26,12 @@ function CreateRoom:draw()
 end
 
 function CreateRoom:keypressed(key)
-    if not up_key or not down_key or not right_key or not left_key then
-        print("not")
-    else
-    end
+    print()
+    local nextRoomName = self.exits[self.location]
+    local nextRoom = rooms[nextRoomName] or false
 
-
-    if key == enter_key and self.exits[self.location] ~= nil then
-        print("enter " .. self.exits[self.location])
-        game = rooms[self.exits[self.location]]
+    if key == enter_key and nextRoomName and nextRoom then
+        game = nextRoom
     end
 
 
