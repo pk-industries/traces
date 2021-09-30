@@ -80,6 +80,6 @@ function Bedroom:update(dt)
 end
 
 function Bedroom:draw()
-    Gfx.draw(BedDoorSheet, Frames[math.floor(Bedroom.NowFrame)])
-    --Gfx.draw(CurrentFrame, 0, 0)
+    --Gfx.draw(BedDoorSheet, Frames[math.floor(Bedroom.NowFrame)])
+    Gfx.draw(CurrentFrame, 0, 0)
 end
