@@ -1,5 +1,5 @@
 -- Binser is a lua serializer: https://github.com/bakpakin/binser
-local Binser = 'vendor.binser.binser'
+local Binser = require 'libs.binser'
 local Saver  = {}
 
 -- Write to save file
