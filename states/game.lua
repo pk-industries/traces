@@ -1,4 +1,5 @@
 local game = {}
+local player = {}
 
 function game:init()
 

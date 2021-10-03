@@ -1,4 +1,23 @@
-menu = {}
+local menu = {} -- previously: Gamestate.new()
+local newImage = love.graphics.newImage
+
+function menu:draw()
+    local bg = newImage("assets/images/startScreen.png")
+    love.graphics.draw(bg, 0, 0)
+    love.graphics.print("Press Enter to continue", 5, 5)
+end
+
+function menu:keyreleased(key, code)
+    if key == Controls.enter then
+        State.switch(States.game)
+    end
+end
+
+return menu
+
+
+
+--[[ menu = {}
 local newImage = love.graphics.newImage
 
 function menu:load()
@@ -11,13 +30,13 @@ end
 
 function menu:draw()
     if menu.screen == "start" then
-        local frame = newImage("pics/startScreen.png")
+        local frame = newImage("assets/images/startScreen.png")
         love.graphics.draw(frame, 0, 0)
     end
 end
 
 function menu:keypressed(key, scancode, isrepeat)
-    if key == enter_key then
+    if key == Controls.enter then
         state.mode = "game"
         if game == nil then
             game:load()
@@ -26,4 +45,4 @@ function menu:keypressed(key, scancode, isrepeat)
     end
 end
 
-return menu
+return menu ]]

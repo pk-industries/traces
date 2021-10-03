@@ -7,6 +7,20 @@ RELEASE = false
 -- Enables the debug stats
 DEBUG = not RELEASE
 
+Lume = require 'libs.lume'
+Husl = require 'libs.husl'
+Class = require 'libs.class'
+Vector = require 'libs.vector'
+State = require 'libs.state'
+Signal = require 'libs.signal'
+Inspect = require 'libs.inspect'
+Camera = require 'libs.camera'
+Timer = require 'libs.timer'
+Saver = require 'libs.saver'
+
+if Saver:exists("debug") then
+    DEBUG = Saver:load("debug")
+end
 CONFIG = {
     graphics = {
         filter = {
@@ -29,8 +43,8 @@ CONFIG = {
         key = '`',
         stats = {
             font = nil, -- set after fonts are created
-            fontSize = 16,
-            lineHeight = 18,
+            fontSize = 10,
+            lineHeight = 12,
             foreground = {1, 1, 1, 1},
             shadow = {0, 0, 0, 1},
             shadowOffset = {x = 1, y = 1},
@@ -80,28 +94,19 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-Lume = require 'libs.lume'
-Husl = require 'libs.husl'
-Class = require 'libs.class'
-Vector = require 'libs.vector'
-State = require 'libs.state'
-Signal = require 'libs.signal'
-Inspect = require 'libs.inspect'
-Camera = require 'libs.camera'
-Timer = require 'libs.timer'
-Saver = require 'libs.saver'
 
 States = {
     game = require 'states.game',
-    menu = require 'states/menu'
+    menu = require 'states.menu',
+    player = {}
+}
+
+Controls = {
+    up = 'up',
+    down = 'down',
+    left = 'left',
+    right = 'right',
+    enter = 'return',
 }
 
 rooms = require('rooms')
-game = {}
-player = {}
-
-up_key = 'up'
-right_key = 'right'
-down_key = 'down'
-left_key = 'left'
-enter_key = 'return'
