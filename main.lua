@@ -1,24 +1,36 @@
--- Attaches console to vscode debugger while running the game
-if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
-    require("lldebugger").start()
-end
+local loadTimeStart = love.timer.getTime()
+
+require("globals")
 
 -- * state modes are: "menu", "game"
 state = {}
 
-rooms = require("rooms")
-menu = require("menu")
-game = {}
-player = {}
 
-
-up_key = "up"
-right_key = "right"
-down_key = "down"
-left_key = "left"
-enter_key = "return"
 
 function love.load()
+    love.window.setIcon(love.image.newImageData(CONFIG.window.icon))
+    love.graphics.setDefaultFilter(CONFIG.graphics.filter.down,
+                                   CONFIG.graphics.filter.up,
+                                   CONFIG.graphics.filter.anisotropy)
+
+    -- Draw is left out so we can override it ourselves
+    local callbacks = {'update'}
+---@diagnostic disable-next-line: undefined-field
+    for k in pairs(love.handlers) do
+        -- print(k)
+        callbacks[#callbacks+1] = k
+    end
+
+    State.registerEvents(callbacks)
+    State.switch(States.game)
+
+    if DEBUG then
+        local loadTimeEnd = love.timer.getTime()
+        local loadTime = (loadTimeEnd - loadTimeStart)
+        print(("Loaded game in %.3f seconds."):format(loadTime))
+    end
+
+
     state.mode = "menu"
     menu:load()
 end
