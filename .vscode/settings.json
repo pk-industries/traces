@@ -28,5 +28,6 @@
         "player"
     ],
     "editor.formatOnSave": true,
-    "lua.targetVersion": "5.3"
+    "lua.targetVersion": "5.3",
+    "restructuredtext.confPath": "${workspaceFolder}/libs/hump/docs"
 }
