@@ -1,6 +1,7 @@
+ local move = require "utils.move"
 local game = {}
 
-local initialDirection = {
+local initialState = {
     room = 'bedroom',
     direction = 'n',
     y = 1,
@@ -17,39 +18,38 @@ local makeRoom = require 'utils.makeRoom'
 --  assert(TableSave)
 
 function game:init()
+    local state  = love.filesystem.load('save.json')
 
-    local state = {}
-    if love.filesystem.load('save.json') then
-        state = love.filesystem.load('save.json')()
+    if state then
+       for k,v in pairs(state) do game[k] = v end
     else
-        state.location = initialDirection
-    end
+        for k,v in pairs(initialState) do game[k] = v end
 
-    game = state
+    end
+    print(Inspect(game))
 end
 
 local room = makeRoom('bedroom', 2, 2)
 
 
 function game:enter()
-    print(Inspect(game))
-    -- print(Inspect(room))
 end
 
 function game:update(dt)
 end
 
 function game:keypressed(key, code)
+
+       game.direction =  move(key, game.direction)
 end
 
 function game:mousepressed(x, y, mbutton)
 end
 
 function game:draw()
-    local img = locationFrame(game.location.room,game.location.direction,game.location.x,game.location.y)
+    local img = locationFrame(game.room,game.direction,game.x,game.y)
     love.graphics.draw(img, 0, 0)
-    love.graphics.printf(game.location.room,100, 0, 200,"center")
-    print(Inspect(game))
+    love.graphics.printf(game.room,100, 0, 200,"center")
 end
 
 return game

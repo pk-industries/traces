@@ -1,49 +1,53 @@
+local function move(key, direction)
+    local nextDirection = direction
+    if direction == "n" then
+        if key == Controls.up then
+            nextDirection = "n"
+        elseif key == Controls.right then
+            nextDirection = "e"
+        elseif key == Controls.down then
+            nextDirection = "s"
+        elseif key == Controls.left then
+            nextDirection = "w"
+        end
+    elseif direction == 'e' then
+        if key == Controls.up then
+            nextDirection = 'e'
+        elseif key == Controls.right then
+            nextDirection = 's'
+        elseif key == Controls.down then
+            nextDirection = 'w'
+        elseif key == Controls.left then
+            nextDirection = 'n'
+        end
 
-local function move(key)
-    local f = player.facing
-    if f == "north" then
+    elseif direction == 'w' then
         if key == Controls.up then
-            f = "north"
+            nextDirection = 'w'
         elseif key == Controls.right then
-            f = "east"
+            nextDirection = 'n'
         elseif key == Controls.down then
-            f = "south"
+            nextDirection = 'e'
         elseif key == Controls.left then
-            f = "west"
+            nextDirection = 's'
         end
-    elseif f == "east" then
+        elseif direction == "s" then
         if key == Controls.up then
-            f = "east"
+            nextDirection = "s"
         elseif key == Controls.right then
-            f = "south"
+            nextDirection = "w"
         elseif key == Controls.down then
-            f = "west"
+            nextDirection = "n"
         elseif key == Controls.left then
-            f = "north"
-        end
-    elseif f == "south" then
-        if key == Controls.up then
-            f = "south"
-        elseif key == Controls.right then
-            f = "west"
-        elseif key == Controls.down then
-            f = "north"
-        elseif key == Controls.left then
-            f = "east"
-        end
-    elseif f == "west" then
-        if key == Controls.up then
-            f = "west"
-        elseif key == Controls.right then
-            f = "north"
-        elseif key == Controls.down then
-            f = "east"
-        elseif key == Controls.left then
-            f = "south"
+            nextDirection = "e"
         end
     end
 
-    return f
+    return nextDirection
 end
 
 return move
+
+--[[   ]]
+
+--[[     ]]
