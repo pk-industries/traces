@@ -18,10 +18,8 @@ Camera = require 'libs.camera'
 Timer = require 'libs.timer'
 Saver = require 'libs.saver'
 
-if Saver:exists("debug") then
-    DEBUG = Saver:load("debug")
-end
 CONFIG = {
+    saveDir = love.filesystem.getSaveDirectory(),
     graphics = {
         filter = {
             -- FilterModes: linear (blurry) / nearest (blocky)
@@ -94,11 +92,9 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-
 States = {
     game = require 'states.game',
     menu = require 'states.menu',
-    player = {}
 }
 
 Controls = {
@@ -106,7 +102,7 @@ Controls = {
     down = 'down',
     left = 'left',
     right = 'right',
-    enter = 'return',
+    enter = 'return'
 }
 
 rooms = require('rooms')

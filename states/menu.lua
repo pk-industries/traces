@@ -1,6 +1,18 @@
 local menu = {} -- previously: Gamestate.new()
 local newImage = love.graphics.newImage
 
+local music = love.audio.newSource("assets/sounds/noisey-static.mp3", "stream")
+
+function menu:enter()
+    music:setLooping(true)
+    music:setVolume(0.1)
+    music:play()
+end
+
+function menu:leave()
+    music:stop()
+end
+
 function menu:draw()
     local bg = newImage("assets/images/startScreen.png")
     love.graphics.draw(bg, 0, 0)
@@ -14,7 +26,6 @@ function menu:keyreleased(key, code)
 end
 
 return menu
-
 
 
 --[[ menu = {}

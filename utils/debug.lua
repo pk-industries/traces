@@ -2,7 +2,7 @@ local debugger = {}
 local loadTimeStart = love.timer.getTime()
 
 function debugger:load()
-      love.window.setIcon(love.image.newImageData(CONFIG.window.icon))
+    love.window.setIcon(love.image.newImageData(CONFIG.window.icon))
     love.graphics.setDefaultFilter(
         CONFIG.graphics.filter.down,
         CONFIG.graphics.filter.up,
@@ -269,6 +269,7 @@ function debugger:errorhandler(msg)
         if love.timer then
             love.timer.sleep(0.016)
         end
+        return msg
     end
 end
 

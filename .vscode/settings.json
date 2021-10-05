@@ -28,6 +28,17 @@
         "player"
     ],
     "editor.formatOnSave": true,
+    "Lua.completion.autoRequire": true,
+    "Lua.completion.autoImport": true,
+    "[lua]": {
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": true,
+            "strings": true
+        },
+        "editor.tabCompletion": "on",
+        "editor.quickSuggestionsDelay": 1
+    },
     "lua.targetVersion": "5.3",
     "restructuredtext.confPath": "${workspaceFolder}/libs/hump/docs"
 }

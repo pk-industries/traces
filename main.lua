@@ -1,5 +1,6 @@
 
 
+
 require 'globals'
 local debugger = require 'utils.debug'
 
@@ -30,5 +31,6 @@ function love.threaderror(thread, errorMessage)
 end
 
 function love.errorhandler(msg)
-   debugger:errorhandler(msg)
+    debugger:errorhandler()
+    print('fuck')
 end

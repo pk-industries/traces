@@ -1,36 +1,24 @@
-local class = require("libs.classic")
-local move = require("utils.move")
-local newImage = love.graphics.newImage
-
-CreateRoom = class:extend()
-
-function CreateRoom:new(name, images, exits, about)
-    self.name = name
-    self.about = about
-    self.north = newImage(images[001])
-    self.east = newImage(images[002])
-    self.south = newImage(images[003])
-    self.west = newImage(images[004])
-    self.exits = exits
-end
-
-function CreateRoom:update(dt)
-end
-
-function CreateRoom:draw()
-    local frame = self[player.facing]
-    love.graphics.draw(frame, 0, 0)
-end
-
-function CreateRoom:keypressed(key)
-    local nextRoomName = self.exits[player.facing]
-    local nextRoom = rooms[nextRoomName] or false
-
-    if key == Controls.enter and nextRoomName and nextRoom then
-        game = nextRoom
+local Tile = Class{
+    init = function(self, x, y, type)
+        self.x = x
+        self.y = y
+        self.type = type
     end
+}
 
-    player.facing = move(key)
-end
+local Room = Class{
+    init = function(self, name, width, height)
+        self.name = name
+        self.width = width
+        self.height = height
+        self.tiles = {}
+        for y = 1, height do
+            table.insert(self.tiles, {})
+            for x = 1, width do
+                table.insert(self.tiles[y], Tile(x, y, 1))
+            end
+        end
+    end
+}
 
-return CreateRoom
+return Room,Class
