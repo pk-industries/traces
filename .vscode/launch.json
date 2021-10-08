@@ -2,13 +2,23 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "lua-local",
-      "request": "launch",
-      "name": "Debug Love",
-      "program": {
-        "command": "/usr/local/bin/love"
-      },
-      "args": ["${workspaceFolder} "]
-    }
+            "type": "lua-local",
+            "request": "launch",
+            "name": "Debug LOVE",
+            "program":
+            {
+
+                "command": "/usr/local/bin/love"
+            },
+            "args":
+            [
+                "${workspaceFolder}",
+                "vsc_debug",
+                "--console"
+
+
+            ],
+        },
+
   ]
 }

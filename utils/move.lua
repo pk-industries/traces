@@ -1,53 +1,52 @@
-local function move(key, direction)
-    local nextDirection = direction
-    if direction == "n" then
-        if key == Controls.up then
-            nextDirection = "n"
+---@param key love.KeyConstant
+---@param direction string
+---@param x number
+---@param y number
+---@param width number
+---@param height number
+local function move(key, direction, x, y, width, height)
+    if direction == 'n' then
+        if key == Controls.up and y + 1 <= height then
+            y = y + 1
         elseif key == Controls.right then
-            nextDirection = "e"
-        elseif key == Controls.down then
-            nextDirection = "s"
+            direction = 'e'
+        elseif key == Controls.down and y-1 >=1 then
+            y = y - 1
         elseif key == Controls.left then
-            nextDirection = "w"
+            direction = 'w'
         end
     elseif direction == 'e' then
-        if key == Controls.up then
-            nextDirection = 'e'
+        if key == Controls.up and x + 1 <= width then
+            x = x + 1
         elseif key == Controls.right then
-            nextDirection = 's'
-        elseif key == Controls.down then
-            nextDirection = 'w'
+            direction = 's'
+        elseif key == Controls.down and x-1>=1 then
+            x = x - 1
         elseif key == Controls.left then
-            nextDirection = 'n'
+            direction = 'n'
         end
-
+    elseif direction == 's' then
+        if key == Controls.up and y - 1 >= 1 then
+            y = y - 1
+        elseif key == Controls.right then
+            direction = 'w'
+        elseif key == Controls.down and y +1 <= height then
+            y = y + 1
+        elseif key == Controls.left then
+            direction = 'e'
+        end
     elseif direction == 'w' then
-        if key == Controls.up then
-            nextDirection = 'w'
+        if key == Controls.up and x - 1 >= 1 then
+            x = x - 1
         elseif key == Controls.right then
-            nextDirection = 'n'
-        elseif key == Controls.down then
-            nextDirection = 'e'
+            direction = 'n'
+        elseif key == Controls.down and x+1<=width  then
+            x = x + 1
         elseif key == Controls.left then
-            nextDirection = 's'
-        end
-        elseif direction == "s" then
-        if key == Controls.up then
-            nextDirection = "s"
-        elseif key == Controls.right then
-            nextDirection = "w"
-        elseif key == Controls.down then
-            nextDirection = "n"
-        elseif key == Controls.left then
-            nextDirection = "e"
+            direction = 's'
         end
     end
-
-    return nextDirection
+    return direction, x, y
 end
 
 return move
-
---[[   ]]
-
---[[     ]]

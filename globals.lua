@@ -46,7 +46,7 @@ CONFIG = {
             foreground = {1, 1, 1, 1},
             shadow = {0, 0, 0, 1},
             shadowOffset = {x = 1, y = 1},
-            position = {x = 8, y = 6},
+            position = {x = 420, y = 6},
             kilobytes = false
         },
         -- Error screen config
@@ -95,6 +95,7 @@ CONFIG.debug.error.font = Fonts.monospace
 States = {
     game = require 'states.game',
     menu = require 'states.menu',
+    pause = require 'states.pause',
 }
 
 Controls = {

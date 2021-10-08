@@ -1,8 +1,12 @@
+if arg[#arg] == "vsc_debug" then
+    require("lldebugger").start()
+end
 
 
 
-require 'globals'
-local debugger = require 'utils.debug'
+
+require "globals"
+local debugger = require "utils.debug"
 
 function love.load()
     local callbacks = debugger:load()
@@ -22,15 +26,14 @@ function love.draw()
     debugger:draw(drawTimeStart, drawTimeEnd, drawTime)
 end
 
-function love.keypressed(key, code, isRepeat)
-  debugger:keypressed(key, code, isRepeat)
+function love.keypressed(key, code)
+    debugger:keypressed(key, code)
 end
 
 function love.threaderror(thread, errorMessage)
-    print('Thread error!\n' .. errorMessage)
+    print("Thread error!\n" .. errorMessage)
 end
 
 function love.errorhandler(msg)
-    debugger:errorhandler()
-    print('fuck')
+    debugger:errorhandler(msg)
 end

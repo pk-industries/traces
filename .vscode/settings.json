@@ -25,7 +25,8 @@
         "Room",
         "enter_key",
         "game",
-        "player"
+        "player",
+        "common"
     ],
     "editor.formatOnSave": true,
     "Lua.completion.autoRequire": true,

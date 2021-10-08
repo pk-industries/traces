@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 local debugger = {}
 local loadTimeStart = love.timer.getTime()
 
@@ -11,7 +12,7 @@ function debugger:load()
 
     -- Draw is left out so we can override it ourselves
     local callbacks = {'update'}
-    ---@diagnostic disable-next-line: undefined-field
+    ---diagnostic disable-next-line: undefined-field
     for k in pairs(love.handlers) do
         -- print(k)
         callbacks[#callbacks + 1] = k
@@ -27,6 +28,7 @@ end
 function debugger:draw(drawTimeStart, drawTimeEnd, drawTime)
     if DEBUG then
         love.graphics.push()
+
         local x, y = CONFIG.debug.stats.position.x, CONFIG.debug.stats.position.y
         local dy = CONFIG.debug.stats.lineHeight
         local stats = love.graphics.getStats()
@@ -62,7 +64,7 @@ function debugger:draw(drawTimeStart, drawTimeEnd, drawTime)
     end
 end
 
-function debugger:keypressed(key, code, isRepeat)
+function debugger:keypressed(key, code)
     if not RELEASE and code == CONFIG.debug.key then
         DEBUG = not DEBUG
         Saver:save('debug', DEBUG)

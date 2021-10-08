@@ -1,20 +1,21 @@
+---@diagnostic disable: undefined-global
 --[[
 	Save Table to File/Stringtable
 	Load Table from File/Stringtable
 	v 0.94
-	
+
 	Lua 5.1 compatible
-	
+
 	Userdata and indices of these are not saved
 	Functions are saved via string.dump, so make sure it has no upvalues
 	References are saved
 	----------------------------------------------------
 	table.save( table [, filename] )
-	
+
 	Saves a table so it can be called via the table.load function again
 	table must a object of type 'table'
 	filename is optional, and may be a string representing a filename or true/1
-	
+
 	table.save( table )
 		on success: returns a string representing the table (stringtable)
 		(uses a string as buffer, ideal for smaller tables)
@@ -27,13 +28,13 @@
 	on failure: returns as second argument an error msg
 	----------------------------------------------------
 	table.load( filename or stringtable )
-	
+
 	Loads a table that has been saved via the table.save function
-	
+
 	on success: returns a previously saved table
 	on failure: returns as second argument an error msg
 	----------------------------------------------------
-	
+
 	chillcode, http://lua-users.org/wiki/SaveTableToFile
 	Licensed under the same terms as Lua itself.
 ]]--

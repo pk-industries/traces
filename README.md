@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to traces 👋</h1>
 
-[![Traces](pics/StartScreen.png)](pics/startScreen)
+[![Traces](assets/images/thumbnail.png)](pics/startScreen)
 
 ![Lua](https://img.shields.io/badge/lua-%232C2D72.svg?style=for-the-badge&logo=lua&logoColor=white)
 
