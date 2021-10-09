@@ -1,7 +1,21 @@
 local pause = {}
 
+local pausemenu = MenuEngine.new(10, 20, Fonts.pixel[20])
+pausemenu:addEntry(
+    "Start Game",
+    function()
+        State.switch(States.game)
+    end
+)
+pausemenu:addSep()
+pausemenu:addEntry(
+    "Quit Game",
+    function()
+        pause.quit()
+    end
+)
 -- Called once, and only once, before entering the state the first time. See Gamestate.switch().
-function pause:init()
+function pause:init(self)
 end
 
 -- Called every time when entering the state. See Gamestate.switch().
@@ -17,12 +31,14 @@ end
 
 -- Update the game state. Called every frame.
 function pause:update()
+    pausemenu:update()
 end
 
 -- Draw on the screen. Called every frame.
 function pause:draw()
     local bg = love.graphics.newImage("assets/images/pause.png")
-    love.graphics.draw(bg, 0, 0, 0, 1, 1)
+    love.graphics.draw(bg, 0, 0)
+    pausemenu:draw()
 end
 
 -- Called if the window gets or loses focus.
@@ -30,10 +46,8 @@ function pause:focus()
 end
 
 -- Triggered when a key is pressed.
-function pause:keypressed(key, code, isrepeat)
-    if key == "escape" then
-        States.pop()
-    end
+function pause:keypressed(key, scancode)
+    MenuEngine.keypressed(scancode)
 end
 
 -- Triggered when a key is released.
@@ -42,6 +56,7 @@ end
 
 -- Called on quitting the game. Only called on the active gamestate.
 function pause:quit()
+    love.event.quit()
 end
 
 return pause

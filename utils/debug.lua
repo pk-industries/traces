@@ -1,4 +1,10 @@
----@diagnostic disable: undefined-field
+package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib"
+local dbg = require("emmy_core")
+dbg.tcpListen("localhost", 9966)
+if arg[#arg] == "vsc_debug" then
+    require("lldebugger").start()
+end
+
 local debugger = {}
 local loadTimeStart = love.timer.getTime()
 
@@ -11,8 +17,7 @@ function debugger:load()
     )
 
     -- Draw is left out so we can override it ourselves
-    local callbacks = {'update'}
-    ---diagnostic disable-next-line: undefined-field
+    local callbacks = {"update"}
     for k in pairs(love.handlers) do
         -- print(k)
         callbacks[#callbacks + 1] = k
@@ -20,7 +25,7 @@ function debugger:load()
     if DEBUG then
         local loadTimeEnd = love.timer.getTime()
         local loadTime = (loadTimeEnd - loadTimeStart)
-        print(('Loaded game in %.3f seconds.'):format(loadTime))
+        print(("Loaded game in %.3f seconds."):format(loadTime))
     end
     return callbacks
 end
@@ -32,25 +37,25 @@ function debugger:draw(drawTimeStart, drawTimeEnd, drawTime)
         local x, y = CONFIG.debug.stats.position.x, CONFIG.debug.stats.position.y
         local dy = CONFIG.debug.stats.lineHeight
         local stats = love.graphics.getStats()
-        local memoryUnit = 'KB'
-        local ram = collectgarbage('count')
+        local memoryUnit = "KB"
+        local ram = collectgarbage("count")
         local vram = stats.texturememory / 1024
         if not CONFIG.debug.stats.kilobytes then
             ram = ram / 1024
             vram = vram / 1024
-            memoryUnit = 'MB'
+            memoryUnit = "MB"
         end
         local info = {
-            'FPS: ' .. ('%3d'):format(love.timer.getFPS()),
-            'DRAW: ' .. ('%7.3fms'):format(Lume.round(drawTime * 1000, .001)),
-            'RAM: ' .. string.format('%7.2f', Lume.round(ram, .01)) .. memoryUnit,
-            'VRAM: ' .. string.format('%6.2f', Lume.round(vram, .01)) .. memoryUnit,
-            'Draw calls: ' .. stats.drawcalls,
-            'Images: ' .. stats.images,
-            'Canvases: ' .. stats.canvases,
-            '\tSwitches: ' .. stats.canvasswitches,
-            'Shader switches: ' .. stats.shaderswitches,
-            'Fonts: ' .. stats.fonts
+            "FPS: " .. ("%3d"):format(love.timer.getFPS()),
+            "DRAW: " .. ("%7.3fms"):format(Lume.round(drawTime * 1000, .001)),
+            "RAM: " .. string.format("%7.2f", Lume.round(ram, .01)) .. memoryUnit,
+            "VRAM: " .. string.format("%6.2f", Lume.round(vram, .01)) .. memoryUnit,
+            "Draw calls: " .. stats.drawcalls,
+            "Images: " .. stats.images,
+            "Canvases: " .. stats.canvases,
+            "\tSwitches: " .. stats.canvasswitches,
+            "Shader switches: " .. stats.shaderswitches,
+            "Fonts: " .. stats.fonts
         }
         love.graphics.setFont(CONFIG.debug.stats.font[CONFIG.debug.stats.fontSize])
         for i, text in ipairs(info) do
@@ -67,17 +72,17 @@ end
 function debugger:keypressed(key, code)
     if not RELEASE and code == CONFIG.debug.key then
         DEBUG = not DEBUG
-        Saver:save('debug', DEBUG)
+        Saver:save("debug", DEBUG)
     end
 end
 -----------------------------------------------------------
 -- Error screen.
 -----------------------------------------------------------
 
-local utf8 = require('utf8')
+local utf8 = require("utf8")
 
 local function error_printer(msg, layer)
-    print((debug.traceback('Error: ' .. tostring(msg), 1 + (layer or 1)):gsub('\n[^\n]+$', '')))
+    print((debug.traceback("Error: " .. tostring(msg), 1 + (layer or 1)):gsub("\n[^\n]+$", "")))
 end
 
 function debugger:errorhandler(msg)
@@ -119,26 +124,26 @@ function debugger:errorhandler(msg)
 
     local err = {}
 
-    table.insert(err, 'Error\n')
+    table.insert(err, "Error\n")
     table.insert(err, sanitizedmsg)
 
     if #sanitizedmsg ~= #msg then
-        table.insert(err, 'Invalid UTF-8 string in error message.')
+        table.insert(err, "Invalid UTF-8 string in error message.")
     end
 
-    table.insert(err, '\n')
+    table.insert(err, "\n")
 
-    for l in trace:gmatch('(.-)\n') do
-        if not l:match('boot.lua') then
-            l = l:gsub('stack traceback:', 'Traceback\n')
+    for l in trace:gmatch("(.-)\n") do
+        if not l:match("boot.lua") then
+            l = l:gsub("stack traceback:", "Traceback\n")
             table.insert(err, l)
         end
     end
 
-    local p = table.concat(err, '\n')
+    local p = table.concat(err, "\n")
 
-    p = p:gsub('\t', '')
-    p = p:gsub('%[string "(.-)"%]', '%1')
+    p = p:gsub("\t", "")
+    p = p:gsub('%[string "(.-)"%]', "%1")
 
     local max_text_width = love.graphics.getWidth() - love.window.toPixels(CONFIG.debug.error.position.x)
     local _, lines = font:getWrap(p, max_text_width)
@@ -166,7 +171,7 @@ function debugger:errorhandler(msg)
             local bar_y = -translate_y / max_translate_y * love.graphics.getHeight()
             love.graphics.setColor(1, 1, 1, 0.5)
             love.graphics.rectangle(
-                'fill',
+                "fill",
                 love.graphics.getWidth() - bar_width - 1,
                 bar_y,
                 bar_width,
@@ -183,7 +188,7 @@ function debugger:errorhandler(msg)
             local bar_y = -translate_y / max_translate_y * love.graphics.getHeight()
             love.graphics.setColor(1, 1, 1, Lume.clamp(math.abs(translate_vy) / 4, 0, 0.5))
             love.graphics.rectangle(
-                'fill',
+                "fill",
                 love.graphics.getWidth() - bar_width - 1,
                 bar_y,
                 bar_width,
@@ -203,12 +208,12 @@ function debugger:errorhandler(msg)
             return
         end
         love.system.setClipboardText(fullErrorText)
-        p = p .. '\nCopied to clipboard!'
+        p = p .. "\nCopied to clipboard!"
         draw()
     end
 
     if love.system then
-        p = p .. '\n\nPress Ctrl+C or tap to copy this error'
+        p = p .. "\n\nPress Ctrl+C or tap to copy this error"
     end
 
     local is_clicked = false
@@ -217,34 +222,34 @@ function debugger:errorhandler(msg)
         love.event.pump()
 
         for e, a, b, c, d in love.event.poll() do
-            if e == 'quit' then
+            if e == "quit" then
                 return 1
-            elseif e == 'keypressed' and a == 'escape' then
+            elseif e == "keypressed" and a == "escape" then
                 return 1
-            elseif e == 'keypressed' and a == 'c' and love.keyboard.isDown('lctrl', 'rctrl') then
+            elseif e == "keypressed" and a == "c" and love.keyboard.isDown("lctrl", "rctrl") then
                 copyToClipboard()
-            elseif e == 'mousepressed' and c == 1 then
+            elseif e == "mousepressed" and c == 1 then
                 is_clicked = true
-            elseif e == 'mousereleased' and c == 1 then
+            elseif e == "mousereleased" and c == 1 then
                 is_clicked = false
-            elseif e == 'touchpressed' then
+            elseif e == "touchpressed" then
                 local name = love.window.getTitle()
-                if #name == 0 or name == 'Untitled' then
-                    name = 'Game'
+                if #name == 0 or name == "Untitled" then
+                    name = "Game"
                 end
-                local buttons = {'OK', 'Cancel'}
+                local buttons = {"OK", "Cancel"}
                 if love.system then
-                    buttons[3] = 'Copy to clipboard'
+                    buttons[3] = "Copy to clipboard"
                 end
-                local pressed = love.window.showMessageBox('Quit ' .. name .. '?', '', buttons)
+                local pressed = love.window.showMessageBox("Quit " .. name .. "?", "", buttons)
                 if pressed == 1 then
                     return 1
                 elseif pressed == 3 then
                     copyToClipboard()
                 end
-            elseif e == 'mousemoved' and is_clicked then
+            elseif e == "mousemoved" and is_clicked then
                 translate_ay = d * 100 * math.sqrt((1 + math.abs(translate_vy)))
-            elseif e == 'wheelmoved' then
+            elseif e == "wheelmoved" then
                 translate_ay = b * 2000 * math.sqrt((1 + math.abs(translate_vy)))
             end
         end
@@ -269,7 +274,7 @@ function debugger:errorhandler(msg)
         love.graphics.origin()
 
         if love.timer then
-            love.timer.sleep(0.016)
+            love.timer.sleep()
         end
         return msg
     end
