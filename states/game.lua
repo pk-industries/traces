@@ -1,8 +1,6 @@
-local move = require "utils.move"
-local rooms = require "rooms"
-
 ---@class game
----@field room string
+---@field room RoomName
+---@field direction Direction
 ---@field x number
 local game = {
     room = "bedroom",
@@ -11,51 +9,88 @@ local game = {
     x = 2
 }
 
-local initialState = {}
-
-local function locationFrame(room, direction, x, y)
-    local imgDir = "assets/images/prototype"
-    local imgPath = imgDir .. "/" .. room .. "/" .. "x" .. x .. "y" .. y .. "_" .. direction .. "_" .. room .. ".png"
-    return love.graphics.newImage(imgPath)
-end
-
 function game:init()
-    local state = love.filesystem.load("save.json")
-
-    if state then
-        for k, v in pairs(state) do
-            game[k] = v
-        end
-    else
-        for k, v in pairs(initialState) do
+    local save = table.load("save.lua")
+    if save then
+        for k, v in pairs(save) do
             game[k] = v
         end
     end
+end
+
+--- /path/to/your/img.png
+---@return string
+function game.imgPath(self)
+    local imgDir = "assets/images/prototype"
+    local path =
+        imgDir ..
+        "/" .. self.room .. "/" .. "x" .. self.x .. "y" .. self.y .. "_" .. self.direction .. "_" .. self.room .. ".png"
+    return path
+end
+
+game.move = require "utils.move"
+
+function game.facingExit(self)
+    local exits = Rooms[self.room].exits
+    local facing = nil
+    for k, v in pairs(exits) do
+        local wall, x, y = v.wall, v.x, v.y
+        if wall == self.direction and x == self.x and y == self.y then
+            return k
+        end
+    end
+    return facing
+end
+
+function game.debugTxt(self)
+    return "x: " ..
+        self.x ..
+            " y: " ..
+                self.y ..
+                    " direction: " ..
+                        self.direction .. " room: " .. self.room .. " facing: " .. (game:facingExit() or "nil")
 end
 
 function game:enter()
 end
 
 function game:leave()
-    love.filesystem.write("save.json", game)
-    print("Saved game state")
+    local errMsg =
+        table.save({["room"] = game.room, ["direction"] = game.direction, ["x"] = game.x, ["y"] = game.y}, "save.lua")
+
+    if errMsg then
+        print("file not created: " .. errMsg)
+    end
 end
 
 function game:update(dt)
+    local facing = game:facingExit()
+    if facing then
+        game.prompt = "Press " .. facing .. " to enter " .. facing .. " room"
+    -- print(game.prompt)
+    end
 end
 
+---@param key love.KeyConstant
+---@param code number
 function game:keypressed(key, code)
-    local room = rooms[game.room]
-    game.direction, game.x, game.y = move(key, game.direction, game.x, game.y, room.width, room.height)
+    if key == Controls.pause then
+        State.switch(States.pause)
+    else
+        game:move(key)
+    end
 end
 
 function game:mousepressed(x, y, mbutton)
 end
 
 function game:draw()
-    local img = locationFrame(game.room, game.direction, game.x, game.y)
+    love.graphics.setFont(Fonts.monospace[12])
+    local filePath = game:imgPath()
+    local img = love.graphics.newImage(filePath)
     love.graphics.draw(img, 0, 0)
-    love.graphics.printf(game.room, 100, 0, 200, "center")
+    love.graphics.setColor(Colors.white)
+    love.graphics.printf({Colors.black, game:debugTxt()}, 0, 0, love.graphics.getWidth(), "center")
 end
 
 return game

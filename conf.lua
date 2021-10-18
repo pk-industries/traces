@@ -5,7 +5,7 @@ function love.conf(t)
     t.console = true -- Attach a console (boolean, Windows only)
     t.accelerometerjoystick = false -- Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
     t.externalstorage = false -- True to save files (and read from the save directory) in external storage on Android (boolean)
-    t.gammacorrect = false -- Enable gamma-correct rendering, when supported by the system (boolean)
+    t.gammacorrect = true -- Enable gamma-correct rendering, when supported by the system (boolean)
 
     t.audio.mixwithsystem = true -- Keep background music playing when opening LOVE (boolean, iOS and Android only)
 
@@ -26,7 +26,6 @@ function love.conf(t)
     t.window.msaa = 0 -- The number of samples to use with multi-sampled antialiasing (number)
     t.window.display = 1 -- Index of the monitor to show the window in (number)
     t.window.highdpi = false -- Enable high-dpi mode for the window on a Retina display (boolean)
-
 
     t.modules.audio = true -- Enable the audio module (boolean)
     t.modules.data = true -- Enable the data module (boolean)

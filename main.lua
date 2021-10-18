@@ -1,9 +1,4 @@
-if arg[#arg] == "vsc_debug" then
-    require("lldebugger").start()
-end
-
-
-
+require "utils.debug"
 
 require "globals"
 local debugger = require "utils.debug"

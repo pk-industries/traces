@@ -1,45 +1,47 @@
 {
-    "Lua.runtime.version": "LuaJIT",
-    "Lua.workspace.library": [
-        "${3rd}/love2d/library"
-    ],
-    "Lua.workspace.checkThirdParty": false,
-    "Lua.diagnostics.disable": [
-        "unused-local"
-    ],
-    "Lua.diagnostics.globals": [
-        "love",
-        "configure",
-        "north_key",
-        "east_key",
-        "south_key",
-        "west_key",
-        "states",
-        "state",
-        "menu",
-        "up_key",
-        "right_key",
-        "down_key",
-        "left_key",
-        "rooms",
-        "Room",
-        "enter_key",
-        "game",
-        "player",
-        "common"
-    ],
+  "Lua.runtime.version": "Lua 5.3",
+  "Lua.workspace.library": ["${3rd}/love2d/library"],
+  "Lua.workspace.checkThirdParty": true,
+  "Lua.diagnostics.globals": [
+    "love",
+    "configure",
+    "north_key",
+    "east_key",
+    "south_key",
+    "west_key",
+    "states",
+    "state",
+    "menu",
+    "up_key",
+    "right_key",
+    "down_key",
+    "left_key",
+    "Rooms",
+    "Rooms",
+    "enter_key",
+    "game",
+    "player",
+    "common",
+    "class_commons",
+    "_"
+  ],
+  "editor.formatOnSave": true,
+  "Lua.completion.autoRequire": true,
+  "[lua]": {
+    "editor.formatOnSaveMode": "file",
+    "editor.defaultFormatter": "tangzx.emmylua",
     "editor.formatOnSave": true,
-    "Lua.completion.autoRequire": true,
-    "Lua.completion.autoImport": true,
-    "[lua]": {
-        "editor.quickSuggestions": {
-            "other": true,
-            "comments": true,
-            "strings": true
-        },
-        "editor.tabCompletion": "on",
-        "editor.quickSuggestionsDelay": 1
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true,
+      "paths": true
     },
-    "lua.targetVersion": "5.3",
-    "restructuredtext.confPath": "${workspaceFolder}/libs/hump/docs"
+    "editor.tabCompletion": "on",
+    "editor.quickSuggestionsDelay": 1
+  },
+  "lua.targetVersion": "5.3",
+  "Lua.diagnostics.disable": [
+    "undefined-field"
+  ]
 }
