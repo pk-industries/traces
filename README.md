@@ -8,6 +8,4 @@ Playdate Horror game being written in Love2D, then refactored to be playable on 
 
 ### 🏠 [Homepage](https://github.com/pk-industries/traces)
 
-House Blueprint
-
-[![Blueprint](pics/blueprint.png)](pics/blueprint)
+[![Build[master]](https://github.com/pk-industries/traces/actions/workflows/main.yml/badge.svg)](https://github.com/pk-industries/traces/actions/workflows/main.yml)
