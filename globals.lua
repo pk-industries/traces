@@ -19,6 +19,7 @@ Signal = require "libs.signal"
 Vector = require "libs.vector"
 Inspect = require "libs.inspect"
 MenuEngine = require "libs.menuengine"
+MenuEngine.stop_on_nil_functions = true
 CONFIG = {
     saveDir = love.filesystem.getSaveDirectory(),
     graphics = {

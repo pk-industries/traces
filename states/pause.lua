@@ -2,7 +2,7 @@ local pause = {}
 
 local pausemenu = MenuEngine.new(10, 20, Fonts.pixel[20])
 pausemenu:addEntry(
-    "Start Game",
+    "Resume Game",
     function()
         State.switch(States.game)
     end
