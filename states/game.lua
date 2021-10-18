@@ -43,12 +43,20 @@ function game.facingExit(self)
 end
 
 function game.debugTxt(self)
-    return "x: " ..
-        self.x ..
-            " y: " ..
-                self.y ..
-                    " direction: " ..
-                        self.direction .. " room: " .. self.room .. " facing: " .. (game:facingExit() or "nil")
+    local stats = {
+        "room: " .. self.room,
+        "direction: " .. self.direction,
+        "x: " .. self.x,
+        "y: " .. self.y
+    }
+    if game:facingExit() then
+        table.insert(stats, "facing exit: " .. game:facingExit())
+    end
+    local msg = ""
+    for _, val in ipairs(stats) do
+        msg = msg .. val .. "\n"
+    end
+    return msg
 end
 
 function game:enter()
