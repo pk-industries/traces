@@ -12,6 +12,8 @@ require "states.game"
 
 ---@class Exit
 ---@field wall Direction
+---@field x number
+---@field y number
 local Exit =
     Class {
     ---@param wall Direction
@@ -45,18 +47,6 @@ local Room =
     end
 }
 
-local bedroom =
-    Room(
-    "bedroom",
-    2,
-    2,
-    {
-        ["bathroom"] = Exit("n", 2, 2),
-        ["closet"] = Exit("s", 1, 1),
-        ["hall"] = Exit("w", 1, 2)
-    }
-)
-
 local Rooms = {
     ["bedroom"] = Room(
         "bedroom",
@@ -72,7 +62,12 @@ local Rooms = {
         name = "hall",
         width = 1,
         height = 2,
-        description = "You are in a hall. There is a door to the north."
+        description = "You are in a hall. There is a door to the north.",
+        {
+            ["bedroom"] = Exit("w", 1, 2),
+            ["closet"] = Exit("s", 1, 1),
+            ["hall"] = Exit("w", 1, 2)
+        }
     },
     livingroom = {
         name = "livingroom",
