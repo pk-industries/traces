@@ -31,11 +31,21 @@ function game.frame(self)
     --The center x point
     local posy = love.graphics.getHeight() / 2
     --The center y point
+    local ox = 0
+    local oy = 1
     local zoom = 1
     local sx = posx - (imgW * zoom / 2)
     local sy = posy - (imgH * zoom / 2)
     return img, sx, sy, 0, zoom, zoom
 end
+
+-- local img = img --Your image
+-- local imgW = img:getWidth() --Get your image size
+-- local imgH = img:getHeight() --Get your image size
+-- local zoom = n --Your zoom factor (to zoom in, must be bigger than 1)
+
+--if you want it based on position:
+-- love.graphics.draw(img, posx - (imgW * zoom / 2), posy - (imgH * zoom / 2), 0, zoom, zoom)
 
 function game:init()
     local save = table.load("save.lua")
@@ -80,10 +90,26 @@ function game:update(dt)
 end
 
 function game:keypressed(key, code)
+    local stats = {
+        "room: " .. self.room,
+        "direction: " .. self.direction,
+        "x: " .. self.x,
+        "y: " .. self.y
+    }
+    if game:facingExit() then
+        table.insert(stats, "facing exit: " .. game:facingExit())
+    end
+    local msg = ""
+    for _, val in ipairs(stats) do
+        -- print(val)
+    end
+
     game.zoom = 1
 end
 
 function game:keyreleased(key, code)
+    -- game.kx = 1
+    -- game.ky = 1
     if key == Controls.pause then
         GameState.switch(States.pause)
     else
@@ -98,10 +124,8 @@ function game:draw()
     local imgW = img:getWidth()
     local imgH = img:getHeight()
     local zoom = game.zoom
-    love.graphics.draw(img, game.sx - (imgW * zoom / 2), game.sy - (imgH * zoom / 2), 0, zoom, zoom)
-end
-
-function game:mousepressed(x, y, mbutton)
+    love.graphics.draw(img, 0, 0)
+    -- love.graphics.draw(img, game.sx - (imgW * zoom / 2), game.sy - (imgH * zoom / 2), 0, zoom, zoom)
 end
 
 return game
