@@ -1,6 +1,6 @@
 # Game functionality
 
-## State management
+## GameState management
 
 Right now there is going to be three different state objects. `state`, `menu`, and `game`.
 

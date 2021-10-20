@@ -7,19 +7,20 @@ RELEASE = false
 -- Enables the debug stats
 DEBUG = not RELEASE
 
+GameState = require "libs.gamestate"
 require "libs.tablesave"
 Husl = require "libs.husl"
 Lume = require "libs.lume"
 Class = require "libs.class"
 Saver = require "libs.saver"
-State = require "libs.state"
 Timer = require "libs.timer"
 Camera = require "libs.camera"
 Signal = require "libs.signal"
 Vector = require "libs.vector"
 Inspect = require "libs.inspect"
 MenuEngine = require "libs.menuengine"
-MenuEngine.stop_on_nil_functions = true
+MenuEngine.stop_on_nil_functions = false
+require "libs.colorize"
 CONFIG = {
     saveDir = love.filesystem.getSaveDirectory(),
     graphics = {
@@ -95,7 +96,10 @@ Colors = {
     green = {0, 1, 0, 1},
     blue = {0, 0, 1, 1},
     white = {1, 1, 1, 1},
-    black = {0, 0, 0, 1}
+    black = {0, 0, 0, 1},
+    bg = hex("#b1aea8"),
+    text = hex("#322f29"),
+    red = hex("#d60037")
 }
 
 Fonts.default = Fonts.regular
@@ -103,8 +107,8 @@ CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
 States = {
+    welcome = require "states.welcome",
     game = require "states.game",
-    menu = require "states.menu",
     pause = require "states.pause"
 }
 
@@ -118,3 +122,13 @@ Controls = {
 }
 
 Rooms = require("rooms")
+
+function FileExists(name)
+    local f = io.open(name, "r")
+    if f ~= nil then
+        io.close(f)
+        return true
+    else
+        return false
+    end
+end

@@ -1,28 +1,21 @@
-require "utils.debug"
-
 require "globals"
-local debugger = require "utils.debug"
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+    require("lldebugger").start()
+end
 
 function love.load()
-    local callbacks = debugger:load()
-    State.registerEvents(callbacks)
-    State.switch(States.menu)
+    GameState.registerEvents()
+    GameState.switch(States.welcome)
 end
 
 function love.update(dt)
 end
 
 function love.draw()
-    local drawTimeStart = love.timer.getTime()
-    State.current():draw()
-    local drawTimeEnd = love.timer.getTime()
-    local drawTime = drawTimeEnd - drawTimeStart
-
-    debugger:draw(drawTimeStart, drawTimeEnd, drawTime)
+    GameState.current():draw()
 end
 
 function love.keypressed(key, code)
-    debugger:keypressed(key, code)
 end
 
 function love.threaderror(thread, errorMessage)
@@ -30,5 +23,4 @@ function love.threaderror(thread, errorMessage)
 end
 
 function love.errorhandler(msg)
-    debugger:errorhandler(msg)
 end
