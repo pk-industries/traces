@@ -1,7 +1,7 @@
 {
-  "Lua.runtime.version": "Lua 5.3",
+  "Lua.runtime.version": "LuaJIT",
   "Lua.workspace.library": ["${3rd}/love2d/library"],
-  "Lua.workspace.checkThirdParty": true,
+
   "Lua.diagnostics.globals": [
     "love",
     "configure",
@@ -23,7 +23,11 @@
     "player",
     "common",
     "class_commons",
-    "_"
+    "_",
+    "rgba",
+    "hex",
+    "hexVal",
+    "char"
   ],
   "editor.formatOnSave": true,
   "Lua.completion.autoRequire": true,
@@ -42,6 +46,6 @@
   },
   "lua.targetVersion": "5.3",
   "Lua.diagnostics.disable": [
-    "undefined-field"
-  ]
+  ],
+  "Lua.workspace.checkThirdParty": false
 }
