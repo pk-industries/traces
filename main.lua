@@ -7,16 +7,12 @@ function love.load()
     GameState.registerEvents()
     GameState.switch(States.welcome)
 end
-require("libs.lovebird").update()
 
 function love.update(dt)
 end
 
 function love.draw()
-    -- local drawTimeStart = love.timer.getTime()
     GameState.current():draw()
-    -- local drawTimeEnd = love.timer.getTime()
-    -- local drawTime = drawTimeEnd - drawTimeStart
 end
 
 function love.keypressed(key, code)

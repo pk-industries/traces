@@ -59,7 +59,7 @@ end
 --- /path/to/your/img.png
 ---@return string
 function game.imgPath(self)
-    local imgDir = "assets/images/prototype"
+    local imgDir = "assets/images"
     local path =
         imgDir ..
         "/" .. self.room .. "/" .. "x" .. self.x .. "y" .. self.y .. "_" .. self.direction .. "_" .. self.room .. ".png"
@@ -80,41 +80,13 @@ function game.facingExit(self)
     return facing
 end
 
-function game.debugTxt(self)
-    local stats = {
-        "room: " .. self.room,
-        "direction: " .. self.direction,
-        "x: " .. self.x,
-        "y: " .. self.y
-    }
-    if game:facingExit() then
-        table.insert(stats, "facing exit: " .. game:facingExit())
-    end
-    local msg = ""
-    for _, val in ipairs(stats) do
-        msg = msg .. val .. "\n"
-    end
-    return msg
-end
-
 function game:enter()
 end
 
 function game:leave()
-    local errMsg =
-        table.save({["room"] = game.room, ["direction"] = game.direction, ["x"] = game.x, ["y"] = game.y}, "save.lua")
-
-    if errMsg then
-        print("file not created: " .. errMsg)
-    end
 end
 
 function game:update(dt)
-    local facing = game:facingExit()
-    if facing then
-        game.prompt = "Press " .. facing .. " to enter " .. facing .. " room"
-    -- print(game.prompt)
-    end
 end
 
 function game:keypressed(key, code)
@@ -143,9 +115,6 @@ function game:keyreleased(key, code)
     else
         game:move(key)
     end
-end
-
-function game:mousepressed(x, y, mbutton)
 end
 
 function game:draw()
