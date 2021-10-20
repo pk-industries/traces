@@ -1,38 +1,37 @@
-local menu = {} -- previously: Gamestate.new()
+local welcome = {} -- previously: Gamestate.new()
 local newImage = love.graphics.newImage
 
 local music = love.audio.newSource("assets/sounds/noisey-static.mp3", "stream")
 
-function menu:enter()
+function welcome:enter()
     music:setLooping(true)
     music:setVolume(0.1)
     music:play()
 end
 
-function menu:leave()
+function welcome:leave()
     music:stop()
 end
 
-function menu:draw()
+function welcome:draw()
     local bg = newImage("assets/images/startScreen.png")
     love.graphics.draw(bg, 0, 0)
     love.graphics.print("Press Enter to continue", 5, 5)
 end
 
-function menu:keyreleased(key, code)
+function welcome:keyreleased(key, code)
     if key == Controls.enter then
-        State.switch(States.game)
+        GameState.switch(States.game)
     end
 end
 
-return menu
+return welcome
 
-
---[[ menu = {}
+--[[ welcome = {}
 local newImage = love.graphics.newImage
 
-function menu:load()
-    menu.screen = "start"
+function welcome:load()
+    welcome.screen = "start"
 end
 
 function menu.update(dt)

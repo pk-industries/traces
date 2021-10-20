@@ -1,28 +1,18 @@
 local pause = {}
+local menus = require("utils.menus")
+local pausemenu, pos = menus.pausemenu, menus.pos
 
-local pausemenu = MenuEngine.new(10, 20, Fonts.pixel[20])
-pausemenu:addEntry(
-    "Resume Game",
-    function()
-        State.switch(States.game)
-    end
-)
-pausemenu:addSep()
-pausemenu:addEntry(
-    "Quit Game",
-    function()
-        pause.quit()
-    end
-)
 -- Called once, and only once, before entering the state the first time. See Gamestate.switch().
 function pause:init(self)
 end
 
 -- Called every time when entering the state. See Gamestate.switch().
 function pause:enter(previous, ...)
+    pausemenu:setDisabled(false)
 end
 -- Called when leaving a state. See Gamestate.switch() and Gamestate.pop().
 function pause:leave()
+    pausemenu:setDisabled(true)
 end
 
 -- Called when re-entering a state by Gamestate.pop()-ing another state.
@@ -36,8 +26,10 @@ end
 
 -- Draw on the screen. Called every frame.
 function pause:draw()
-    local bg = love.graphics.newImage("assets/images/pause.png")
-    love.graphics.draw(bg, 0, 0)
+    love.graphics.setBackgroundColor(Colors.bg)
+    local frame = love.graphics.newImage("assets/images/house.png")
+    love.graphics.draw(frame, -15, 0)
+    love.graphics.draw(love.graphics.newImage("assets/images/traces.png"), pos.x, 10)
     pausemenu:draw()
 end
 
