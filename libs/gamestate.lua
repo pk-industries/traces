@@ -67,7 +67,8 @@ function GS.pop(...)
     stack[#stack] = nil
     ;(pre.leave or __NULL__)(pre)
     state_is_dirty = true
-    return (to.resume or __NULL__)(to, pre, ...)
+    return (to.resume or __NULL__)(to, 
+    pre, ...)
 end
 
 function GS.current()
