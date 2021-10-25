@@ -20,7 +20,7 @@ function welcome:leave()
 end
 
 function welcome:draw()
-    love.graphics.setBackgroundColor(Colors.bg)
+    love.graphics.setBackgroundColor(Colors.white)
     local frame = love.graphics.newImage("assets/images/house.png")
     love.graphics.draw(frame, -15, 0)
     love.graphics.draw(love.graphics.newImage("assets/images/traces.png"), pos.x, 10)

@@ -98,14 +98,14 @@ pausemenu:addEntry(
     end
 )
 
-mainmenu:setColorNormal(Colors.text)
-mainmenu:setColorSelected(Colors.red)
-options:setColorNormal(Colors.text)
-options:setColorSelected(Colors.red)
-new_game:setColorNormal(Colors.text)
-new_game:setColorSelected(Colors.red)
-pausemenu:setColorNormal(Colors.text)
-pausemenu:setColorSelected(Colors.red)
+mainmenu:setColorNormal(Colors.black)
+mainmenu:setColorSelected(Colors.black)
+options:setColorNormal(Colors.black)
+options:setColorSelected(Colors.black)
+new_game:setColorNormal(Colors.black)
+new_game:setColorSelected(Colors.black)
+pausemenu:setColorNormal(Colors.black)
+pausemenu:setColorSelected(Colors.black)
 
 return {
     mainmenu = mainmenu,

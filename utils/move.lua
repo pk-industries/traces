@@ -20,7 +20,7 @@ local function move(game, key)
             game.x = x + 1
         elseif key == Controls.right then
             game.direction = "s"
-        elseif key == Controls.down and x - 1 >= 1 then
+        elseif key == Controls.down and x - 1 >= height then
             x = x - 1
         elseif key == Controls.left then
             game.direction = "n"
@@ -46,6 +46,7 @@ local function move(game, key)
             game.direction = "s"
         end
     end
+    print(game.room .. " " .. game.x .. " " .. game.y .. " " .. game.direction)
 end
 
 return move

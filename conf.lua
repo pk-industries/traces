@@ -24,7 +24,7 @@ function love.conf(t)
     t.window.fullscreentype = "desktop" -- Choose between "desktop" fullscreen or "exclusive" fullscreen mode (string)
     t.window.vsync = 1 -- Vertical sync mode (number)
     t.window.msaa = 0 -- The number of samples to use with multi-sampled antialiasing (number)
-    t.window.display = 1 -- Index of the monitor to show the window in (number)
+    -- t.window.display = 1 -- Index of the monitor to show the window in (number)
     t.window.highdpi = false -- Enable high-dpi mode for the window on a Retina display (boolean)
 
     t.modules.audio = true -- Enable the audio module (boolean)

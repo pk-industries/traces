@@ -1,3 +1,11 @@
+require("libs.lovedebug")
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+    require("lldebugger").start()
+end
+package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib"
+local dbg = require("emmy_core")
+dbg.tcpListen("localhost", 9966)
+
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- !! This flag controls the ability to toggle the debug view.         !!
 -- !! You will want to turn this to 'true' when you publish your game. !!
@@ -35,7 +43,10 @@ CONFIG = {
         }
     },
     window = {
-        icon = "assets/images/icon.png"
+        icon = "assets/images/icon.png",
+        scale = 1,
+        width = 400,
+        height = 240
     },
     debug = {
         -- The key (scancode) that will toggle the debug state.
@@ -64,6 +75,14 @@ CONFIG = {
         }
     }
 }
+
+CONFIG.window.resize = function(newScale)
+    CONFIG.window.scale = newScale
+    local w = CONFIG.window.width
+    local h = CONFIG.window.height
+    local s = CONFIG.window.scale
+    love.window.setMode(w * s, h * s)
+end
 
 local function makeFont(path)
     return setmetatable(
