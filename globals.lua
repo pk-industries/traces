@@ -92,14 +92,8 @@ Fonts = {
     pixel = makeFont "assets/fonts/Pixel.ttf"
 }
 Colors = {
-    darkGrey = {84, 84, 84, 1},
-    green = {0, 1, 0, 1},
-    blue = {0, 0, 1, 1},
     white = {1, 1, 1, 1},
-    black = {0, 0, 0, 1},
-    bg = hex("#b1aea8"),
-    text = hex("#322f29"),
-    red = hex("#d60037")
+    black = {0, 0, 0, 1}
 }
 
 Fonts.default = Fonts.regular
