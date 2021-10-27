@@ -33,12 +33,12 @@ local _Debug = {
 --Settings
 _DebugSettings = {
     MultipleErrors = false,
-    OverlayColor = {0, 0, 0},
-    DrawOnTop = true,
+    OverlayColor = {0, 0, 0, 0.5},
+    DrawOnTop = false,
     LiveAuto = false,
     LiveFile = "main.lua",
     LiveReset = false,
-    HaltExecution = true,
+    HaltExecution = false,
     AutoScroll = false
 }
 
@@ -565,7 +565,7 @@ end
 
 --Handle Keypresses
 _Debug.handleKey = function(a)
-    local activekey = love.system.getOS() ~= "Android" and (_lovedebugpresskey or "f8") or "menu"
+    local activekey = "lshift"
     if a == activekey then
         if love.keyboard.isDown("lshift", "rshift", "lctrl", "rctrl") then --Support for both Shift and CTRL
             _Debug.drawOverlay = not _Debug.drawOverlay --Toggle

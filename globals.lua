@@ -1,11 +1,3 @@
-require("libs.lovedebug")
-if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
-    require("lldebugger").start()
-end
-package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib"
-local dbg = require("emmy_core")
-dbg.tcpListen("localhost", 9966)
-
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- !! This flag controls the ability to toggle the debug view.         !!
 -- !! You will want to turn this to 'true' when you publish your game. !!
@@ -14,7 +6,7 @@ RELEASE = false
 
 -- Enables the debug stats
 DEBUG = not RELEASE
-
+require "utils.debug"
 GameState = require "libs.gamestate"
 require "libs.tablesave"
 Husl = require "libs.husl"
@@ -145,3 +137,16 @@ function FileExists(name)
         return false
     end
 end
+
+---@class love.shader
+PlayDateShader =
+    love.graphics.newShader [[
+vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords ){
+	vec4 pixel = Texel(texture, texture_coords );
+	if(pixel.r < 0.65) {
+		return vec4(0.193, 0.184, 0.158, pixel.a);
+	} else {
+		return vec4(0.747, 0.757, 0.743, pixel.a);
+	}
+}
+]]

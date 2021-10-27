@@ -2,7 +2,7 @@ require "globals"
 
 function love.load()
     love.window.setTitle("traces")
-    CONFIG.window.resize(1)
+    CONFIG.window.resize(CONFIG.window.scale)
     GameState.registerEvents()
     GameState.switch(States.welcome)
 end
@@ -11,7 +11,13 @@ function love.update(dt)
 end
 
 function love.draw()
+    -- canvas:setFilter("nearest", "nearest", 1)
+    love.graphics.setDefaultFilter("nearest", "nearest", 1)
+    love.graphics.setLineStyle("rough")
+    love.graphics.setShader(PlayDateShader)
+
     GameState.current():draw()
+    love.graphics.setShader()
 end
 
 function love.keypressed(key, code)
@@ -25,5 +31,9 @@ function love.keypressed(key, code)
 end
 
 function love.threaderror(thread, errorMessage)
-    print("Thread error!\n" .. errorMessage)
+    debugger:errorhandler(errorMessage)
+end
+
+function love.errorMessage(msg, trace)
+    debugger:errorhandler(msg, trace)
 end

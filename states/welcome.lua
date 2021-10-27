@@ -1,12 +1,10 @@
 local welcome = {}
-
 -- Menus
 local menus = require("utils.menus")
 local mainmenu, pos = menus.mainmenu, menus.pos
 
-function welcome:init()
-    love.graphics.setFont(Fonts.pixel[12])
-
+function welcome:enter()
+    love.graphics.setBackgroundColor(Colors.white)
     MenuEngine.disable()
     mainmenu:setDisabled(false)
 end
@@ -20,11 +18,9 @@ function welcome:leave()
 end
 
 function welcome:draw()
-    love.graphics.setBackgroundColor(Colors.white)
     local frame = love.graphics.newImage("assets/images/house.png")
     love.graphics.draw(frame, -15, 0)
     love.graphics.draw(love.graphics.newImage("assets/images/traces.png"), pos.x, 10)
-
     MenuEngine.draw()
 end
 
