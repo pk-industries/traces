@@ -36,7 +36,7 @@ CONFIG = {
     },
     window = {
         icon = "assets/images/icon.png",
-        scale = 1,
+        scale = 2,
         width = 400,
         height = 240
     },
@@ -111,22 +111,37 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
+Rooms = require("rooms")
+
 States = {
     welcome = require "states.welcome",
     game = require "states.game",
     pause = require "states.pause"
 }
 
+function set(...)
+    local ret = {}
+    for _, k in ipairs({...}) do
+        ret[k] = true
+    end
+    return ret
+end
+---@class Controls
+---@field up "up"
+---@field down "down"
+---@field left "left"
+---@field right "right"
+---@field enter "return"
+---@field pause "p"
 Controls = {
     up = "up",
     down = "down",
     left = "left",
     right = "right",
     enter = "return",
-    pause = "p"
+    pause = "p",
+    arrowkeys = set("up", "down", "left", "right")
 }
-
-Rooms = require("rooms")
 
 function FileExists(name)
     local f = io.open(name, "r")
@@ -150,3 +165,5 @@ vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords 
 	}
 }
 ]]
+
+-- GameObject = require "libs.gameobject"

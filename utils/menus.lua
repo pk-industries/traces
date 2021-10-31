@@ -1,7 +1,3 @@
-local mainmenu, options, new_game, pausemenu
-
-local pos = {x = 310, y = 125}
-
 function FileExists(name)
     local f = io.open(name, "r")
     if f ~= nil then
@@ -11,11 +7,13 @@ function FileExists(name)
         return false
     end
 end
-mainmenu = MenuEngine.new(pos.x, pos.y)
+
+mainmenu = MenuEngine.new(0, 0)
 
 mainmenu:addEntry(
     "Enter",
     function()
+        print("Entering game")
         GameState.switch(States.game)
     end
 )
@@ -28,7 +26,7 @@ mainmenu:addEntry(
     end
 )
 
-options = MenuEngine.new(pos.x, pos.y)
+options = MenuEngine.new(0, 0)
 if FileExists("save.lua") then
     options:addEntry(
         "New Game",
@@ -40,7 +38,7 @@ if FileExists("save.lua") then
     )
 end
 
-new_game = MenuEngine.new(pos.x, pos.y)
+new_game = MenuEngine.new(0, 0)
 
 new_game:addEntry("Are you sure?")
 
@@ -83,7 +81,7 @@ mainmenu:addEntry(
     end
 )
 
-pausemenu = MenuEngine.new(pos.x, pos.y)
+pausemenu = MenuEngine.new(0, 0)
 pausemenu:addEntry(
     "Resume Game",
     function()
@@ -106,11 +104,3 @@ new_game:setColorNormal(Colors.black)
 new_game:setColorSelected(Colors.black)
 pausemenu:setColorNormal(Colors.black)
 pausemenu:setColorSelected(Colors.black)
-
-return {
-    mainmenu = mainmenu,
-    options = options,
-    new_game = new_game,
-    pausemenu = pausemenu,
-    pos = pos
-}

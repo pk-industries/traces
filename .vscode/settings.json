@@ -1,6 +1,10 @@
 {
   "Lua.runtime.version": "LuaJIT",
-  "Lua.workspace.library": ["${3rd}/love2d/library"],
+  "Lua.workspace.library": [
+    "${3rd}/love2d/library",
+    "${3rd}/love2d/love-api",
+    "libs"
+  ],
 
   "Lua.diagnostics.globals": [
     "love",
@@ -44,8 +48,7 @@
     "editor.tabCompletion": "on",
     "editor.quickSuggestionsDelay": 1
   },
-  "lua.targetVersion": "5.3",
-  "Lua.diagnostics.disable": [
-  ],
-  "Lua.workspace.checkThirdParty": false
+  "Lua.diagnostics.disable": [],
+  "Lua.workspace.checkThirdParty": false,
+  "Lua.diagnostics.enable": true
 }
