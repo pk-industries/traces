@@ -111,7 +111,7 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-Rooms = require("rooms")
+House = require("rooms")
 
 States = {
     welcome = require "states.welcome",
@@ -139,6 +139,7 @@ Controls = {
     left = "left",
     right = "right",
     enter = "return",
+    back = "escape",
     pause = "p",
     arrowkeys = set("up", "down", "left", "right")
 }

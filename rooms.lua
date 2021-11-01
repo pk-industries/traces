@@ -1,183 +1,237 @@
----@alias Direction "e"|"n"|"s"|"w"
----@alias RoomName "bedroom"|"bathroom"|"kitchen"|"livingroom"
-
----@class Exit
----@field wall Direction
----@field x number
----@field y number
-local Exit =
-    Class {
-    ---@param wall Direction
-    ---@param x number
-    ---@param y number
-    init = function(self, direction, x, y)
-        self.direction = direction
-        self.x = x
-        self.y = y
-        self.locked = true
-    end
-}
----@class View : Exit
-local View =
-    Class {
-    __includes = Exit,
-    draw = function(self)
-        love.graphics.setColor(0, 0, 0)
-        love.graphics.rectangle("fill", self.x, self.y, 32, 32)
-        love.graphics.setColor(255, 255, 255)
-        love.graphics.rectangle("line", self.x, self.y, 32, 32)
-    end
-}
-
----@class Room
----@field name string
----@field width number
----@field height number
----@field exits table<RoomName, Exit>
----@return Room
-local Room =
-    Class {
-    ---@param self Room
-    ---@param name string
-    ---@param width number
-    ---@param height number
-    ---@param exits table<RoomName, View> | nil
-    ---@param views table<RoomName, Exit> | nil
-    init = function(self, name, width, height, exits, views)
-        self.name = name
-        self.width = width
-        self.height = height
-        self.exits = exits or {}
-        self.views = views or {}
-    end
-}
-Radio = View("e", 2, 2)
-
-local bedroom =
-    Room(
-    "bedroom",
-    2,
-    2,
-    {
-        bathroom = Exit("n", 2, 2),
-        closet = Exit("s", 1, 1),
-        hall = Exit("w", 1, 2)
-    },
-    {
-        radio = Radio
-    }
-)
-bedroom.views.bedroom = Radio
-
-function Radio:enter()
-    print("Radio:enter")
+local function positionCollision(pos, col)
+    return pos.direction == col.direction and pos.x == col.x and pos.y == col.y
 end
 
-local Rooms = {
-    bedroom = bedroom,
-    hall = {
-        name = "hall",
-        width = 1,
-        height = 2,
-        description = "You are in a hall. There is a door to the north.",
-        {
-            ["bedroom"] = Exit("w", 1, 2),
-            ["closet"] = Exit("s", 1, 1),
-            ["hall"] = Exit("w", 1, 2)
-        }
-    },
-    livingroom = {
-        name = "livingroom",
-        width = 3,
-        height = 3,
-        description = "You are in a living room. There is a couch and a TV."
-    },
-    ---@param name RoomName
-    getRoom = function(self, name)
-        return self[name]
-    end,
-    getRoomExits = function(self, name)
-        return self[name].exits
-    end,
-    getRoomViews = function(self, name)
-        return self[name].views
-    end,
-    getRoomSize = function(self, name)
-        local room = self[name]
-        return room.width, room.height
+---@alias RoomId string | "bedroom"
+---@alias Direction string | "n" | "s" | "e" | "w"
+--  The position of the player in the home
+---@class HomePosition
+---@field id string | "bedroom" | "hall"
+---@field x number x-axis position
+---@field y number y-axis position
+---@field direction Direction
+HomePosition =
+    Class {
+    init = function(self)
+        local save, error = table.load("save.lua")
+        if save then
+            for k, v in pairs(save) do
+                self[k] = v
+            end
+        else
+            self.id = "bedroom"
+            self.x = 2
+            self.y = 1
+            self.direction = "n"
+            self.child = nil
+            print(error)
+        end
+        print(Inspect(self))
     end
 }
 
+---@class Room : HomePosition
+---@see HomePosition
+---@field width number
+---@field height number
+---@field children table<RoomId, Child>
+---@field move fun(key:love.Scancode):nil
 Room =
     Class {
-    init = function(self, tbl)
+    __includes = HomePosition,
+    init = function(self, id, tbl)
+        self.id = id
         for k, v in pairs(tbl) do
             self[k] = v
         end
     end
 }
 
-function Room:move(key)
-    if self.direction == "n" then
-        if key == Controls.up and self.y + 1 <= self.height then
-            self.y = self.y + 1
-        elseif key == Controls.right then
-            self.direction = "e"
-        elseif key == Controls.down and self.y - 1 >= 1 then
-            self.y = self.y - 1
-        elseif key == Controls.left then
-            self.direction = "w"
-        end
-    elseif self.direction == "e" then
-        if key == Controls.up and self.x + 1 <= self.width then --
-            self.x = self.x + 1
-        elseif key == Controls.right then
-            self.direction = "s"
-        elseif key == Controls.down and self.x - 1 >= 1 then
-            self.x = self.x - 1
-        elseif key == Controls.left then
-            self.direction = "n"
-        end
-    elseif self.direction == "s" then
-        if key == Controls.up and self.y - 1 >= 1 then
-            self.y = self.y - 1
-        elseif key == Controls.right then
-            self.direction = "w"
-        elseif key == Controls.down and self.y + 1 <= self.height then
-            self.y = self.y + 1
-        elseif key == Controls.left then
-            self.direction = "e"
-        end
-    elseif self.direction == "w" then
-        if key == Controls.up and self.x - 1 >= 1 then
-            self.x = self.x - 1
-        elseif key == Controls.right then
-            self.direction = "n"
-        elseif key == Controls.down and self.x + 1 <= self.width then
-            self.x = self.x + 1
-        elseif key == Controls.left then
-            self.direction = "s"
-        end
+function Room:draw()
+    local cstate = GameState.current()
+    local d, x, y = cstate.direction, cstate.x, cstate.y
+    local assetsdir = "assets/images/"
+    local roomdir = assetsdir .. self.id .. "/" --- /assets/images/bedroom/
+    local filename = "x" .. x .. "y" .. y .. "_" .. d .. "_" .. self.id .. ".png"
+
+    local filepath = roomdir .. filename
+
+    if love.filesystem.getInfo(filepath) then
+        local img = love.graphics.newImage(filepath)
+        local scale = CONFIG.window.scale
+        love.graphics.draw(img, 0, 0, 0, scale, scale)
+    else
+        print("File not found: " .. filepath)
     end
-    -- self.exit = self:isexit()
-    -- self.view = self:isview()
-    -- self.bgimg = self:getbgimg()
-    print("{  " .. self.direction .. ", " .. self.x .. " , " .. self.y .. ", " .. " }")
 end
 
-Bedroom = {
-    name = "bedroom",
-    width = 2,
-    height = 2,
-    description = "You are in a bedroom.",
-    exits = {
-        bathroom = Exit("n", 2, 2),
-        closet = Exit("s", 1, 1),
-        hall = Exit("w", 1, 2)
-    },
-    views = {
-        radio = Radio
-    }
+function Room:move(key)
+    local cstate = GameState.current()
+    local d, x, y = cstate.direction, cstate.x, cstate.y
+    local w, h = cstate.room.width, cstate.room.height
+
+    local nstate = {}
+
+    if d == "n" then
+        if key == Controls.up and y + 1 <= h then
+            nstate.y = y + 1
+        elseif key == Controls.right then
+            nstate.direction = "e"
+        elseif key == Controls.down and y - 1 >= 1 then
+            nstate.y = y - 1
+        elseif key == Controls.left then
+            nstate.direction = "w"
+        end
+    elseif d == "e" then
+        if key == Controls.up and x + 1 <= w then
+            nstate.x = x + 1
+        elseif key == Controls.right then
+            nstate.direction = "s"
+        elseif key == Controls.down and x - 1 >= 1 then
+            nstate.x = x - 1
+        elseif key == Controls.left then
+            nstate.direction = "n"
+        end
+    elseif d == "s" then
+        if key == Controls.up and y - 1 >= 1 then
+            nstate.y = y - 1
+        elseif key == Controls.right then
+            nstate.direction = "w"
+        elseif key == Controls.down and y + 1 <= h then
+            nstate.y = y + 1
+        elseif key == Controls.left then
+            nstate.direction = "e"
+        end
+    elseif d == "w" then
+        if key == Controls.up and x - 1 >= 1 then
+            nstate.x = x - 1
+        elseif key == Controls.right then
+            nstate.direction = "n"
+        elseif key == Controls.down and x + 1 <= w then
+            nstate.x = x + 1
+        elseif key == Controls.left then
+            nstate.direction = "s"
+        end
+    end
+
+    -- only change modified values
+    for k, v in pairs(nstate) do
+        GameState.current()[k] = v
+    end
+
+    self:scanchildren()
+end
+
+function Room:scanchildren()
+    for i, v in ipairs(GameState.current().room.children) do
+        local pos = GameState.current()
+        local ischild = pos.direction == v.direction and pos.x == v.x and pos.y == v.y
+
+        if ischild then
+            GameState.current().child = v
+            print("Child: " .. v.id)
+            return
+        end
+    end
+    GameState.current().child = nil
+end
+
+---@class View : HomePosition
+---@field id RoomId
+---@field init fun(self:View, id:RoomId, d:Direction)
+Child =
+    Class {
+    ---@param id RoomId
+    ---@param x number
+    ---@param tbl table<string,any>
+    init = function(self, id, d, x, y, tbl)
+        self.id = id
+        self.direction = d
+        self.x = x
+        self.y = y
+        for k, v in pairs(tbl) do
+            self[k] = v
+        end
+    end
 }
 
-return Rooms
+local Radio =
+    Child(
+    "radio",
+    "e",
+    2,
+    2,
+    {
+        init = function(self)
+            self.active = false
+            print("Radio:init()")
+        end,
+        draw = function()
+            local img = love.graphics.newImage("assets/images/bedroom/x2y2_e_bedroom_radio.png")
+            local scale = CONFIG.window.scale
+            love.graphics.draw(img, 0, 0, 0, scale, scale)
+        end,
+        keypressed = function(self, key)
+            if key == Controls.back then
+                GameState.pop()
+            end
+        end
+    }
+)
+local Bathroom =
+    Child(
+    "bathroom",
+    "n",
+    2,
+    2,
+    {
+        type = "door",
+        locked = true
+    }
+)
+
+local Closet =
+    Child(
+    "closet",
+    "s",
+    1,
+    1,
+    {
+        type = "door",
+        locked = true
+    }
+)
+
+local Hall =
+    Child(
+    "hall",
+    "w",
+    1,
+    2,
+    {
+        type = "door",
+        locked = true
+    }
+)
+
+Bedroom =
+    Room(
+    "bedroom",
+    {
+        width = 2,
+        height = 2,
+        description = "You are in a bedroom.",
+        children = {
+            Radio,
+            Bathroom,
+            Closet,
+            Hall
+        }
+    }
+)
+
+local House = {
+    bedroom = Bedroom
+}
+
+return House
