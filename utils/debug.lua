@@ -1,10 +1,10 @@
-package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib"
-local dbg = require("emmy_core")
-dbg.tcpListen("localhost", 9966)
-require("libs.lovedebug")
-if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
-    require("lldebugger").start()
-end
+-- package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib"
+-- local dbg = require("emmy_core")
+-- dbg.tcpListen("localhost", 9966)
+-- if arg[#arg] == "vsc_debug" then
+--     require("lldebugger").start()
+-- end
+
 local debugger = {}
 local loadTimeStart = love.timer.getTime()
 
@@ -166,7 +166,7 @@ function debugger:errorhandler(msg)
         if math.abs(translate_vy) > 4 then
             love.graphics.push()
             love.graphics.translate(0, -translate_y)
-            local bar_width = 3
+            local bar_width = 8
             local bar_height = love.graphics.getHeight() ^ 2 / max_translate_y
             local bar_y = -translate_y / max_translate_y * love.graphics.getHeight()
             love.graphics.setColor(1, 1, 1, 0.5)
