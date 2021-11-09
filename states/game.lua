@@ -1,131 +1,78 @@
----@class game
----@field room RoomName
----@field direction Direction
----@field x number
----@field keyreleased love.keyreleased
----@field keypressed love.keypressed
----@field mousepressed love.mousepressed
----@field mousereleased love.mousereleased
----@field mousemoved love.mousemoved
----@field update love.update
----@field draw love.draw
----@field sx love.draw
-local game = {
-    room = "bedroom",
-    direction = "n",
-    y = 1,
-    x = 2,
-    sx = love.graphics.getWidth() / 2,
-    --The center x point
-    sy = love.graphics.getHeight() / 2,
-    --The center y point
-    ox = 0,
-    oy = 1,
-    zoom = 1
-}
-
-function game.frame(self)
-    local img = love.graphics.newImage(self:imgPath())
-    local imgW, imgH = img:getDimensions()
-    local posx = love.graphics.getWidth() / 2
-    --The center x point
-    local posy = love.graphics.getHeight() / 2
-    --The center y point
-    local ox = 0
-    local oy = 1
-    local zoom = 1
-    local sx = posx - (imgW * zoom / 2)
-    local sy = posy - (imgH * zoom / 2)
-    return img, sx, sy, 0, zoom, zoom
-end
-
--- local img = img --Your image
--- local imgW = img:getWidth() --Get your image size
--- local imgH = img:getHeight() --Get your image size
--- local zoom = n --Your zoom factor (to zoom in, must be bigger than 1)
-
---if you want it based on position:
--- love.graphics.draw(img, posx - (imgW * zoom / 2), posy - (imgH * zoom / 2), 0, zoom, zoom)
-
+---@class Game:HomePosition
+---@field room Room @The room the player is in.
+---@field x number @The x position of the player.
+local game = {}
+-- Called once, and only once, before entering the state the first time. See Gamestate.switch()
 function game:init()
-    local save = table.load("save.lua")
-    if save then
-        for k, v in pairs(save) do
-            game[k] = v
+    local savedata = table.load("save.lua")
+    if savedata then
+        for k, v in pairs(savedata) do
+            self[k] = v
         end
-    end
-end
-
---- /path/to/your/img.png
----@return string
-function game.imgPath(self)
-    local imgDir = "assets/images"
-    local path =
-        imgDir ..
-        "/" .. self.room .. "/" .. "x" .. self.x .. "y" .. self.y .. "_" .. self.direction .. "_" .. self.room .. ".png"
-    return path
-end
-
-game.move = require "utils.move"
-
-function game.facingExit(self)
-    local exits = Rooms[self.room].exits
-    local facing = nil
-    for k, v in pairs(exits) do
-        local wall, x, y = v.wall, v.x, v.y
-        if wall == self.direction and x == self.x and y == self.y then
-            return k
-        end
-    end
-    return facing
-end
-
-function game:enter()
-end
-
-function game:leave()
-end
-
-function game:update(dt)
-end
-
-function game:keypressed(key, code)
-    local stats = {
-        "room: " .. self.room,
-        "direction: " .. self.direction,
-        "x: " .. self.x,
-        "y: " .. self.y
-    }
-    if game:facingExit() then
-        table.insert(stats, "facing exit: " .. game:facingExit())
-    end
-    local msg = ""
-    for _, val in ipairs(stats) do
-        -- print(val)
-    end
-
-    game.zoom = 1
-end
-
-function game:keyreleased(key, code)
-    -- game.kx = 1
-    -- game.ky = 1
-    if key == Controls.pause then
-        GameState.switch(States.pause)
     else
-        game:move(key)
+        self.roomid = "bedroom"
+        self.x = 2
+        self.y = 2
+        self.direction = "e"
+        self.child = nil
+    end
+
+    print("Game state loaded")
+end
+
+-- Called every time when entering the state. See Gamestate.switch().
+function game:enter()
+    self.room = House[self.roomid]
+end
+
+-- Update the game state. Called every frame.
+-- function game:update()
+-- end
+-- Triggered when a key is pressed.
+function game:keypressed(key)
+    if Controls.arrowkeys[key] then -- if the key is [up|down|left|right]
+        self.room:move(key)
     end
 end
 
+-- Triggered when a key is released.
+function game:keyreleased(key)
+    if key == Controls.enter and game.child then
+        GameState.push(game.child)
+    end
+end
+
+-- Draw on the screen. Called every frame.
 function game:draw()
-    love.graphics.setFont(Fonts.monospace[12])
-    local filePath = game:imgPath()
-    local img = love.graphics.newImage(filePath)
-    local imgW = img:getWidth()
-    local imgH = img:getHeight()
-    local zoom = game.zoom
-    love.graphics.draw(img, 0, 0)
-    -- love.graphics.draw(img, game.sx - (imgW * zoom / 2), game.sy - (imgH * zoom / 2), 0, zoom, zoom)
+    if game.room then
+        game.room:draw()
+    end
 end
 
 return game
+
+-- Called when leaving a state. See Gamestate.switch() and Gamestate.pop().
+-- function game:leave()
+-- end
+
+-- Called if the window gets or loses focus.
+-- function game:focus()
+-- end
+
+-- Triggered when a mouse button is pressed.
+-- function game:mousepressed()
+-- end
+
+-- Triggered when a mouse button is released.
+-- function game:mousereleased()
+-- end
+
+-- Triggered when a joystick button is pressed.
+-- function game:joystickpressed()
+-- end
+
+-- Triggered when a joystick button is released.
+-- function game:joystickreleased()
+-- end
+
+-- Called on quitting the game. Only called on the active gamestate.

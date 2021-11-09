@@ -6,7 +6,7 @@ RELEASE = false
 
 -- Enables the debug stats
 DEBUG = not RELEASE
-
+require "utils.debug"
 GameState = require "libs.gamestate"
 require "libs.tablesave"
 Husl = require "libs.husl"
@@ -35,7 +35,10 @@ CONFIG = {
         }
     },
     window = {
-        icon = "assets/images/icon.png"
+        icon = "assets/images/icon.png",
+        scale = 2,
+        width = 400,
+        height = 240
     },
     debug = {
         -- The key (scancode) that will toggle the debug state.
@@ -65,6 +68,14 @@ CONFIG = {
     }
 }
 
+CONFIG.window.resize = function(newScale)
+    CONFIG.window.scale = newScale
+    local w = CONFIG.window.width
+    local h = CONFIG.window.height
+    local s = CONFIG.window.scale
+    love.window.setMode(w * s, h * s)
+end
+
 local function makeFont(path)
     return setmetatable(
         {},
@@ -92,19 +103,15 @@ Fonts = {
     pixel = makeFont "assets/fonts/Pixel.ttf"
 }
 Colors = {
-    darkGrey = {84, 84, 84, 1},
-    green = {0, 1, 0, 1},
-    blue = {0, 0, 1, 1},
     white = {1, 1, 1, 1},
-    black = {0, 0, 0, 1},
-    bg = hex("#b1aea8"),
-    text = hex("#322f29"),
-    red = hex("#d60037")
+    black = {0, 0, 0, 1}
 }
 
 Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
+
+House = require("rooms")
 
 States = {
     welcome = require "states.welcome",
@@ -112,16 +119,30 @@ States = {
     pause = require "states.pause"
 }
 
+function set(...)
+    local ret = {}
+    for _, k in ipairs({...}) do
+        ret[k] = true
+    end
+    return ret
+end
+---@class Controls
+---@field up "up"
+---@field down "down"
+---@field left "left"
+---@field right "right"
+---@field enter "return"
+---@field pause "p"
 Controls = {
     up = "up",
     down = "down",
     left = "left",
     right = "right",
     enter = "return",
-    pause = "p"
+    back = "escape",
+    pause = "p",
+    arrowkeys = set("up", "down", "left", "right")
 }
-
-Rooms = require("rooms")
 
 function FileExists(name)
     local f = io.open(name, "r")
@@ -132,3 +153,18 @@ function FileExists(name)
         return false
     end
 end
+
+---@class love.shader
+PlayDateShader =
+    love.graphics.newShader [[
+vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords ){
+	vec4 pixel = Texel(texture, texture_coords );
+	if(pixel.r < 0.65) {
+		return vec4(0.193, 0.184, 0.158, pixel.a);
+	} else {
+		return vec4(0.747, 0.757, 0.743, pixel.a);
+	}
+}
+]]
+
+-- GameObject = require "libs.gameobject"

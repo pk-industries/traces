@@ -1,9 +1,8 @@
+require("utils.menus")
 local pause = {}
-local menus = require("utils.menus")
-local pausemenu, pos = menus.pausemenu, menus.pos
 
 -- Called once, and only once, before entering the state the first time. See Gamestate.switch().
-function pause:init(self)
+function pause:init()
 end
 
 -- Called every time when entering the state. See Gamestate.switch().
