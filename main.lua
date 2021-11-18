@@ -32,15 +32,12 @@ function love.keypressed(key, code)
         CONFIG.window.resize(3)
     end
 end
+
 function love.threaderror(thread, errorMessage)
     debugger:errorhandler(errorMessage)
 end
+
 ---@type love.errorhandler
 function love.errorMessage(msg, trace)
     debugger:errorhandler(msg, trace)
-end
-
----@type love.mousemoved
-function love.mousemoved(id, x, y, dx, dy, pressure)
-    -- print(id, x, y, dx, dy, pressure)
 end

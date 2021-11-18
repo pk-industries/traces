@@ -111,8 +111,6 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-House = require("rooms")
-
 States = {
     welcome = require "states.welcome",
     game = require "states.game",

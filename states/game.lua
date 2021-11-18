@@ -1,3 +1,4 @@
+local Bedroom = require "house.bedroom.bedroom"
 ---@class Game:HomePosition
 ---@field room Room @The room the player is in.
 ---@field x number @The x position of the player.
@@ -22,7 +23,7 @@ end
 
 -- Called every time when entering the state. See Gamestate.switch().
 function game:enter()
-    self.room = House[self.roomid]
+    self.room = Bedroom
 end
 
 -- Update the game state. Called every frame.
