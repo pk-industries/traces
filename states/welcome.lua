@@ -1,9 +1,16 @@
 local welcome = {}
 -- Menus
 require("utils.menus")
+---@type table<number, Menu>
+local menulist = {Mainmenu, OptionsMenu, NewGameMenu, PauseMenu}
+
+for i, v in ipairs(menulist) do
+    v:setColorNormal(Colors.black)
+    v:setColorSelected(Colors.black)
+end
 
 local function menuposition()
-    local menux = love.graphics.getWidth() * .75
+    local menux = love.graphics.getWidth() * .72
     local menuy = love.graphics.getHeight() * .65
     return menux, menuy
 end
@@ -11,13 +18,7 @@ end
 function welcome:enter()
     love.graphics.setBackgroundColor(Colors.white)
     MenuEngine.disable()
-    mainmenu:setDisabled(false)
-    local x, y = menuposition()
-    print(x, y)
-    mainmenu:movePosition(x, y)
-    options:movePosition(x, y)
-    new_game:movePosition(x, y)
-    pausemenu:movePosition(x, y)
+    Mainmenu:setDisabled(false)
 end
 
 function welcome:update(dt)
@@ -29,6 +30,29 @@ function welcome:leave()
 end
 
 function welcome:draw()
+    local scale = CONFIG.window.scale
+    if scale == 1 then
+        for _, v in ipairs(menulist) do
+            v:setFont(Fonts.pixel[16])
+        end
+    elseif scale == 2 then
+        for _, v in ipairs(menulist) do
+            v:setFont(Fonts.pixel[28])
+        end
+    elseif scale == 3 then
+        for _, v in ipairs(menulist) do
+            v:setFont(Fonts.pixel[40])
+        end
+    end
+
+    local x, y = menuposition()
+
+    for _, v in ipairs(menulist) do
+        v:movePosition(x, y)
+    end
+
+    MenuEngine.draw()
+
     local house = love.graphics.newImage("assets/images/house.png")
     love.graphics.draw(house, love.graphics.getWidth() * -.1, 0, 0, CONFIG.window.scale, CONFIG.window.scale)
     local traces = love.graphics.newImage("assets/images/traces.png")
@@ -40,8 +64,6 @@ function welcome:draw()
         CONFIG.window.scale,
         CONFIG.window.scale
     )
-
-    MenuEngine.draw()
 end
 
 function welcome:keypressed(key, scancode, isrepeat)
