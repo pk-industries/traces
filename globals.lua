@@ -21,6 +21,9 @@ Inspect = require "libs.inspect"
 MenuEngine = require "libs.menuengine"
 MenuEngine.stop_on_nil_functions = false
 require "libs.colorize"
+-- local conf = require "conf"
+-- print(Inspect(conf))
+
 CONFIG = {
     saveDir = love.filesystem.getSaveDirectory(),
     graphics = {
@@ -38,7 +41,8 @@ CONFIG = {
         icon = "assets/images/icon.png",
         scale = 2,
         width = 400,
-        height = 240
+        height = 240,
+        flags = {}
     },
     debug = {
         -- The key (scancode) that will toggle the debug state.
@@ -68,12 +72,20 @@ CONFIG = {
     }
 }
 
-CONFIG.window.resize = function(newScale)
+local windowsettings = table.load(".settings.lua")
+print(Inspect(windowsettings))
+if windowsettings then
+    CONFIG.window = windowsettings
+end
+
+CONFIG.window.resize = function(newScale, flags)
     CONFIG.window.scale = newScale
     local w = CONFIG.window.width
     local h = CONFIG.window.height
     local s = CONFIG.window.scale
-    love.window.setMode(w * s, h * s)
+
+    CONFIG.window.flags = flags
+    love.window.setMode(w * s, h * s, CONFIG.window.flags)
 end
 
 local function makeFont(path)

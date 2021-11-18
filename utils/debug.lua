@@ -5,10 +5,10 @@
 --     require("lldebugger").start()
 -- end
 
-local debugger = {}
+Debugger = {}
 local loadTimeStart = love.timer.getTime()
 
-function debugger:load()
+function Debugger:load()
     love.window.setIcon(love.image.newImageData(CONFIG.window.icon))
     love.graphics.setDefaultFilter(
         CONFIG.graphics.filter.down,
@@ -30,7 +30,7 @@ function debugger:load()
     return callbacks
 end
 
-function debugger:draw(drawTimeStart, drawTimeEnd, drawTime)
+function Debugger:draw(drawTimeStart, drawTimeEnd, drawTime)
     if DEBUG then
         love.graphics.push()
 
@@ -69,7 +69,7 @@ function debugger:draw(drawTimeStart, drawTimeEnd, drawTime)
     end
 end
 
-function debugger:keypressed(key, code)
+function Debugger:keypressed(key, code)
     if not RELEASE and code == CONFIG.debug.key then
         DEBUG = not DEBUG
         Saver:save("debug", DEBUG)
@@ -85,7 +85,7 @@ local function error_printer(msg, layer)
     print((debug.traceback("Error: " .. tostring(msg), 1 + (layer or 1)):gsub("\n[^\n]+$", "")))
 end
 
-function debugger:errorhandler(msg)
+function Debugger:errorhandler(msg)
     msg = tostring(msg)
 
     error_printer(msg, 2)
@@ -279,5 +279,3 @@ function debugger:errorhandler(msg)
         return msg
     end
 end
-
-return debugger
