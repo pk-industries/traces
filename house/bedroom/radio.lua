@@ -1,7 +1,7 @@
 require "house.room"
 
-local static = love.audio.newSource("assets/sounds/static.mp3", "stream")
-local click = love.audio.newSource("assets/sounds/button_press.wav", "static")
+-- local static = love.audio.newSource("assets/sounds/static.mp3", "stream")
+-- local click = love.audio.newSource("assets/sounds/button_press.wav", "static")
 
 local Radio = Child("radio", "e", 2, 2)
 Radio.tuner = {
@@ -16,7 +16,6 @@ local stations = {}
 function Radio:init()
     self.active = false
     Radio.tuner.x = Radio.tuner.xmin
-    print("Radio:init()")
 end
 
 function Radio:enter()
@@ -24,7 +23,6 @@ end
 
 function Radio:update(dt)
     local newpos = Radio.tuner.x + Radio.tuner.velx * dt
-    print(newpos)
     if newpos > Radio.tuner.xmin and newpos < Radio.tuner.xmax then
         Radio.tuner.x = newpos
     end

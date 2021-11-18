@@ -26,7 +26,6 @@ HomePosition =
             self.child = nil
             print(error)
         end
-        print(Inspect(self))
     end
 }
 
@@ -50,6 +49,8 @@ Room =
         end
     end,
     update = function(self, dt)
+    end,
+    leave = function(self)
     end
 }
 
@@ -69,6 +70,7 @@ function Room:draw()
     else
         print("File not found: " .. filepath)
     end
+    -- collectgarbage()
 end
 
 function Room:keypressed(key)
@@ -118,6 +120,7 @@ function Room:keypressed(key)
         elseif key == Controls.left then
             nstate.direction = "s"
         end
+    -- collectgarbage()
     end
 
     -- only change modified values
@@ -129,14 +132,13 @@ function Room:keypressed(key)
 end
 
 function Room:scanchildren()
-    print("Scanning children")
     for i, v in ipairs(GameState.current().room.children) do
         local pos = GameState.current()
         local ischild = pos.direction == v.direction and pos.x == v.x and pos.y == v.y
 
         if ischild then
             GameState.current().child = v
-            print("Child: " .. v.id)
+            -- print("Child: " .. v.id)
             return
         end
     end

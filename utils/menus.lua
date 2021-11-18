@@ -1,3 +1,5 @@
+local OptionsMenu, NewGameMenu, PauseMenu, Mainmenu
+
 function FileExists(name)
     local f = io.open(name, "r")
     if f ~= nil then
@@ -8,7 +10,7 @@ function FileExists(name)
     end
 end
 
-Mainmenu = MenuEngine.new(0, 0)
+local Mainmenu = MenuEngine.new(0, 0)
 
 Mainmenu:addEntry(
     "Enter",
@@ -96,3 +98,10 @@ PauseMenu:addEntry(
         PauseMenu.quit()
     end
 )
+
+return {
+    Mainmenu = Mainmenu,
+    OptionsMenu = OptionsMenu,
+    NewGameMenu = NewGameMenu,
+    PauseMenu = PauseMenu
+}

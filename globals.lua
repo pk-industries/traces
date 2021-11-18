@@ -21,8 +21,6 @@ Inspect = require "libs.inspect"
 MenuEngine = require "libs.menuengine"
 MenuEngine.stop_on_nil_functions = false
 require "libs.colorize"
--- local conf = require "conf"
--- print(Inspect(conf))
 
 CONFIG = {
     saveDir = love.filesystem.getSaveDirectory(),
@@ -73,7 +71,7 @@ CONFIG = {
 }
 
 local windowsettings = table.load(".settings.lua")
-print(Inspect(windowsettings))
+
 if windowsettings then
     CONFIG.window = windowsettings
 end

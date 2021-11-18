@@ -1,8 +1,11 @@
+local Menus = require "utils.menus"
+
 local welcome = {}
+
 -- Menus
 require("utils.menus")
 ---@type table<number, Menu>
-local menulist = {Mainmenu, OptionsMenu, NewGameMenu, PauseMenu}
+local menulist = {Menus.Mainmenu, Menus.OptionsMenu, Menus.NewGameMenu, Menus.PauseMenu}
 
 for i, v in ipairs(menulist) do
     v:setColorNormal(Colors.black)
@@ -18,19 +21,22 @@ end
 function welcome:enter()
     love.graphics.setBackgroundColor(Colors.white)
     MenuEngine.disable()
-    Mainmenu:setDisabled(false)
+    Menus.Mainmenu:setDisabled(false)
 end
 
 function welcome:update(dt)
     MenuEngine.update()
+    collectgarbage()
 end
 
 function welcome:leave()
     MenuEngine.disable()
 end
 
+local scale = CONFIG.window.scale
+
 function welcome:draw()
-    local scale = CONFIG.window.scale
+    local x, y = menuposition()
     if scale == 1 then
         for _, v in ipairs(menulist) do
             v:setFont(Fonts.pixel[16])
@@ -44,8 +50,6 @@ function welcome:draw()
             v:setFont(Fonts.pixel[40])
         end
     end
-
-    local x, y = menuposition()
 
     for _, v in ipairs(menulist) do
         v:movePosition(x, y)
@@ -64,6 +68,7 @@ function welcome:draw()
         CONFIG.window.scale,
         CONFIG.window.scale
     )
+    collectgarbage()
 end
 
 function welcome:keypressed(key, scancode, isrepeat)
@@ -71,9 +76,7 @@ function welcome:keypressed(key, scancode, isrepeat)
         love.event.quit()
     end
     MenuEngine.keypressed(scancode)
+    collectgarbage()
 end
 
-function welcome:mousemoved(x, y, dx, dy, istouch)
-    MenuEngine.mousemoved(x, y)
-end
 return welcome

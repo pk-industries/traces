@@ -1,4 +1,4 @@
-require "utils.debug"
+-- require "utils.debug"
 require "globals"
 
 ---@type love.load
@@ -8,10 +8,14 @@ function love.load()
     CONFIG.window.resize(CONFIG.window.scale, CONFIG.window.flags)
     GameState.registerEvents()
     GameState.switch(States.welcome)
+    collectgarbage()
 end
+
 ---@type love.update
 function love.update(dt)
+    collectgarbage("collect", 0)
 end
+
 ---@type love.draw
 function love.draw()
     -- canvas:setFilter("nearest", "nearest", 1)
@@ -21,6 +25,7 @@ function love.draw()
 
     GameState.current():draw()
     love.graphics.setShader()
+    -- collectgarbage()
 end
 
 ---@type love.keypressed
@@ -46,10 +51,11 @@ function love.keypressed(key, code)
 end
 
 function love.threaderror(thread, errorMessage)
-    Debugger:errorhandler(errorMessage)
+    print(errorMessage)
 end
 
 ---@type love.errorhandler
 function love.errorMessage(msg, trace)
-    Debugger:errorhandler(msg, trace)
+    print(msg)
+    -- Debugger:errorhandler(msg, trace)
 end

@@ -5,6 +5,8 @@ local Closet = require "house.bedroom.closet"
 local Hall = require "house.bedroom.hall"
 local Bathroom = require "house.bedroom.bathroom"
 
+local Dresser = Child("dresser", "s", 2, 1, {})
+
 local Bedroom =
     Room(
     "bedroom",
@@ -16,6 +18,7 @@ local Bedroom =
         height = 2,
         description = "You are in a bedroom.",
         children = {
+            Dresser,
             Radio,
             Bathroom,
             Closet,
