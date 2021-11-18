@@ -1,32 +1,35 @@
 require "house.room"
 
 local static = love.audio.newSource("assets/sounds/static.mp3", "stream")
+local click = love.audio.newSource("assets/sounds/button_press.wav", "static")
+
 local Radio = Child("radio", "e", 2, 2)
 Radio.tuner = {
     xmin = 308,
     xmax = 728,
-    x = 350,
-    played = false
+    x = 0,
+    velx = 0
 }
+
 local stations = {}
 
 function Radio:init()
     self.active = false
+    Radio.tuner.x = Radio.tuner.xmin
     print("Radio:init()")
 end
 
+function Radio:enter()
+end
+
 function Radio:update(dt)
-    if love.keyboard.isDown(Controls.right) then
-        Radio.tuner.x = Radio.tuner.x + 0.5
-        if Radio.tuner.x > Radio.tuner.xmax then
-            Radio.tuner.x = Radio.tuner.xmin
-        end
-    elseif love.keyboard.isDown(Controls.left) then
-        Radio.tuner.x = Radio.tuner.x - 0.5
-        if Radio.tuner.x < Radio.tuner.xmin then
-            Radio.tuner.x = Radio.tuner.xmax
-        end
+    local newpos = Radio.tuner.x + Radio.tuner.velx * dt
+    print(newpos)
+    if newpos > Radio.tuner.xmin and newpos < Radio.tuner.xmax then
+        Radio.tuner.x = newpos
     end
+    -- Gradually reduce the velocity to create smooth scrolling effect.
+    Radio.tuner.velx = Radio.tuner.velx - Radio.tuner.velx * math.min(dt * 15, 1)
 end
 
 function Radio:draw(key)
@@ -36,24 +39,13 @@ function Radio:draw(key)
     love.graphics.rectangle("fill", Radio.tuner.x, 90, 7, 100)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(img, 0, 0, 0, scale, scale)
+end
 
-    -- debug help
-    love.graphics.setColor(200, 0, 0, 1)
-    love.graphics.print("x: " .. Radio.tuner.x .. "xmin: " .. Radio.tuner.xmin .. "xmax: " .. Radio.tuner.xmax, 0, 0)
+function love.wheelmoved(dx, dy)
+    Radio.tuner.velx = Radio.tuner.velx + dy * 20
 end
 
 function Radio:keypressed(key)
-    local click = love.audio.newSource("assets/sounds/button_press.wav", "static")
-    if key == Controls.right then
-        Radio.tuner.x = Radio.tuner.x + 1
-        if Radio.tuner.x > Radio.tuner.xmax then
-            Radio.tuner.x = Radio.tuner.xmin
-        end
-    end
-
-    if Radio.tuner.x % 10 == 0 then
-        click:play()
-    end
     if key == Controls.back then
         GameState.pop()
     end

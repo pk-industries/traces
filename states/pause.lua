@@ -7,11 +7,11 @@ end
 
 -- Called every time when entering the state. See Gamestate.switch().
 function pause:enter(previous, ...)
-    pausemenu:setDisabled(false)
+    PauseMenu:setDisabled(false)
 end
 -- Called when leaving a state. See Gamestate.switch() and Gamestate.pop().
 function pause:leave()
-    pausemenu:setDisabled(true)
+    PauseMenu:setDisabled(true)
 end
 
 -- Called when re-entering a state by Gamestate.pop()-ing another state.
@@ -20,7 +20,7 @@ end
 
 -- Update the game state. Called every frame.
 function pause:update()
-    pausemenu:update()
+    PauseMenu:update()
 end
 
 -- Draw on the screen. Called every frame.
@@ -29,7 +29,7 @@ function pause:draw()
     local frame = love.graphics.newImage("assets/images/house.png")
     love.graphics.draw(frame, -15, 0)
     love.graphics.draw(love.graphics.newImage("assets/images/traces.png"), pos.x, 10)
-    pausemenu:draw()
+    PauseMenu:draw()
 end
 
 -- Called if the window gets or loses focus.

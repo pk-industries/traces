@@ -9,6 +9,9 @@ local Bedroom =
     Room(
     "bedroom",
     {
+        x = 1,
+        y = 1,
+        direction = "e",
         width = 2,
         height = 2,
         description = "You are in a bedroom.",

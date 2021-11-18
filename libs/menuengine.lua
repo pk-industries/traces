@@ -1,3 +1,29 @@
+---@class Menu
+---@field _finish function
+---@field addEntry function
+---@field addSep function
+---@field args any
+---@field colorNormal table
+---@field colorSelected table
+---@field cursor number @1
+---@field disabled boolean @false
+---@field draw function
+---@field entries table
+---@field font any
+---@field mouseDisable function
+---@field mouseDisabled boolean @false|true
+---@field mouseEnable function
+---@field moveCursor function
+---@field movePosition function
+---@field normalSelectedBegin string @"  "
+---@field normalSelectedEnd string @""
+---@field setArgs function
+---@field setColorNormal function
+---@field setColorSelected function
+---@field disable function @self.disabled = true
+---@field setDisabled fun(arg:boolean) @enable or disable the menu
+---@field setFont fun(font:love.Font) @set the font for the menu
+
 local menuengine = {}
 menuengine.VERSION = "0.9.9e Beta"
 
@@ -41,6 +67,12 @@ menuengine.clicked = false
 menuengine.stop_on_nil_functions = false
 
 -- Constructor
+---@param x number @The X-Position of the Menu
+---@param y number @The Y-Position of the Menu
+---@param font love.Font @The Font of the Menu
+---@param space number @Spaces between Entries. Usually, it should be autodetected by the Font you are using, but sometimes it might be better to set this explicitly. Optional.
+
+---@return Menu
 function menuengine.new(x, y, font, space)
     local self = {}
 

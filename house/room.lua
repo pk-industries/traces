@@ -34,16 +34,22 @@ HomePosition =
 ---@see HomePosition
 ---@field width number
 ---@field height number
----@field children table<RoomId, Child>
+---@field children table<RoomId, View>
 ---@field move fun(key:love.Scancode):nil
+---@field keypressed fun(key:love.Scancode):nil
+---@field update love.update
 Room =
     Class {
     __includes = HomePosition,
     init = function(self, id, tbl)
         self.id = id
-        for k, v in pairs(tbl) do
-            self[k] = v
+        if type(tbl) == "table" then
+            for k, v in pairs(tbl) do
+                self[k] = v
+            end
         end
+    end,
+    update = function(self, dt)
     end
 }
 
@@ -65,7 +71,7 @@ function Room:draw()
     end
 end
 
-function Room:move(key)
+function Room:keypressed(key)
     local cstate = GameState.current()
     local d, x, y = cstate.direction, cstate.x, cstate.y
     local w, h = cstate.room.width, cstate.room.height
@@ -123,6 +129,7 @@ function Room:move(key)
 end
 
 function Room:scanchildren()
+    print("Scanning children")
     for i, v in ipairs(GameState.current().room.children) do
         local pos = GameState.current()
         local ischild = pos.direction == v.direction and pos.x == v.x and pos.y == v.y
@@ -149,8 +156,12 @@ Child =
         self.direction = d
         self.x = x
         self.y = y
-        for k, v in pairs(tbl) do
-            self[k] = v
+        if type(tbl) == "table" then
+            for k, v in pairs(tbl) do
+                self[k] = v
+            end
         end
     end
 }
+
+return Room, Child
