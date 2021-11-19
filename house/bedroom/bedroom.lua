@@ -1,11 +1,8 @@
-require "house.room"
-
 local Radio = require "house.bedroom.radio"
 local Closet = require "house.bedroom.closet"
 local Hall = require "house.bedroom.hall"
 local Bathroom = require "house.bedroom.bathroom"
-
-local Dresser = Child("dresser", "s", 2, 1, {})
+local Dresser = require "house.bedroom.dresser"
 
 local Bedroom =
     Room(

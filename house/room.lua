@@ -3,8 +3,9 @@ local function positionCollision(pos, col)
 end
 
 ---@alias RoomId string | "bedroom"
----@alias Direction string | "n" | "s" | "e" | "w"
---  The position of the player in the home
+---@alias Direction "n" | "s" | "e" | "w"
+
+-- The position of the player in the home
 ---@class HomePosition
 ---@field id string | "bedroom" | "hall"
 ---@field x number x-axis position
@@ -36,7 +37,7 @@ HomePosition =
 ---@field children table<RoomId, View>
 ---@field move fun(key:love.Scancode):nil
 ---@field keypressed fun(key:love.Scancode):nil
----@field update love.update
+---@field update function
 Room =
     Class {
     __includes = HomePosition,
@@ -138,7 +139,7 @@ function Room:scanchildren()
 
         if ischild then
             GameState.current().child = v
-            -- print("Child: " .. v.id)
+            print("Child: " .. v.id)
             return
         end
     end
