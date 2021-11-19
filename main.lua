@@ -11,12 +11,10 @@ function love.load()
     collectgarbage()
 end
 
----@type love.update
 function love.update(dt)
     collectgarbage("collect", 0)
 end
 
----@type love.draw
 function love.draw()
     -- canvas:setFilter("nearest", "nearest", 1)
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
@@ -28,7 +26,6 @@ function love.draw()
     -- collectgarbage()
 end
 
----@type love.keypressed
 function love.keypressed(key, code)
     local flags = CONFIG.window.flags
     if key == "tab" then
@@ -54,7 +51,6 @@ function love.threaderror(thread, errorMessage)
     print(errorMessage)
 end
 
----@type love.errorhandler
 function love.errorMessage(msg, trace)
     print(msg)
     -- Debugger:errorhandler(msg, trace)

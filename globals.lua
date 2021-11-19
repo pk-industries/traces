@@ -134,13 +134,14 @@ function set(...)
     end
     return ret
 end
+
 ---@class Controls
----@field up "up"
----@field down "down"
----@field left "left"
----@field right "right"
----@field enter "return"
----@field pause "p"
+---@field up string | "up"
+---@field down string | "down"
+---@field left string | "left"
+---@field right string | "right"
+---@field enter string | "return"
+---@field pause string | "p"
 Controls = {
     up = "up",
     down = "down",
