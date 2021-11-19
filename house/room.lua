@@ -1,7 +1,3 @@
-local function positionCollision(pos, col)
-    return pos.direction == col.direction and pos.x == col.x and pos.y == col.y
-end
-
 ---@alias RoomId string | "bedroom"
 ---@alias Direction "n" | "s" | "e" | "w"
 
@@ -71,7 +67,6 @@ function Room:draw()
     else
         print("File not found: " .. filepath)
     end
-    -- collectgarbage()
 end
 
 function Room:keypressed(key)
@@ -121,7 +116,7 @@ function Room:keypressed(key)
         elseif key == Controls.left then
             nstate.direction = "s"
         end
-    -- collectgarbage()
+    --
     end
 
     -- only change modified values

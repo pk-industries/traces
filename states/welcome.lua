@@ -26,7 +26,6 @@ end
 
 function welcome:update(dt)
     MenuEngine.update()
-    collectgarbage()
 end
 
 function welcome:leave()
@@ -68,7 +67,6 @@ function welcome:draw()
         CONFIG.window.scale,
         CONFIG.window.scale
     )
-    collectgarbage()
 end
 
 function welcome:keypressed(key, scancode, isrepeat)
@@ -76,7 +74,6 @@ function welcome:keypressed(key, scancode, isrepeat)
         love.event.quit()
     end
     MenuEngine.keypressed(scancode)
-    collectgarbage()
 end
 
 return welcome

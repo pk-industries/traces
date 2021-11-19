@@ -6,10 +6,8 @@ RELEASE = false
 
 -- Enables the debug stats
 DEBUG = not RELEASE
-require "utils.debug"
 GameState = require "libs.gamestate"
 require "libs.tablesave"
-Husl = require "libs.husl"
 Lume = require "libs.lume"
 Class = require "libs.class"
 Saver = require "libs.saver"
@@ -20,10 +18,8 @@ Vector = require "libs.vector"
 Inspect = require "libs.inspect"
 MenuEngine = require "libs.menuengine"
 MenuEngine.stop_on_nil_functions = false
-require "libs.colorize"
 
 CONFIG = {
-    saveDir = love.filesystem.getSaveDirectory(),
     graphics = {
         filter = {
             -- FilterModes: linear (blurry) / nearest (blocky)
@@ -123,8 +119,7 @@ CONFIG.debug.error.font = Fonts.monospace
 
 States = {
     welcome = require "states.welcome",
-    game = require "states.game",
-    pause = require "states.pause"
+    game = require "states.game"
 }
 
 function set(...)
@@ -135,13 +130,7 @@ function set(...)
     return ret
 end
 
----@class Controls
----@field up string | "up"
----@field down string | "down"
----@field left string | "left"
----@field right string | "right"
----@field enter string | "return"
----@field pause string | "p"
+---@alias Controls table<string, love.Scancode>
 Controls = {
     up = "up",
     down = "down",

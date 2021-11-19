@@ -8,11 +8,10 @@ function love.load()
     CONFIG.window.resize(CONFIG.window.scale, CONFIG.window.flags)
     GameState.registerEvents()
     GameState.switch(States.welcome)
-    collectgarbage()
 end
 
 function love.update(dt)
-    collectgarbage("collect", 0)
+    collectgarbage()
 end
 
 function love.draw()
@@ -23,7 +22,6 @@ function love.draw()
 
     GameState.current():draw()
     love.graphics.setShader()
-    -- collectgarbage()
 end
 
 function love.keypressed(key, code)
@@ -51,7 +49,6 @@ function love.threaderror(thread, errorMessage)
     print(errorMessage)
 end
 
-function love.errorMessage(msg, trace)
+function love.errorhandler(msg, trace)
     print(msg)
-    -- Debugger:errorhandler(msg, trace)
 end
