@@ -49,6 +49,6 @@
     "editor.quickSuggestionsDelay": 1
   },
   "Lua.diagnostics.disable": [],
-  "Lua.workspace.checkThirdParty": false,
+  "Lua.workspace.checkThirdParty": true,
   "Lua.diagnostics.enable": true
 }

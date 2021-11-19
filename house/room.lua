@@ -26,7 +26,6 @@ HomePosition =
             self.child = nil
             print(error)
         end
-        print(Inspect(self))
     end
 }
 
@@ -34,16 +33,24 @@ HomePosition =
 ---@see HomePosition
 ---@field width number
 ---@field height number
----@field children table<RoomId, Child>
+---@field children table<RoomId, View>
 ---@field move fun(key:love.Scancode):nil
+---@field keypressed fun(key:love.Scancode):nil
+---@field update love.update
 Room =
     Class {
     __includes = HomePosition,
     init = function(self, id, tbl)
         self.id = id
-        for k, v in pairs(tbl) do
-            self[k] = v
+        if type(tbl) == "table" then
+            for k, v in pairs(tbl) do
+                self[k] = v
+            end
         end
+    end,
+    update = function(self, dt)
+    end,
+    leave = function(self)
     end
 }
 
@@ -63,9 +70,10 @@ function Room:draw()
     else
         print("File not found: " .. filepath)
     end
+    -- collectgarbage()
 end
 
-function Room:move(key)
+function Room:keypressed(key)
     local cstate = GameState.current()
     local d, x, y = cstate.direction, cstate.x, cstate.y
     local w, h = cstate.room.width, cstate.room.height
@@ -112,6 +120,7 @@ function Room:move(key)
         elseif key == Controls.left then
             nstate.direction = "s"
         end
+    -- collectgarbage()
     end
 
     -- only change modified values
@@ -129,7 +138,7 @@ function Room:scanchildren()
 
         if ischild then
             GameState.current().child = v
-            print("Child: " .. v.id)
+            -- print("Child: " .. v.id)
             return
         end
     end
@@ -149,89 +158,12 @@ Child =
         self.direction = d
         self.x = x
         self.y = y
-        for k, v in pairs(tbl) do
-            self[k] = v
+        if type(tbl) == "table" then
+            for k, v in pairs(tbl) do
+                self[k] = v
+            end
         end
     end
 }
 
-local Radio =
-    Child(
-    "radio",
-    "e",
-    2,
-    2,
-    {
-        init = function(self)
-            self.active = false
-            print("Radio:init()")
-        end,
-        draw = function()
-            local img = love.graphics.newImage("assets/images/bedroom/x2y2_e_bedroom_radio.png")
-            local scale = CONFIG.window.scale
-            love.graphics.draw(img, 0, 0, 0, scale, scale)
-        end,
-        keypressed = function(self, key)
-            if key == Controls.back then
-                GameState.pop()
-            end
-        end
-    }
-)
-local Bathroom =
-    Child(
-    "bathroom",
-    "n",
-    2,
-    2,
-    {
-        type = "door",
-        locked = true
-    }
-)
-
-local Closet =
-    Child(
-    "closet",
-    "s",
-    1,
-    1,
-    {
-        type = "door",
-        locked = true
-    }
-)
-
-local Hall =
-    Child(
-    "hall",
-    "w",
-    1,
-    2,
-    {
-        type = "door",
-        locked = true
-    }
-)
-
-Bedroom =
-    Room(
-    "bedroom",
-    {
-        width = 2,
-        height = 2,
-        description = "You are in a bedroom.",
-        children = {
-            Radio,
-            Bathroom,
-            Closet,
-            Hall
-        }
-    }
-)
-
-local House = {
-    bedroom = Bedroom
-}
-
-return House
+return Room, Child
