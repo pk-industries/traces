@@ -3,6 +3,7 @@ local Bedroom = require "house.bedroom.bedroom"
 ---@field room Room @The room the player is in.
 ---@field x number @The x position of the player.
 local game = {}
+
 -- Called once, and only once, before entering the state the first time. See Gamestate.switch()
 function game:init()
     local savedata = table.load("save.lua")

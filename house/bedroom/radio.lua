@@ -1,9 +1,9 @@
-require "house.room"
+local Scene = require "libs.scene"
 
 -- local static = love.audio.newSource("assets/sounds/static.mp3", "stream")
--- local click = love.audio.newSource("assets/sounds/button_press.wav", "static")
+-- local click = love.audio.newSource("assets/sounds/button_press.wav", "static"
 
-local Radio = Child("radio", "e", 2, 2)
+local Radio = Scene("radio")
 Radio.tuner = {
     xmin = 308,
     xmax = 728,
@@ -14,7 +14,6 @@ Radio.tuner = {
 local stations = {}
 
 function Radio:init()
-    self.active = false
     Radio.tuner.x = Radio.tuner.xmin
 end
 
@@ -27,7 +26,7 @@ function Radio:update(dt)
         Radio.tuner.x = newpos
     end
     -- Gradually reduce the velocity to create smooth scrolling effect.
-    Radio.tuner.velx = Radio.tuner.velx - Radio.tuner.velx * math.min(dt * 15, 1)
+    Radio.tuner.velx = Radio.tuner.velx - Radio.tuner.velx * math.min(dt * 15, .5)
 end
 
 function Radio:draw(key)

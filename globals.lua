@@ -108,15 +108,19 @@ Fonts = {
     monospace = makeFont "assets/fonts/RobotoMono-Regular.ttf",
     pixel = makeFont "assets/fonts/Pixel.ttf"
 }
+
+-- -@alias Colors table<string, number>
 Colors = {
     white = {1, 1, 1, 1},
-    black = {0, 0, 0, 1}
+    black = {0, 0, 0, 1},
+    red = {255, 0, 0, 1}
 }
 
 Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
+require "states.player"
 States = {
     welcome = require "states.welcome",
     game = require "states.game"
@@ -128,6 +132,18 @@ function set(...)
         ret[k] = true
     end
     return ret
+end
+
+function addToSet(set, key)
+    set[key] = true
+end
+
+function removeFromSet(set, key)
+    set[key] = nil
+end
+
+function setContains(set, key)
+    return set[key] ~= nil
 end
 
 ---@alias Controls table<string, love.Scancode>

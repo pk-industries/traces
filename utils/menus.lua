@@ -1,3 +1,5 @@
+require "house.bedroom.bathroom"
+---@diagnostic disable: redundant-parameter
 local OptionsMenu, NewGameMenu, PauseMenu, Mainmenu
 
 function FileExists(name)
@@ -16,7 +18,7 @@ Mainmenu:addEntry(
     "Enter",
     function()
         print("Entering game")
-        GameState.switch(States.game)
+        GameState.switch(Bedroom)
     end
 )
 

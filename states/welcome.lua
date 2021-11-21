@@ -32,10 +32,10 @@ function welcome:leave()
     MenuEngine.disable()
 end
 
-local scale = CONFIG.window.scale
-
 function welcome:draw()
     local x, y = menuposition()
+    local scale = CONFIG.window.scale
+
     if scale == 1 then
         for _, v in ipairs(menulist) do
             v:setFont(Fonts.pixel[16])

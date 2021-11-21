@@ -8,7 +8,8 @@
       "program": {
         "command": "/usr/local/bin/love"
       },
-      "args": ["${workspaceFolder}", "vsc_debug"]
+
+      "args": ["${workspaceFolder}", "vsc_debug", "--console"]
     }
   ]
 }

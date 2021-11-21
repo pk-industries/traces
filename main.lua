@@ -1,9 +1,12 @@
--- require "utils.debug"
+if arg[#arg] == "vsc_debug" then
+    require("lldebugger").start()
+end
+
 require "globals"
 
 ---@type love.load
 function love.load()
-    love.window.setTitle("traces")
+    love.window.setTitle("Traces")
 
     CONFIG.window.resize(CONFIG.window.scale, CONFIG.window.flags)
     GameState.registerEvents()
@@ -43,12 +46,4 @@ function love.keypressed(key, code)
         CONFIG.window.resize(3, flags)
     end
     table.save(CONFIG.window, ".settings.lua")
-end
-
-function love.threaderror(thread, errorMessage)
-    print(errorMessage)
-end
-
-function love.errorhandler(msg, trace)
-    print(msg)
 end
