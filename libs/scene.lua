@@ -3,11 +3,15 @@ local Scene =
     _includes = Saveable,
     init = function(self, id, args)
         self.id = id
-        if args then
-            for k, v in pairs(args) do
-                self[k] = v
+        pcall(
+            function()
+                if args then
+                    for k, v in pairs(args) do
+                        self[k] = v
+                    end
+                end
             end
-        end
+        )
         Saveable.init(self, id)
         Saveable.load(self)
     end,

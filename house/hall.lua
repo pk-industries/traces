@@ -1,11 +1,6 @@
-require "house.room"
-
 local Hall =
-    Child(
+    Scene(
     "hall",
-    "w",
-    1,
-    2,
     {
         type = "door",
         locked = true

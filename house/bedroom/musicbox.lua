@@ -1,4 +1,3 @@
-local Scene = require "libs.scene"
 local currentFrame
 
 local MusicBox = Scene("musicbox", {})
@@ -45,7 +44,7 @@ function MusicBox:keypressed(key)
             currentFrame = 1
         end
     end
-    if key == Controls.down then
+    if key == GamePad.down then
         GameState.pop()
     end
     print(val)

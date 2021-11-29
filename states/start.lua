@@ -40,9 +40,9 @@ function StartSceen:draw()
 end
 
 function StartSceen:keypressed(key, scancode, isrepeat)
-    if key == Controls.enter then
+    if key == Controls.a then
         GameState.switch(States.game)
-    elseif key == Controls.back then
+    elseif key == Controls.b then
         love.event.quit()
     end
 end

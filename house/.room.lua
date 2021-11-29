@@ -77,43 +77,43 @@ function Room:keypressed(key)
     local nstate = {}
 
     if d == "n" then
-        if key == Controls.up and y + 1 <= h then
+        if key == GamePad.up and y + 1 <= h then
             nstate.y = y + 1
-        elseif key == Controls.right then
+        elseif key == GamePad.right then
             nstate.direction = "e"
-        elseif key == Controls.down and y - 1 >= 1 then
+        elseif key == GamePad.down and y - 1 >= 1 then
             nstate.y = y - 1
-        elseif key == Controls.left then
+        elseif key == GamePad.left then
             nstate.direction = "w"
         end
     elseif d == "e" then
-        if key == Controls.up and x + 1 <= w then
+        if key == GamePad.up and x + 1 <= w then
             nstate.x = x + 1
-        elseif key == Controls.right then
+        elseif key == GamePad.right then
             nstate.direction = "s"
-        elseif key == Controls.down and x - 1 >= 1 then
+        elseif key == GamePad.down and x - 1 >= 1 then
             nstate.x = x - 1
-        elseif key == Controls.left then
+        elseif key == GamePad.left then
             nstate.direction = "n"
         end
     elseif d == "s" then
-        if key == Controls.up and y - 1 >= 1 then
+        if key == GamePad.up and y - 1 >= 1 then
             nstate.y = y - 1
-        elseif key == Controls.right then
+        elseif key == GamePad.right then
             nstate.direction = "w"
-        elseif key == Controls.down and y + 1 <= h then
+        elseif key == GamePad.down and y + 1 <= h then
             nstate.y = y + 1
-        elseif key == Controls.left then
+        elseif key == GamePad.left then
             nstate.direction = "e"
         end
     elseif d == "w" then
-        if key == Controls.up and x - 1 >= 1 then
+        if key == GamePad.up and x - 1 >= 1 then
             nstate.x = x - 1
-        elseif key == Controls.right then
+        elseif key == GamePad.right then
             nstate.direction = "n"
-        elseif key == Controls.down and x + 1 <= w then
+        elseif key == GamePad.down and x + 1 <= w then
             nstate.x = x + 1
-        elseif key == Controls.left then
+        elseif key == GamePad.left then
             nstate.direction = "s"
         end
     --

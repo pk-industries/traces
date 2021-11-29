@@ -1,5 +1,3 @@
-local Scene = require "libs.scene"
-
 local Bathroom =
     Scene(
     "bathroom",

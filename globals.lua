@@ -19,6 +19,7 @@ Inspect = require "libs.inspect"
 GameState = require "libs.gamestate"
 Window = require "libs.window"
 Saveable = require "libs.saveable"
+Scene = require "libs.scene"
 -- MenuEngine = require "libs.menuengine"
 Anim8 = require "libs.anim8"
 -- MenuEngine.stop_on_nil_functions = true
@@ -117,11 +118,18 @@ Controls = {
     down = "down",
     left = "left",
     right = "right",
-    enter = "return",
-    back = "escape",
-    pause = "p",
+    a = "return",
+    b = "backspace",
     arrowkeys = set("up", "down", "left", "right")
 }
+
+GamePad = {
+    up = Controls.up,
+    down = Controls.down,
+    left = Controls.left,
+    right = Controls.right
+}
+GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
 
 ---@param name string
 function FileExists(name)

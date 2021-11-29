@@ -1,5 +1,3 @@
-local Scene = require "libs.scene"
-
 local static
 -- local click = love.audio.newSource("assets/sounds/button_press.wav", "static"
 
@@ -103,7 +101,7 @@ function love.wheelmoved(dx, dy)
 end
 
 function Radio:keypressed(key)
-    if key == Controls.back then
+    if key == Controls.b then
         GameState.pop()
     end
 end

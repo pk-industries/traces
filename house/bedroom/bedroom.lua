@@ -1,4 +1,3 @@
-local Scene = require "libs.scene"
 local Room = require "libs.room"
 
 Bedroom =
@@ -9,11 +8,11 @@ Bedroom =
     height = 2,
     views = {},
     scenes = {
-        ["e.2.2"] = require "house.bedroom.radio",
-        ["s.2.1"] = require "house.bedroom.dresser",
-        ["s.1.1"] = Scene("bedroom.closet"),
-        ["w.1.2"] = Scene("hallway"),
-        ["n.2.2"] = Scene("bedroom.bathoom")
+        ["e.2.2"] = "bedroom.radio",
+        ["s.2.1"] = "bedroom.dresser",
+        ["s.1.1"] = "bedroom.closet",
+        ["w.1.2"] = "hall",
+        ["n.2.2"] = "bedroom.bathoom"
     },
     obsticals = {
         ["2.1"] = "2.2",
@@ -47,7 +46,8 @@ function Bedroom:draw()
 end
 
 function Bedroom:keypressed(key)
-    xpcall(
+    print(key)
+    pcall(
         function()
             self.navigate(self, key)
         end,

@@ -1,4 +1,4 @@
-local Room = Class {_includes = Saveable}
+local Room = Class {__includes = Saveable}
 
 function Room:render()
     local d, x, y = Player:getPosition()
@@ -16,26 +16,20 @@ function Room:render()
     end
 
     --
-
-    local stats = {
-        id = GameState.current().id,
-        direction = d,
-        x = x,
-        y = y
-    }
-    if type(Player.scene) == "table" then
-        stats.scene = Player.scene.id
-    end
 end
 
 function Room:navigate(key)
-    if Controls.arrowkeys[key] then
+    if GamePad.includes[key] then
         Player:move(key)
     end
 
-    if key == Controls.enter and Player.scene then
-        print(Player.scene.id)
-        GameState.push(Player.scene)
+    if type(Player.scene) == "function" then
+        Player.scene()
+    end
+
+    if key == Controls.a and Player.scene then
+        print(Player.scene)
+        GameState.push(House[Player.scene])
     end
 end
 
