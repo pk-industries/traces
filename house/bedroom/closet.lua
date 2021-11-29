@@ -1,5 +1,7 @@
+local Scene = require "libs.scene"
+
 local Closet =
-    Child(
+    Scene(
     "closet",
     "s",
     1,

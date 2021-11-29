@@ -1,7 +1,15 @@
 local Scene =
     Class {
-    init = function(self, id)
+    _includes = Saveable,
+    init = function(self, id, args)
         self.id = id
+        if args then
+            for k, v in pairs(args) do
+                self[k] = v
+            end
+        end
+        Saveable.init(self, id)
+        Saveable.load(self)
     end,
     enter = function(self)
         print("Entering scene " .. self.id)
@@ -15,5 +23,7 @@ local Scene =
         print("Exiting scene " .. self.id)
     end
 }
+
+Scene:include(Saveable)
 
 return Scene

@@ -1,7 +1,7 @@
-require "house.room"
+local Scene = require "libs.scene"
 
 local Bathroom =
-    Child(
+    Scene(
     "bathroom",
     "n",
     2,

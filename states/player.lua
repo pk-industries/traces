@@ -3,16 +3,56 @@
 ---@field x number
 ---@field y number
 Player = {
-    direction = "s",
-    x = 2,
-    y = 1
+    saveFile = "player.lua"
 }
+
+function Player:init()
+    local save
+    self.savePath = love.filesystem.getSaveDirectory() .. "/" .. self.saveFile
+    pcall(
+        function()
+            save = table.load(self.savePath)
+        end,
+        function(err)
+            print(err)
+            return nil
+        end
+    )
+    if type(save) == "table" then
+        for k, v in pairs(save) do
+            self[k] = v
+        end
+        print("Player loaded from: " .. self.savePath)
+    else
+        self.direction = "s"
+        self.x = 2
+        self.y = 1
+        self.room = "bedroom"
+        Player:save()
+    end
+end
+
+function Player:save()
+    local tbl = {}
+    for k, v in pairs(self) do
+        if type(v) ~= "function" then
+            tbl[k] = v
+        end
+    end
+    local err = table.save(tbl, self.savePath)
+
+    if not err then
+        print("Player saved")
+    else
+        print("Player save failed")
+    end
+end
+
 ---@return string string of player coordinates
 -- example "x.y.direction" or "1.1.e"
 
 function Player:posStr()
-    local direction, x, y = self:getPosition()
-    return direction .. "." .. x .. "." .. y
+    return self.direction .. "." .. self.x .. "." .. self.y
 end
 
 function Player:getPosition()
@@ -86,3 +126,5 @@ function Player:move(key)
 
     Signal.emit("player.position-check")
 end
+
+return Player

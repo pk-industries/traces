@@ -1,8 +1,7 @@
-require "house.room"
-
+local Scene = require "libs.scene"
 local currentFrame
 
-local MusicBox = Child("musicbox", "s", 2, 1, {})
+local MusicBox = Scene("musicbox", {})
 
 function MusicBox:init()
     up = 0

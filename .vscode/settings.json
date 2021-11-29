@@ -10,5 +10,6 @@
     "removeFromSet",
     "setContains",
     "errorhandler"
-  ]
+  ],
+  "Lua.diagnostics.disable": ["redundant-parameter"]
 }
