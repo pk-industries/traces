@@ -1,3 +1,4 @@
+local Bedroom = require "house.bedroom.bedroom"
 ---@class Game:HomePosition
 ---@field room Room @The room the player is in.
 ---@field x number @The x position of the player.
@@ -15,6 +16,7 @@ function game:init()
         self.y = 2
         self.direction = "e"
         self.child = nil
+        table.save(self, "save.lua")
     end
 
     print("Game state loaded")
@@ -22,24 +24,31 @@ end
 
 -- Called every time when entering the state. See Gamestate.switch().
 function game:enter()
-    self.room = House[self.roomid]
+    self.room = Bedroom
+    self.room:scanchildren()
+end
+
+function game:leave()
+    table.save(self, "save.lua")
 end
 
 -- Update the game state. Called every frame.
--- function game:update()
--- end
+function game:update(dt)
+    self.room.update(dt)
+end
 -- Triggered when a key is pressed.
 function game:keypressed(key)
+    table.save({x = self.x, y = self.y, direction = self.direction}, "save.lua")
     if Controls.arrowkeys[key] then -- if the key is [up|down|left|right]
-        self.room:move(key)
+        self.room:keypressed(key)
+    end
+    if key == Controls.enter and game.child then
+        GameState.push(game.child)
     end
 end
 
 -- Triggered when a key is released.
 function game:keyreleased(key)
-    if key == Controls.enter and game.child then
-        GameState.push(game.child)
-    end
 end
 
 -- Draw on the screen. Called every frame.
