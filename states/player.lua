@@ -1,44 +1,62 @@
----@class player
----@field direction "n" | "s" | "e" | "w"
+---@class Player : Saveable
+---@field direction string | "n" | "s" | "e" | "w"
 ---@field x number
 ---@field y number
+local Player = Saveable("player")
+Player.room = "bedroom"
+---@alias Player.direction string
+Player.direction = "n"
+Player.x = 1
+Player.y = 1
 
-local player =
-    Class {
-    __includes = Saveable,
-    id = "player",
-    room = "bedroom",
-    direction = "n",
-    x = 1,
-    y = 1
-}
-
-function player:init(id)
-    Saveable.init(self, self.id)
-    Saveable.load(self)
-end
-function player:__tostring()
+function Player:__tostring()
     return self.direction .. "." .. self.x .. "." .. self.y
 end
 
----@return string string of player coordinates
+---@return string @String of Player coordinates
 -- example "x.y.direction" or "1.1.e"
-function player:getPosition()
+function Player:getPosition()
     return self.direction, self.x, self.y
+end
+--- func description
+---@param d Player.direction
+---@param x number
+---@param y number
+function Player:setPosition(d, x, y)
+    self.direction = d
+    self.x = x
+    self.y = y
+    return d, x, y
+end
+
+function Player:isScene(str)
+    local scenes
+    local state = GameState.current()
+    if type(state) == "table" and setContains(state, "scenes") then
+        newval = str
+        if setContains(state.scenes, str) then
+            return true
+        end
+    end
+    return false
 end
 
 Signal.register(
-    "player.position-check",
+    "player.moved",
     function()
-        if setContains(GameState.current().scenes, player:__tostring(player)) then
-            player.scene = GameState.current().scenes[player:__tostring(player)]
-        else
-            player.scene = nil
+        local state = GameState.current()
+        local str = Player:__tostring()
+        GameState.current().info.str = str
+        print("Player moved to:", str)
+        if Player:isScene(str) then
+            GameState.current().scene = state.scenes[str]
+        else -- not a scene
+            GameState.current().scene = nil
         end
     end
 )
 
-function player:move(key)
+function Player:move(key)
     local d, x, y = self:getPosition()
     local w, h = GameState.current().width, GameState.current().height
 
@@ -88,11 +106,41 @@ function player:move(key)
         end
     end
 
-    player.direction = d
-    player.x = x
-    player.y = y
-
-    Signal.emit("player.position-check")
+    self.direction, self.x, self.y = d, x, y
+    Signal.emit("player.moved")
 end
 
-return player
+-- Player:include(Saveable)
+
+return Player
+
+--[[ Signal.register(
+    "player.position-check",
+    function(direction, x, y)
+        local key = Player:__tostring()
+        local scenes = GameState.current().scenes
+
+        if setContains(scenes, key) then
+            love.window.setTitle(key)
+            if type(scenes[key]) == "table" then
+                Player.scene = scenes[key]
+                Signal.emit("scene.enter")
+            else
+                Player.scene = House[key]
+            end
+        else
+            GameState.current().scene = nil
+            love.window.setTitle(GameState.current().id)
+        end
+    end
+) ]]
+--[[ Signal.register(
+    "scene.enter",
+    function()
+        local scene = Player.scene
+        -- print("scene.enter", scene.id)
+        print(Inspect(scene))
+        -- GameState.push(scene)
+    end
+)
+ ]]

@@ -12,8 +12,11 @@ local Scene =
                 end
             end
         )
-        Saveable.init(self, id)
-        Saveable.load(self)
+
+        if self.save == true then
+            Saveable.init(self, id)
+            Saveable.load(self)
+        end
     end,
     enter = function(self)
         print("Entering scene " .. self.id)
@@ -21,13 +24,12 @@ local Scene =
     update = function(self, dt)
     end,
     draw = function(self)
+        love.graphics.setFont(Fonts.pixel[30])
         love.graphics.print("Scene " .. self.id, 0, 0)
     end,
     exit = function(self)
         print("Exiting scene " .. self.id)
     end
 }
-
-Scene:include(Saveable)
 
 return Scene

@@ -1,17 +1,13 @@
-local Saveable =
+---@class Saveable
+---@field save fun() saves the object to the save file
+---@field load fun() loads the object from the save fileq
+Saveable =
     Class {
-    init = function(self, id, args)
-        self.id = "id"
+    ---@param self Saveable
+    ---@param id string
+    init = function(self, id)
+        self.id = id
         self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. id .. ".lua"
-        pcall(
-            function()
-                if args then
-                    for k, v in pairs(args) do
-                        self[k] = v
-                    end
-                end
-            end
-        )
     end,
     __tostring = function(self)
         return "saveFile: " .. self.saveFile

@@ -1,5 +1,6 @@
 local Room = require "libs.room"
-
+local nightstand = require "house.bedroom.nightstand"
+local ok, str
 Bedroom =
     Class {
     _includes = Room,
@@ -8,7 +9,7 @@ Bedroom =
     height = 2,
     views = {},
     scenes = {
-        ["e.2.2"] = "bedroom.radio",
+        -- ["e.2.2"] = nightstand,
         ["s.2.1"] = "bedroom.dresser",
         ["s.1.1"] = "bedroom.closet",
         ["w.1.2"] = "hall",
@@ -26,27 +27,33 @@ local color
 function Bedroom:init()
 end
 function Bedroom:enter()
-    color = Colors.black
-
+    self.scenes["e.2.2"] = nightstand
     love.window.setTitle(GameState.current().id)
-    Signal.emit("player.position-check")
 end
 function Bedroom:update(dt)
     Timer.update(dt)
 end
 function Bedroom:draw()
-    xpcall(
+    pcall(
         function()
             self.render(self)
-        end,
-        function(err)
-            print(err)
         end
     )
+
+    ok, str =
+        pcall(
+        function()
+            if type(self.scene) == "table" then
+                self.scene:draw()
+            end
+        end
+    )
+    if not ok then
+        print(str)
+    end
 end
 
 function Bedroom:keypressed(key)
-    print(key)
     pcall(
         function()
             self.navigate(self, key)
@@ -55,9 +62,20 @@ function Bedroom:keypressed(key)
             print(err)
         end
     )
+
+    pcall(
+        function()
+            if type(self.scene) == "table" then
+                self.scene:keypressed(key)
+            end
+        end
+    )
 end
 
-function Bedroom:leave()
+function Bedroom:wheelmoved(x, y)
+    if type(self.scene) == "table" then
+        self.scene:wheelmoved(x, y)
+    end
 end
 
 return Bedroom

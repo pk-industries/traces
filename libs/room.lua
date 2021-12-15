@@ -1,5 +1,5 @@
-local Room = Class {__includes = Saveable}
-
+local Room = Saveable("room")
+Room.info = {}
 function Room:render()
     local d, x, y = Player:getPosition()
     local assetsdir = "assets/images/"
@@ -15,21 +15,28 @@ function Room:render()
         error("File: " .. filepath .. " does not exist")
     end
 
-    --
+    if self.debug then
+        local cs = GameState:current()
+        str = ""
+        for k, v in pairs(GameState.current().views) do
+            str = str .. v .. "\n"
+        end
+        info(
+            Inspect(Room.info) .. "\n",
+            self.id,
+            Player:__tostring(),
+            "\n",
+            Inspect({id = cs.id, scenes = cs.scene, obsticals = cs.obsticals}),
+            str
+        )
+    end
 end
 
 function Room:navigate(key)
-    if GamePad.includes[key] then
+    if key == "`" then
+        self.debug = not self.debug
+    elseif GamePad.includes[key] then
         Player:move(key)
-    end
-
-    if type(Player.scene) == "function" then
-        Player.scene()
-    end
-
-    if key == Controls.a and Player.scene then
-        print(Player.scene)
-        GameState.push(House[Player.scene])
     end
 end
 

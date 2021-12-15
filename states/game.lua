@@ -1,20 +1,25 @@
-local game = Saveable("game")
-game.sound = {}
+local game = {}
 
 local House = require "house.house"
 function game:init()
-    print("game:init()")
-    Player:init()
-    Saveable.load(self)
+    local status, err =
+        pcall(
+        function()
+            Player:init("player")
+        end
+    )
+    if not status then
+        print("Error in game:init(): " .. err)
+    else
+        print("game:init()")
+        Player:load()
+    end
 end
 
 function game:enter()
-    print("game:enter()")
-
     GameState.switch(House[Player.room])
 end
 function game:leave()
-    Saveable.save(self)
 end
 function game:resume()
 end

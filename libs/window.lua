@@ -9,7 +9,9 @@ WINDOW = {
                     if type(save.width) == "number" and type(save.height) == "number" then
                         self.scale = save.scale
                         self.width = save.width
+
                         self.height = save.height
+                        self.flags = save.flags
                     end
                 else -- default values
                     self.scale = 1
@@ -22,7 +24,7 @@ WINDOW = {
         )
         self.baseW = love.graphics.getWidth()
         self.baseH = love.graphics.getHeight()
-        love.window.setMode(self.width, self.height)
+        love.window.setMode(self.width, self.height, {display = 2})
     end
 }
 
@@ -30,7 +32,8 @@ function WINDOW.storedValues()
     return {
         scale = WINDOW.scale,
         height = WINDOW.height,
-        width = WINDOW.width
+        width = WINDOW.width,
+        flags = WINDOW.flags
     }
 end
 
@@ -39,7 +42,7 @@ WINDOW.resize = function(newScale)
     WINDOW.width = WINDOW.baseW * WINDOW.scale
     WINDOW.height = WINDOW.baseH * WINDOW.scale
 
-    love.window.setMode(WINDOW.width, WINDOW.height)
+    love.window.setMode(WINDOW.width, WINDOW.height, WINDOW.flags)
     WINDOW:printSettings()
 end
 
