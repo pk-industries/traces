@@ -1,9 +1,6 @@
 local Closet =
-    Child(
+    Scene(
     "closet",
-    "s",
-    1,
-    1,
     {
         type = "door",
         locked = true

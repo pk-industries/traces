@@ -1,7 +1,5 @@
-require "house.room"
-
 local Bathroom =
-    Child(
+    Scene(
     "bathroom",
     "n",
     2,

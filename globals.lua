@@ -6,10 +6,8 @@ RELEASE = false
 
 -- Enables the debug stats
 DEBUG = not RELEASE
-require "utils.debug"
-GameState = require "libs.gamestate"
+
 require "libs.tablesave"
-Husl = require "libs.husl"
 Lume = require "libs.lume"
 Class = require "libs.class"
 Saver = require "libs.saver"
@@ -18,12 +16,17 @@ Camera = require "libs.camera"
 Signal = require "libs.signal"
 Vector = require "libs.vector"
 Inspect = require "libs.inspect"
-MenuEngine = require "libs.menuengine"
-MenuEngine.stop_on_nil_functions = false
-require "libs.colorize"
+GameState = require "libs.gamestate"
+Window = require "libs.window"
+Saveable = require "libs.saveable"
+Scene = require "libs.scene"
+-- MenuEngine = require "libs.menuengine"
+Anim8 = require "libs.anim8"
+-- MenuEngine.stop_on_nil_functions = true
+
+require "libs.set"
 
 CONFIG = {
-    saveDir = love.filesystem.getSaveDirectory(),
     graphics = {
         filter = {
             -- FilterModes: linear (blurry) / nearest (blocky)
@@ -34,13 +37,6 @@ CONFIG = {
             -- Amount of anisotropic filter performed
             anisotropy = 1
         }
-    },
-    window = {
-        icon = "assets/images/icon.png",
-        scale = 2,
-        width = 400,
-        height = 240,
-        flags = {}
     },
     debug = {
         -- The key (scancode) that will toggle the debug state.
@@ -70,22 +66,6 @@ CONFIG = {
     }
 }
 
-local windowsettings = table.load(".settings.lua")
-
-if windowsettings then
-    CONFIG.window = windowsettings
-end
-
-CONFIG.window.resize = function(newScale, flags)
-    CONFIG.window.scale = newScale
-    local w = CONFIG.window.width
-    local h = CONFIG.window.height
-    local s = CONFIG.window.scale
-
-    CONFIG.window.flags = flags
-    love.window.setMode(w * s, h * s, CONFIG.window.flags)
-end
-
 local function makeFont(path)
     return setmetatable(
         {},
@@ -112,46 +92,46 @@ Fonts = {
     monospace = makeFont "assets/fonts/RobotoMono-Regular.ttf",
     pixel = makeFont "assets/fonts/Pixel.ttf"
 }
+
+-- -@alias Colors table<string, number>
 Colors = {
     white = {1, 1, 1, 1},
-    black = {0, 0, 0, 1}
+    black = {0, 0, 0, 1},
+    red = {255, 0, 0, 1}
 }
 
 Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
+Player = require "states.player"
+House = {
+    Bedroom = require "house.bedroom.bedroom"
+}
 States = {
-    welcome = require "states.welcome",
-    game = require "states.game",
-    pause = require "states.pause"
+    start = require "states.start",
+    game = require "states.game"
 }
 
-function set(...)
-    local ret = {}
-    for _, k in ipairs({...}) do
-        ret[k] = true
-    end
-    return ret
-end
----@class Controls
----@field up "up"
----@field down "down"
----@field left "left"
----@field right "right"
----@field enter "return"
----@field pause "p"
 Controls = {
     up = "up",
     down = "down",
     left = "left",
     right = "right",
-    enter = "return",
-    back = "escape",
-    pause = "p",
+    a = "return",
+    b = "backspace",
     arrowkeys = set("up", "down", "left", "right")
 }
 
+GamePad = {
+    up = Controls.up,
+    down = Controls.down,
+    left = Controls.left,
+    right = Controls.right
+}
+GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
+
+---@param name string
 function FileExists(name)
     local f = io.open(name, "r")
     if f ~= nil then
@@ -161,18 +141,14 @@ function FileExists(name)
         return false
     end
 end
-
----@class love.shader
-PlayDateShader =
-    love.graphics.newShader [[
-vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords ){
-	vec4 pixel = Texel(texture, texture_coords );
-	if(pixel.r < 0.65) {
-		return vec4(0.193, 0.184, 0.158, pixel.a);
-	} else {
-		return vec4(0.747, 0.757, 0.743, pixel.a);
-	}
-}
-]]
-
--- GameObject = require "libs.gameobject"
+function string:split(sep)
+    local sep, fields = sep or ":", {}
+    local pattern = string.format("([^%s]+)", sep)
+    self:gsub(
+        pattern,
+        function(c)
+            fields[#fields + 1] = c
+        end
+    )
+    return fields
+end

@@ -1,11 +1,12 @@
 {
-    "recommendations": [
-        "yinfei.luahelper",
-        "pixelbyte-studios.pixelbyte-love2d",
-        "trixnz.vscode-lua",
-        "actboy168.lua-debug",
-        "sumneko.lua",
-        "keyring.lua",
-        "tomblind.local-lua-debugger-vscode"
-    ],
+  "recommendations": [
+    "yinfei.luahelper",
+    "pixelbyte-studios.pixelbyte-love2d",
+    "trixnz.vscode-lua",
+    "actboy168.lua-debug",
+    "sumneko.lua",
+    "keyring.lua",
+    "tomblind.local-lua-debugger-vscode",
+    "bschulte.love"
+  ]
 }
