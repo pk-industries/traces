@@ -24,8 +24,19 @@ HomePosition =
             self.y = 1
             self.direction = "n"
             self.child = nil
-            print(error)
+           print(error)
         end
+    end;
+
+    __tostring = function(self)
+        local strs = {
+            self.id .. " at (",
+            self.x .. ",",
+            self.y .. ") facing ",
+            self.direction .. " with child ",
+            self.child
+        }
+        return table.concat(strs, "")
     end
 }
 
@@ -47,18 +58,20 @@ Room =
                 self[k] = v
             end
         end
-    end,
+    end;
+    
     update = function(self, dt)
-    end,
+    end;
+    
     leave = function(self)
-    end
+    end;
 }
 
 function Room:draw()
     local cstate = GameState.current()
     local d, x, y = cstate.direction, cstate.x, cstate.y
     local assetsdir = "assets/images/"
-    local roomdir = assetsdir .. self.id .. "/" --- /assets/images/bedroom/
+    local roomdir = assetsdir .. self.id .. "/"
     local filename = "x" .. x .. "y" .. y .. "_" .. d .. "_" .. self.id .. ".png"
 
     local filepath = roomdir .. filename
@@ -122,7 +135,7 @@ function Room:keypressed(key)
         end
     -- collectgarbage()
     end
-
+    
     -- only change modified values
     for k, v in pairs(nstate) do
         GameState.current()[k] = v
@@ -132,17 +145,21 @@ function Room:keypressed(key)
 end
 
 function Room:scanchildren()
-    for i, v in ipairs(GameState.current().room.children) do
-        local pos = GameState.current()
-        local ischild = pos.direction == v.direction and pos.x == v.x and pos.y == v.y
+    local newChild = nil
 
-        if ischild then
-            GameState.current().child = v
-            -- print("Child: " .. v.id)
-            return
+    for _, child in ipairs(GameState.current().room.children) do
+        local pos = GameState.current()
+        local isFacingChild = pos.direction == child.direction
+            and pos.x == child.x
+            and pos.y == child.y
+
+        if isFacingChild then
+            newChild = child
+            break
         end
     end
-    GameState.current().child = nil
+
+    GameState.current().child = newChild
 end
 
 ---@class View : HomePosition
