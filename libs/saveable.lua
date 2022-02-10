@@ -1,4 +1,5 @@
 ---@class Saveable
+---@field init fun() initializes the object with given id and establishes save directory
 ---@field save fun() saves the object to the save file
 ---@field load fun() loads the object from the save fileq
 Saveable =
