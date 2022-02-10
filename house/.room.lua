@@ -21,7 +21,7 @@ HomePosition =
             self.y = 1
             self.direction = "n"
             self.child = nil
-           print(error)
+            print(error)
         end
     end;
 
@@ -57,11 +57,9 @@ Room =
         end
     end;
     
-    update = function(self, dt)
-    end;
+    update = function(self, dt) end;
     
-    leave = function(self)
-    end;
+    leave = function(self) end;
 }
 
 function Room:draw()
@@ -131,7 +129,7 @@ function Room:keypressed(key)
         end
     --
     end
-    
+
     -- only change modified values
     for k, v in pairs(nstate) do
         GameState.current()[k] = v
@@ -154,7 +152,7 @@ function Room:scanchildren()
             break
         end
     end
-    if newChild then print("Child" .. newChild.id) else print("Child is nil") end
+    if newChild then print("Child: " .. newChild.id) else print("Child: nil") end
     GameState.current().child = newChild
 end
 
