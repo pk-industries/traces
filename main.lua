@@ -1,8 +1,8 @@
 require "globals"
 
 package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib"
-local dbg = require("emmy_core")
-dbg.tcpListen("localhost", 9966)
+-- local dbg = require("emmy_core")
+-- dbg.tcpListen("localhost", 9966)
 
 local shader
 

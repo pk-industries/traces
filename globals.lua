@@ -144,7 +144,8 @@ end
 function string:split(sep)
     local sep, fields = sep or ":", {}
     local pattern = string.format("([^%s]+)", sep)
-    self:gsub(
+    local shit =
+        self:gsub(
         pattern,
         function(c)
             fields[#fields + 1] = c

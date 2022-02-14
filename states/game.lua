@@ -1,6 +1,5 @@
 local game = {}
 
-local House = require "house.house"
 function game:init()
     local status, err =
         pcall(
@@ -15,7 +14,6 @@ function game:init()
         Player:load()
     end
 end
-
 function game:enter()
     GameState.switch(House[Player.room])
 end

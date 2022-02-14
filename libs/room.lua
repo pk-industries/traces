@@ -1,5 +1,12 @@
-local Room = Saveable("room")
-Room.info = {}
+local Saveable = require "libs.saveable"
+
+Room = Class {__includes = Saveable}
+
+function Room:init(id)
+    Saveable.init(self, id or "room")
+    self.info = {}
+end
+
 function Room:render()
     local d, x, y = Player:getPosition()
     local assetsdir = "assets/images/"

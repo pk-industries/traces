@@ -2,26 +2,35 @@
 ---@field direction string | "n" | "s" | "e" | "w"
 ---@field x number
 ---@field y number
-local Player = Saveable("player")
-Player.room = "bedroom"
----@alias Player.direction string
-Player.direction = "n"
-Player.x = 1
-Player.y = 1
+local Player = Class {__includes = Saveable}
+
+function Player:init(id)
+    Saveable.init(self, id or "player")
+    ---@alias Player.room string
+    Player.room = "hall"
+    ---@alias Player.direction string
+    Player.direction = "n"
+    ---@alias Player.x number
+    Player.x = 1
+    ---@alias Player.y number
+    Player.y = 1
+end
 
 function Player:__tostring()
     return self.direction .. "." .. self.x .. "." .. self.y
 end
 
----@return string @String of Player coordinates
+---@return string String of Player coordinates
 -- example "x.y.direction" or "1.1.e"
 function Player:getPosition()
     return self.direction, self.x, self.y
 end
---- func description
+
+--- Set player position.
 ---@param d Player.direction
----@param x number
----@param y number
+---@param x Player.x
+---@param y Player.y
+---@return number d,number x,number y - Direction, X, Y
 function Player:setPosition(d, x, y)
     self.direction = d
     self.x = x
@@ -30,10 +39,8 @@ function Player:setPosition(d, x, y)
 end
 
 function Player:isScene(str)
-    local scenes
     local state = GameState.current()
     if type(state) == "table" and setContains(state, "scenes") then
-        newval = str
         if setContains(state.scenes, str) then
             return true
         end

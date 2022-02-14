@@ -1,7 +1,7 @@
 ---@class Saveable
 ---@field init fun() initializes the object with given id and establishes save directory
 ---@field save fun() saves the object to the save file
----@field load fun() loads the object from the save fileq
+---@field load fun() loads the object from the save file
 Saveable =
     Class {
     ---@param self Saveable
@@ -9,6 +9,7 @@ Saveable =
     init = function(self, id)
         self.id = id
         self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. id .. ".lua"
+        print("This save file: " .. self.saveFile)
     end,
     __tostring = function(self)
         return "saveFile: " .. self.saveFile
