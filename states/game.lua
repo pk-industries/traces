@@ -12,6 +12,7 @@ function game:init()
     else
         print("game:init()")
         Player:load()
+        print("Game init done")
     end
 end
 function game:enter()

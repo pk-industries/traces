@@ -5,9 +5,9 @@ return {
    ["x"]=1,
    ["y"]=2,
    ["direction"]="w",
-   ["savePath"]="/Users/gw/Library/Application Support/LOVE/traces/player.sav",
+   ["savePath"]="/Users/gw/Library/Application Support/LOVE/traces/player.lua",
    ["scene"]="hall",
    ["room"]="bedroom",
-   ["saveFile"]="player.sav",
+   ["saveFile"]="player.lua",
 },
 }

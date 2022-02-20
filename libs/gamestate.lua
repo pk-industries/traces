@@ -67,8 +67,7 @@ function GS.pop(...)
     stack[#stack] = nil
     ;(pre.leave or __NULL__)(pre)
     state_is_dirty = true
-    return (to.resume or __NULL__)(to, 
-    pre, ...)
+    return (to.resume or __NULL__)(to, pre, ...)
 end
 
 function GS.current()
@@ -76,7 +75,8 @@ function GS.current()
 end
 
 -- fetch event callbacks from love.handlers
-local all_callbacks = { 'draw', 'errorhandler', 'update' }
+local all_callbacks = { 'draw', 'update' }
+
 for k in pairs(love.handlers) do
     all_callbacks[#all_callbacks+1] = k
 end
