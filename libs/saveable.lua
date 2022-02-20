@@ -4,41 +4,43 @@
 ---@field load fun() loads the object from the save file
 Saveable =
     Class {
-    ---@param self Saveable
     ---@param id string
     init = function(self, id)
         self.id = id
-        self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. id .. ".lua"
+        self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. id .. ".sav"
         print("This save file: " .. self.saveFile)
     end,
     __tostring = function(self)
         return "saveFile: " .. self.saveFile
     end,
     load = function(self)
-        local tbl
-
-        pcall(
-            function()
-                tbl = table.load(self.saveFile)
-            end
-        )
-
-        if type(tbl) ~= "table" then
-            print("Error loading " .. self.saveFile)
-            table.save(self, self.saveFile)
+        if not love.filesystem.exists(self.saveFile) then
+            print("No save file for " .. self.saveFile .. " exists. Skipping load.")
             return nil
+        end
+        
+        local ok, chunk = pcall(love.filesystem.load, self.saveFile)
+
+        if not ok then
+            print("Error loading " .. self.saveFile .. ":\n" .. tostring(chunk))
         else
-            for k, v in pairs(tbl) do
-                self[k] = v
+            ok, result = pcall(chunk)
+
+            if not ok then
+                print("Error loading chunk from" .. self.saveFile .. ":\n" .. tostring(result))
+            else
+                for k, v in pairs(result) do
+                    self[k] = v
+                end 
             end
         end
     end,
     save = function(self)
-        local err = table.save(self, self.saveFile)
-        if not err then
+        local ok, err = love.filesystem.write(self, self.saveFile)
+        if ok then
             print("Saved to: " .. self.saveFile)
         else
-            print("Save failed")
+            print("Save failed: " .. err)
         end
     end
 }
