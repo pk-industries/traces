@@ -64,7 +64,9 @@ function Bedroom:draw()
 end
 
 function Bedroom:keypressed(key)
-    local _, err = pcall(self.navigate(self, key))
+    local _, err = pcall(
+        function() self.navigate(self, key) end
+    )
     if err then print(err) end
     _, err = pcall(
         function()

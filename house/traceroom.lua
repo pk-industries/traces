@@ -20,12 +20,14 @@ function TraceRoom:update(dt)
 end
 
 function TraceRoom:draw()
-    local _, err = pcall(self.render(self))
+    local _, err = pcall(
+        function() self:render() end
+    )
     if err then print(err) end
 end
 
 function TraceRoom:keypressed(key)
-    local _, err = pcall(self.navigate(self, key))
+    local _, err = pcall(function()self.navigate(self, key) end)
     if err then print(err) end
 end
 
