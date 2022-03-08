@@ -64,22 +64,16 @@ function Bedroom:draw()
 end
 
 function Bedroom:keypressed(key)
-    pcall(
-        function()
-            self.navigate(self, key)
-        end,
-        function(err)
-            print(err)
-        end
-    )
-
-    pcall(
+    local _, err = pcall(self.navigate(self, key))
+    if err then print(err) end
+    _, err = pcall(
         function()
             if type(self.scene) == "table" then
                 self.scene:keypressed(key)
             end
         end
     )
+    if err then print(err) end
 end
 
 function Bedroom:wheelmoved(x, y)

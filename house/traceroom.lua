@@ -11,8 +11,6 @@ local TraceRoom = Class { __includes = Room,
     end
 }
 
-TraceRoom:include(Room)
-
 function TraceRoom:enter()
     love.window.setTitle(GameState.current().id)
 end
@@ -22,20 +20,13 @@ function TraceRoom:update(dt)
 end
 
 function TraceRoom:draw()
-    pcall(function ()
-        self.render(self)
-    end)
+    local _, err = pcall(self.render(self))
+    if err then print(err) end
 end
 
 function TraceRoom:keypressed(key)
-    pcall(
-        function ()
-            self.navigate(self, key)
-        end,
-        function (err)
-            print(err)
-        end
-    )
+    local _, err = pcall(self.navigate(self, key))
+    if err then print(err) end
 end
 
 return TraceRoom
