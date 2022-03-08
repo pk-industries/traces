@@ -5,8 +5,7 @@ House = {
     ["bedroom.closet"] = require "house.bedroom.closet",
     ["bedroom.bathroom"] = require "house.bedroom.bathroom",
     ["bedroom.hall"] = require "house.bedroom.hall",
-    ["hall"] = require "house.hall.hall",
-    -- ["test"] = require "example.main"
+    ["hall"] = require "house.hall.hall"
 }
 
 return House

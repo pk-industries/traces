@@ -5,16 +5,16 @@
 ---@field save fun() saves the object to the save file
 ---@field load fun() loads the object from the save file
 
-Saveable =
+local Saveable =
     Class {
     ---@param id string
     init = function(self, id)
         self.id = id or "save"
-        self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. id .. ".lua"
-        print("This save file: " .. self.saveFile)
+        self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. self.id .. ".lua"
+        print("Save file: " .. self.saveFile)
     end,
     __tostring = function(self)
-        return "saveFile: " .. self.saveFile
+        return "Save file: " .. self.saveFile
     end
 }
 
@@ -28,41 +28,48 @@ function Saveable:save()
 end
 
 function Saveable:load()
-    local printerr = function(err)
-        print("Error loading " .. self.savefile .. ":\n" .. tostring(err))
-    end
-    local printloadskip = function()
-        print("No save data for " .. self.saveFile .. "\nSkipping load.")
-    end
-    local getfileinfo = function()
-        pcall(love.filesystem.getInfo, self.saveFile, '"file"')
-    end
-    local loadfile = function()
-        pcall(love.filesystem.load, self.saveFile)
-    end
-    local runload = function(chunk)
-        pcall(chunk)
-    end
+    print("Save file " .. self.savefile .. " loading...")
+    
+    print("Skipping load, this is a dummy load.")
+--     local getfileinfo = function()
+--         pcall(love.filesystem.getInfo, self.saveFile, '"file"')
+--     end
+--     local loadfile = function()
+--         pcall(love.filesystem.load, self.saveFile)
+--     end
+--     local runload = function(chunk)
+--         pcall(chunk)
+--     end
 
-    local ok, data = getfileinfo()
+--     local printerr = function(err)
+--         print("Error loading " .. self.savefile .. ":\n" .. tostring(err))
+--     end
+--     local printloadskip = function()
+--         print("No save data for " .. self.saveFile .. "\nSkipping load.")
+--     end
+    
+--     local ok, data = getfileinfo()
 
-    if not ok then
-        printerr(data)
-    elseif not data then
-        printloadskip()
-    else
-        ok, data = loadfile()
+--     if not ok then
+--         -- printerr(data)
+--         print("Error loading " .. self.savefile .. ":\n" .. tostring(data))
+--     elseif not data then
+--         printloadskip()
+--     else
+--         ok, data = loadfile()
 
-        if not ok then
-            printerr(data)
-        else
-            ok, data = runload(data)
+--         if not ok then
+--             -- printerr(data)
+--             print("Error loading " .. self.savefile .. ":\n" .. tostring(data))
+--         else
+--             ok, data = runload(data)
 
-            if not ok then
-                printerr(data)
-            end
-        end
-    end
+--             if not ok then
+--                 -- printerr(data)
+--                 print("Error loading " .. self.savefile .. ":\n" .. tostring(data))
+--             end
+--         end
+--     end
 end
 
 return Saveable

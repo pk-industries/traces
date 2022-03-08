@@ -104,10 +104,8 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-Player = require "states.player"
-House = {
-    Bedroom = require "house.bedroom.bedroom"
-}
+Player = nil
+House = require "house.house"
 States = {
     start = require "states.start",
     game = require "states.game"

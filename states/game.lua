@@ -1,17 +1,15 @@
 local game = {}
 
 function game:init()
-    local status, err =
-        pcall(
-        function()
-            Player:init("player")
-        end
-    )
+    local status, data = pcall(require "states.player", "player")
+
     if not status then
-        print("Error in game:init(): " .. err)
+        print("Error in game:init(): " .. data)
     else
         print("game:init()")
-        Player:load()
+        print("Player is " .. tostring(data))
+        Player = data
+        -- data:load()
         print("Game init done")
     end
 end

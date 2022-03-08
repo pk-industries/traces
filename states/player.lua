@@ -1,19 +1,25 @@
+local Class = require "libs.class"
+local GameState = require "libs.gamestate"
+local Saveable = require "libs.saveable"
+local Signal = require "libs.signal"
+
 ---@class Player : Saveable
 ---@field direction string | "n" | "s" | "e" | "w"
 ---@field x number
 ---@field y number
+---@field load fun() Loads player data
 local Player = Class {__includes = Saveable}
 
 function Player:init(id)
     Saveable.init(self, id or "player")
     ---@alias Player.room string
-    Player.room = "hall"
+    self.room = "hall"
     ---@alias Player.direction string
-    Player.direction = "n"
+    self.direction = "n"
     ---@alias Player.x number
-    Player.x = 1
+    self.x = 1
     ---@alias Player.y number
-    Player.y = 1
+    self.y = 1
 end
 
 function Player:__tostring()
@@ -116,8 +122,6 @@ function Player:move(key)
     self.direction, self.x, self.y = d, x, y
     Signal.emit("player.moved")
 end
-
--- Player:include(Saveable)
 
 return Player
 

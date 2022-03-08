@@ -1,3 +1,4 @@
+local Class = require "libs.class"
 local TraceRoom = require "house.traceroom"
 
 local Hall =
