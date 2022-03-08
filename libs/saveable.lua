@@ -28,7 +28,7 @@ function Saveable:save()
 end
 
 function Saveable:load()
-    print("Save file " .. self.savefile .. " loading...")
+    print("Save file " .. self.saveFile .. " loading...")
     
     print("Skipping load, this is a dummy load.")
 --     local getfileinfo = function()

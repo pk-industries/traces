@@ -1,6 +1,7 @@
 local game = {}
 
 function game:init()
+    print("\nCreating player...")
     local status, data = pcall(require "states.player", "player")
 
     if not status then
@@ -9,7 +10,7 @@ function game:init()
         print("game:init()")
         print("Player is " .. tostring(data))
         Player = data
-        -- data:load()
+        data:load()
         print("Game init done")
     end
 end
