@@ -44,9 +44,6 @@ function Room:navigate(key)
         self.debug = not self.debug
     elseif GamePad.includes[key] then
         Player:move(key)
-    else
-        print("Unknown key pressed: " .. key)
-        Player:save()
     end
 end
 
