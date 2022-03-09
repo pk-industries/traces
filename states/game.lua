@@ -7,7 +7,7 @@ function game:init()
         print("Error in game:init(): " .. data)
     else
         Player = data
-        data:load()
+        Player:load()
     end
     print("Game init complete.")
 end
