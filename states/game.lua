@@ -9,6 +9,7 @@ function game:init()
         Player = data
         data:load()
     end
+    print("Game init complete.")
 end
 function game:enter()
     GameState.switch(House[Player.room])

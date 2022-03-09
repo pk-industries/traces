@@ -9,17 +9,29 @@ local Signal = require "libs.signal"
 ---@field y number
 ---@field load fun() Loads player data
 local Player = Class {__includes = Saveable}
+local PlayerSignals = { PlayerMoved = "player.moved" }
 
 function Player:init(id)
     Saveable.init(self, id or "player")
-    ---@alias Player.room string
     self.room = "hall"
-    ---@alias Player.direction string
     self.direction = "n"
-    ---@alias Player.x number
     self.x = 1
-    ---@alias Player.y number
-    self.y = 1
+    self.y = 1    
+
+    Signal.register(
+        PlayerSignals.PlayerMoved,
+        function()
+            local state = GameState.current()
+            local str = self:__tostring()
+            GameState.current().info.str = str
+            print("Player moved to:", str)
+            if self:isScene(str) then
+                GameState.current().scene = state.scenes[str]
+            else -- not a scene
+                GameState.current().scene = nil
+            end
+        end
+    )
 end
 
 function Player:__tostring()
@@ -53,21 +65,6 @@ function Player:isScene(str)
     end
     return false
 end
-
-Signal.register(
-    "player.moved",
-    function()
-        local state = GameState.current()
-        local str = Player:__tostring()
-        GameState.current().info.str = str
-        print("Player moved to:", str)
-        if Player:isScene(str) then
-            GameState.current().scene = state.scenes[str]
-        else -- not a scene
-            GameState.current().scene = nil
-        end
-    end
-)
 
 function Player:move(key)
     local d, x, y = self:getPosition()
@@ -120,38 +117,7 @@ function Player:move(key)
     end
 
     self.direction, self.x, self.y = d, x, y
-    Signal.emit("player.moved")
+    Signal.emit(PlayerSignals.PlayerMoved)
 end
 
 return Player
-
---[[ Signal.register(
-    "player.position-check",
-    function(direction, x, y)
-        local key = Player:__tostring()
-        local scenes = GameState.current().scenes
-
-        if setContains(scenes, key) then
-            love.window.setTitle(key)
-            if type(scenes[key]) == "table" then
-                Player.scene = scenes[key]
-                Signal.emit("scene.enter")
-            else
-                Player.scene = House[key]
-            end
-        else
-            GameState.current().scene = nil
-            love.window.setTitle(GameState.current().id)
-        end
-    end
-) ]]
---[[ Signal.register(
-    "scene.enter",
-    function()
-        local scene = Player.scene
-        -- print("scene.enter", scene.id)
-        print(Inspect(scene))
-        -- GameState.push(scene)
-    end
-)
- ]]
