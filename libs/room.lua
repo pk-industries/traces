@@ -10,7 +10,7 @@ end
 function Room:render()
     local d, x, y = Player:getPosition()
     local assetsdir = "assets/images/"
-    local roomdir = assetsdir .. GameState:current().id .. "/" --- /assets/images/bedroom/
+    local roomdir = assetsdir .. GameState:current().id .. "/"
     local filename = "x" .. x .. "y" .. y .. "_" .. d .. "_" .. self.id .. ".png"
 
     local filepath = roomdir .. filename
@@ -24,7 +24,7 @@ function Room:render()
 
     if self.debug then
         local cs = GameState:current()
-        str = ""
+        local str = ""
         for k, v in pairs(GameState.current().views) do
             str = str .. v .. "\n"
         end

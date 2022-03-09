@@ -1,5 +1,3 @@
-local Lume = require "libs.lume"
-
 ---@class Saveable
 ---@field saveFile string the name of the file that this instance saves and loads to
 ---@field id string the id and file name of the object
