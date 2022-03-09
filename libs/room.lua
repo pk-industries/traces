@@ -25,10 +25,10 @@ function Room:render()
     if self.debug then
         local cs = GameState:current()
         local str = ""
-        for k, v in pairs(GameState.current().views) do
+        for k, v in pairs(cs.views) do
             str = str .. v .. "\n"
         end
-        info(
+        debug.getinfo(
             Inspect(Room.info) .. "\n",
             self.id,
             Player:__tostring(),

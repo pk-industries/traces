@@ -11,7 +11,6 @@ local Saveable =
     init = function(self, id)
         self.id = id or "save"
         self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. self.id .. ".lua"
-        print("Save file: " .. self.saveFile)
     end,
     __tostring = function(self)
         return "Save file: " .. self.saveFile
@@ -29,7 +28,12 @@ function Saveable:save()
 end
 
 function Saveable:load()
-    print("Save file " .. self.saveFile .. " loading...")
+    print("Loading save file " .. self.saveFile .. "...")
+
+    if not FileExists(self.saveFile) then
+        print("Save file does not exist. Skipping load.")
+        return
+    end
 
     local ok, data = pcall(table.load, self.saveFile)
 
