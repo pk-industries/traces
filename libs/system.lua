@@ -2,10 +2,10 @@
 -- This is a library for the functions native to system this game is developed in.
 -- This file is currently supporting LOVE
 
---- System functions; file system save/load, window functions, etc.
+---System functions; file system save/load, window functions, etc.
 local System = {
 
-    --- Set the title of the game window
+    ---Set the title of the game window
     ---@param title string
     setTitle = function(title)
         love.window.setTitle(title)
@@ -13,6 +13,98 @@ local System = {
     setWheelMoved = function(fun)
         love.wheelmoved = fun
     end
+}
+
+System.audio = {
+    ---
+    ---Creates a new Source from a filepath, File, Decoder or SoundData. Source implementation is subject to change and may not work with functions outside this file.
+    ---
+    ---Sources created from SoundData are always static.
+    ---
+    ---@param filename string The filepath to the audio file.
+    ---@param type string Types: "static" (all audio decoded), "stream" (decoded in chunks as needed),"queue" (audio must me manually queued). A good rule of thumb is to use stream for music files and static for all short sound effects. Basically, you want to avoid loading large files into memory at once.
+    ---@return source source A new Source that can play the specified audio.
+    createSource = function(filename, type)
+        return love.audio.newSource(filename, type)
+    end
+}
+
+---Event manager for things like keypresses.
+System.event = {
+    ---Clears the event queue.
+    clear = function()
+        love.event.clear()
+    end,
+    ---Returns an iterator for messages in the event queue.
+    poll = function()
+        return love.event.poll()
+    end,
+    ---Pump events into the event queue. Usually not called by the user.
+    pump = function()
+        love.event.pump()
+    end,
+    ---Adds an event(s) to the event queue. Params 2-6 are optional.
+    push = function(n, a, b, c, d, e, f)
+        love.event.push(n, a, b, c, d, e, f)
+    end,
+    ---Adds the quite event to the queue.
+    ---@param exitstatus? number The program exit status to use when closing the application.
+    quit = function(exitstatus)
+        love.event.quit(exitstatus)
+    end,
+    ---Like poll, but blocks until there is an event in the queue.
+    ---@return Event n The name of the event
+    ---@return any a, any b, any c, any d, any e, any f Event arguements
+    wait = function()
+        return love.event.wait()
+    end,
+    ---Event arguments for things like push.
+    EventArguments = {
+        ---Window focus gained or lost
+        focus = "focus",
+        joystickpressed = "joystickpressed",
+        joystickreleased = "joystickreleased",
+        keypressed = "keypressed",
+        keyreleased = "keyreleased",
+        mousepressed = "mousepressed",
+        mousereleased = "mousereleased",
+        quit = "quit",
+        resize = "resize",
+        visible = "visible",
+        mousefocus = "mousefocus",
+        threaderror = "threaderror",
+        joystickadded = "joystickadded",
+        joystickremoved = "joystickremoved",
+        joystickaxis = "joystickaxis",
+        joystickhat = "joystickhat",
+        gamepadpressed = "gamepadpressed",
+        gamepadreleased = "gamepadreleased",
+        gamepadaxis = "gamepadaxis",
+        textinput = "textinput",
+        mousemoved = "mousemoved",
+        lowmemory = "lowmemory",
+        textedited = "textedited",
+        wheelmoved = "wheelmoved",
+        touchpressed = "touchpressed",
+        touchreleased = "touchreleased",
+        touchmoved = "touchmoved",
+        ---Directory is dragged and dropped onto the window
+        directorydropped = "directorydropped",
+        filedropped = "filedropped"
+    }
+}
+
+System.filesystem = {
+    checkExists = function(filename)
+        local f = io.open(filename, "r")
+        if not f then
+            io.close(f)
+            return true
+        else
+            return false
+        end
+    end,
+    getSaveDir = function() return love.filesystem.getSaveDirectory end,
 }
 
 System.graphics = {
@@ -111,92 +203,13 @@ System.graphics = {
     end
 }
 
---- Key functions
+---Keyboard functions
 System.keyboard = {
     --- Check if key/input is pressed down.
     ---@param key string
     isDown = function(key)
         return love.keyboard.isDown(key)
     end
-}
-
-System.audio = {
-    ---
-    ---Creates a new Source from a filepath, File, Decoder or SoundData. Source implementation is subject to change and may not work with functions outside this file.
-    ---
-    ---Sources created from SoundData are always static.
-    ---
-    ---@param filename string The filepath to the audio file.
-    ---@param type string Types: "static" (all audio decoded), "stream" (decoded in chunks as needed),"queue" (audio must me manually queued). A good rule of thumb is to use stream for music files and static for all short sound effects. Basically, you want to avoid loading large files into memory at once.
-    ---@return source source A new Source that can play the specified audio.
-    createSource = function(filename, type)
-        return love.audio.newSource(filename, type)
-    end
-}
-
----Event manager for things like keypresses.
-System.event = {
-    ---Clears the event queue.
-    clear = function()
-        love.event.clear()
-    end,
-    ---Returns an iterator for messages in the event queue.
-    poll = function()
-        return love.event.poll()
-    end,
-    ---Pump events into the event queue. Usually not called by the user.
-    pump = function()
-        love.event.pump()
-    end,
-    ---Adds an event(s) to the event queue. Params 2-6 are optional.
-    push = function(n, a, b, c, d, e, f)
-        love.event.push(n, a, b, c, d, e, f)
-    end,
-    ---Adds the quite event to the queue.
-    ---@param exitstatus? number The program exit status to use when closing the application.
-    quit = function(exitstatus)
-        love.event.quit(exitstatus)
-    end,
-    ---Like poll, but blocks until there is an event in the queue.
-    ---@return Event n The name of the event
-    ---@return any a, any b, any c, any d, any e, any f Event arguements
-    wait = function()
-        return love.event.wait()
-    end,
-    ---Event arguments for things like push.
-    EventArguments = {
-        ---Window focus gained or lost
-        focus = "focus",
-        joystickpressed = "joystickpressed",
-        joystickreleased = "joystickreleased",
-        keypressed = "keypressed",
-        keyreleased = "keyreleased",
-        mousepressed = "mousepressed",
-        mousereleased = "mousereleased",
-        quit = "quit",
-        resize = "resize",
-        visible = "visible",
-        mousefocus = "mousefocus",
-        threaderror = "threaderror",
-        joystickadded = "joystickadded",
-        joystickremoved = "joystickremoved",
-        joystickaxis = "joystickaxis",
-        joystickhat = "joystickhat",
-        gamepadpressed = "gamepadpressed",
-        gamepadreleased = "gamepadreleased",
-        gamepadaxis = "gamepadaxis",
-        textinput = "textinput",
-        mousemoved = "mousemoved",
-        lowmemory = "lowmemory",
-        textedited = "textedited",
-        wheelmoved = "wheelmoved",
-        touchpressed = "touchpressed",
-        touchreleased = "touchreleased",
-        touchmoved = "touchmoved",
-        ---Directory is dragged and dropped onto the window
-        directorydropped = "directorydropped",
-        filedropped = "filedropped"
-    }
 }
 
 return System

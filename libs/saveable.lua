@@ -1,3 +1,5 @@
+local System = require "libs.system"
+
 ---@class Saveable
 ---@field saveFile string the name of the file that this instance saves and loads to
 ---@field id string the id and file name of the object
@@ -10,7 +12,7 @@ local Saveable =
     ---@param id string
     init = function(self, id)
         self.id = id or "save"
-        self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. self.id .. ".lua"
+        self.saveFile = System.filesystem.getSaveDirectory() .. "/" .. self.id .. ".lua"
     end,
     __tostring = function(self)
         return "Save file: " .. self.saveFile
@@ -30,7 +32,7 @@ end
 function Saveable:load()
     print("Loading save file " .. self.saveFile .. "...")
 
-    if not FileExists(self.saveFile) then
+    if not System.filesystem.checkExists(self.saveFile) then
         print("Save file does not exist. Skipping load.")
         return
     end

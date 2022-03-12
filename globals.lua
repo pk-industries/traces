@@ -117,16 +117,6 @@ GamePad = {
 }
 GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
 
----@param name string
-function FileExists(name)
-    local f = io.open(name, "r")
-    if f ~= nil then
-        io.close(f)
-        return true
-    else
-        return false
-    end
-end
 function string:split(sep)
     local sep, fields = sep or ":", {}
     local pattern = string.format("([^%s]+)", sep)
