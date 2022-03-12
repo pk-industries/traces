@@ -69,16 +69,16 @@ CONFIG = {
 
 Fonts = {
     default = nil,
-    regular = System.createFont "assets/fonts/Roboto-Regular.ttf",
-    bold = System.createFont "assets/fonts/Roboto-Bold.ttf",
-    light = System.createFont "assets/fonts/Roboto-Light.ttf",
-    thin = System.createFont "assets/fonts/Roboto-Thin.ttf",
-    regularItalic = System.createFont "assets/fonts/Roboto-Italic.ttf",
-    boldItalic = System.createFont "assets/fonts/Roboto-BoldItalic.ttf",
-    lightItalic = System.createFont "assets/fonts/Roboto-LightItalic.ttf",
-    thinItalic = System.createFont "assets/fonts/Roboto-Italic.ttf",
-    monospace = System.createFont "assets/fonts/RobotoMono-Regular.ttf",
-    pixel = System.createFont "assets/fonts/Pixel.ttf"
+    regular = System.graphics.createFont "assets/fonts/Roboto-Regular.ttf",
+    bold = System.graphics.createFont "assets/fonts/Roboto-Bold.ttf",
+    light = System.graphics.createFont "assets/fonts/Roboto-Light.ttf",
+    thin = System.graphics.createFont "assets/fonts/Roboto-Thin.ttf",
+    regularItalic = System.graphics.createFont "assets/fonts/Roboto-Italic.ttf",
+    boldItalic = System.graphics.createFont "assets/fonts/Roboto-BoldItalic.ttf",
+    lightItalic = System.graphics.createFont "assets/fonts/Roboto-LightItalic.ttf",
+    thinItalic = System.graphics.createFont "assets/fonts/Roboto-Italic.ttf",
+    monospace = System.graphics.createFont "assets/fonts/RobotoMono-Regular.ttf",
+    pixel = System.graphics.createFont "assets/fonts/Pixel.ttf"
 }
 
 -- -@alias Colors table<string, number>

@@ -3,10 +3,10 @@ local image, animation
 local StartSceen = {}
 
 function StartSceen:init()
-    image = System.createImage("assets/images/startscreen.png")
+    image = System.graphics.createImage("assets/images/startscreen.png")
     local g = Anim8.newGrid(image:getWidth() / 3, image:getHeight(), image:getWidth(), image:getHeight())
     animation = Anim8.newAnimation(g("1-3", 1), 0.15)
-    System.setBackgroundColor(Colors.white)
+    System.graphics.setBackgroundColor(Colors.white)
 end
 
 function StartSceen:enter()
@@ -20,8 +20,8 @@ function StartSceen:leave()
 end
 
 function StartSceen.buttonPosition()
-    local btnx = System.getWidth() * .72
-    local btny = System.getHeight() * .65
+    local btnx = System.graphics.getWidth() * .72
+    local btny = System.graphics.getHeight() * .65
     local textx, texty = btnx + 15, btny + 3
     return btnx, btny, textx, texty
 end
@@ -29,14 +29,14 @@ end
 function StartSceen:draw()
     local bx, by, px, py = StartSceen.buttonPosition()
 
-    local startbutton = System.createImage("assets/images/button.png")
+    local startbutton = System.graphics.createImage("assets/images/button.png")
     animation:draw(image, 0, 0, 0, WINDOW.scale, WINDOW.scale)
-    System.draw(startbutton, bx, by, 0, WINDOW.scale, WINDOW.scale)
+    System.graphics.draw(startbutton, bx, by, 0, WINDOW.scale, WINDOW.scale)
 
-    System.setFont(Fonts.pixel[20])
-    System.setColor(0, 0, 0) -- black
-    System.print("Start", px, py, 0, WINDOW.scale, WINDOW.scale)
-    System.setColor(1, 1, 1) -- white
+    System.graphics.setFont(Fonts.pixel[20])
+    System.graphics.setColor(0, 0, 0) -- black
+    System.graphics.print("Start", px, py, 0, WINDOW.scale, WINDOW.scale)
+    System.graphics.setColor(1, 1, 1) -- white
 end
 
 function StartSceen:keypressed(key, scancode, isrepeat)

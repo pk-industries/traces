@@ -1,5 +1,5 @@
 local static
--- local click = System.createAudioSource("assets/sounds/button_press.wav", "static")
+-- local click = System.graphics.createAudioSource("assets/sounds/button_press.wav", "static")
 
 local xmin = 154
 local xmax = 364
@@ -33,11 +33,11 @@ function Radio:init()
         filePath = "assets/sounds/masquerade-of-the-ghosts.mp3",
         vol = 0
     }
-    music = System.createAudioSource(station.filePath, "static")
+    music = System.audio.createSource(station.filePath, "static")
     music:setLooping(true)
     music:play()
 
-    static = System.createAudioSource("assets/sounds/static.mp3", "stream")
+    static = System.audio.createSource("assets/sounds/static.mp3", "stream")
     static:setLooping(true)
     static:play()
     if isInRange(self.x, station.min, station.max) then
@@ -92,16 +92,16 @@ end
 
 function Radio:draw()
     if self.currentStation then
-        System.print("Current station: " .. stations[self.currentStation].id, 0, 10)
+        System.graphics.print("Current station: " .. stations[self.currentStation].id, 0, 10)
     end
-    local img = System.createImage("assets/images/bedroom/x2y2_e_bedroom_radio.png")
+    local img = System.graphics.createImage("assets/images/bedroom/x2y2_e_bedroom_radio.png")
     local scale = WINDOW.scale
-    System.setColor(0, 0, 0, 1)
-    System.drawRectangle("fill", Radio.x * WINDOW.scale, 45 * WINDOW.scale, 3 * WINDOW.scale, 50 * WINDOW.scale)
-    System.setColor(1, 1, 1, 1)
-    System.draw(img, 0, 0, 0, scale, scale)
-    System.setColor(0, 0, 0)
-    System.print("x: " .. Radio.x, 0, 0)
+    System.graphics.setColor(0, 0, 0, 1)
+    System.graphics.drawRectangle("fill", Radio.x * WINDOW.scale, 45 * WINDOW.scale, 3 * WINDOW.scale, 50 * WINDOW.scale)
+    System.graphics.setColor(1, 1, 1, 1)
+    System.graphics.draw(img, 0, 0, 0, scale, scale)
+    System.graphics.setColor(0, 0, 0)
+    System.graphics.print("x: " .. Radio.x, 0, 0)
 end
 
 function Radio:keypressed(key)
