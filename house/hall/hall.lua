@@ -1,11 +1,16 @@
-local Class = require "libs.class"
 local TraceRoom = require "house.traceroom"
 
 local Hall =
-    Class { __includes = TraceRoom,
-    init = function(self)
-        TraceRoom.init(self, "hall", 1, 2, {}, {}, {})
-    end
+    Class {
+    __includes = TraceRoom
 }
+
+function Hall:init()
+    TraceRoom.init(self, "hall", 1, 2, {}, {}, {})
+end
+
+function Hall:enter()
+    System.setTitle("Hall")
+end
 
 return Hall

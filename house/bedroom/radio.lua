@@ -1,5 +1,5 @@
 local static
--- local click = love.audio.newSource("assets/sounds/button_press.wav", "static"
+-- local click = System.createAudioSource("assets/sounds/button_press.wav", "static")
 
 local xmin = 154
 local xmax = 364
@@ -24,6 +24,8 @@ local function isInRange(x, min, max)
     return x >= min and x <= max
 end
 function Radio:init()
+    print("radio init")
+    Saveable.init(self, "bedroom.radio")
     station = {
         id = "masquerade-of-the-ghosts",
         min = 287,
@@ -31,11 +33,11 @@ function Radio:init()
         filePath = "assets/sounds/masquerade-of-the-ghosts.mp3",
         vol = 0
     }
-    music = love.audio.newSource(station.filePath, "static")
+    music = System.createAudioSource(station.filePath, "static")
     music:setLooping(true)
     music:play()
 
-    static = love.audio.newSource("assets/sounds/static.mp3", "stream")
+    static = System.createAudioSource("assets/sounds/static.mp3", "stream")
     static:setLooping(true)
     static:play()
     if isInRange(self.x, station.min, station.max) then
@@ -55,13 +57,19 @@ function Radio:init()
             static:setVolume(station.vol)
         end
     )
-    print("radio init")
-    Saveable.init(self, "bedroom.radio")
+
+    
+
+    local wheelmoved = function (dx, dy)
+        velx = velx + dy * 20
+    end
+
+    System.setWheelMoved(wheelmoved)
 end
 
-function Radio:enter()
-    -- static:play()
-end
+-- function Radio:enter()
+--     static:play()
+-- end
 
 function Radio:update(dt)
     local newpos = Radio.x + velx * dt
@@ -84,20 +92,16 @@ end
 
 function Radio:draw()
     if self.currentStation then
-        love.graphics.print("Current station: " .. stations[self.currentStation].id, 0, 10)
+        System.print("Current station: " .. stations[self.currentStation].id, 0, 10)
     end
-    local img = love.graphics.newImage("assets/images/bedroom/x2y2_e_bedroom_radio.png")
+    local img = System.createImage("assets/images/bedroom/x2y2_e_bedroom_radio.png")
     local scale = WINDOW.scale
-    love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.rectangle("fill", Radio.x * WINDOW.scale, 45 * WINDOW.scale, 3 * WINDOW.scale, 50 * WINDOW.scale)
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(img, 0, 0, 0, scale, scale)
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.print("x: " .. Radio.x, 0, 0)
-end
-
-function love.wheelmoved(dx, dy)
-    velx = velx + dy * 20
+    System.setColor(0, 0, 0, 1)
+    System.drawRectangle("fill", Radio.x * WINDOW.scale, 45 * WINDOW.scale, 3 * WINDOW.scale, 50 * WINDOW.scale)
+    System.setColor(1, 1, 1, 1)
+    System.draw(img, 0, 0, 0, scale, scale)
+    System.setColor(0, 0, 0)
+    System.print("x: " .. Radio.x, 0, 0)
 end
 
 function Radio:keypressed(key)

@@ -3,25 +3,26 @@ local currentFrame
 local MusicBox = Scene("musicbox", {})
 
 function MusicBox:init()
-    up = 0
-    img = love.graphics.newImage("assets/images/bedroom/musicbox_turn_sheet.png")
-    frames = {}
-    local frameW, frameH = love.graphics.getDimensions()
+    self.up = 0
+    self.val = 0
+    self.img = System.createImage("assets/images/bedroom/musicbox_turn_sheet.png")
+    self.frames = {}
+    local frameW, frameH = System.getDimensions()
 
     for i = 0, 10 do
-        table.insert(frames, love.graphics.newQuad(i * frameW, 0, frameW, frameH, img:getWidth(), frameH))
+        table.insert(self.frames, System.createCrop(i * frameW, 0, frameW, frameH, self.img:getWidth(), frameH))
     end
 
     currentFrame = 1
 end
 
 function MusicBox:enter(prev, ...)
-    val = 0
-    alpha = 1
-    color = {
-        val,
-        val,
-        val
+    self.val = 0
+    self.alpha = 1
+    self.color = {
+        self.val,
+        self.val,
+        self.val
     }
     -- Timer.tween(2, color, {0, 0, 0}, "linear")
 end
@@ -31,36 +32,36 @@ function MusicBox:update(dt)
 end
 
 function MusicBox:draw()
-    love.graphics.draw(img, frames[math.floor(currentFrame)])
-    love.graphics.setBackgroundColor(Colors.white)
-    love.graphics.setColor(color)
+    System.draw(self.img, self.frames[math.floor(currentFrame)])
+    System.setBackgroundColor(Colors.white)
+    System.setColor(self.color)
 end
 
 function MusicBox:keypressed(key)
-    val = val + 5
+    self.val = self.val + 5
     if key == "space" then
         currentFrame = currentFrame + 1
-        if currentFrame > #frames then
+        if currentFrame > #self.frames then
             currentFrame = 1
         end
     end
     if key == GamePad.down then
         GameState.pop()
     end
-    print(val)
+    print(self.val)
 end
 
 function MusicBox:wheelmoved(x, y)
     if y > 10 then
         currentFrame = currentFrame + 1
-        if currentFrame > #frames then
+        if currentFrame > #self.frames then
             currentFrame = 1
         end
     end
     if y < -10 then
         currentFrame = currentFrame - 1
         if currentFrame < 1 then
-            currentFrame = #frames
+            currentFrame = #self.frames
         end
     end
 end

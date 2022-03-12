@@ -24,8 +24,8 @@ local Scene =
     update = function(self, dt)
     end,
     draw = function(self)
-        love.graphics.setFont(Fonts.pixel[30])
-        love.graphics.print("Scene " .. self.id, 0, 0)
+        System.setFont(Fonts.pixel[30])
+        System.print("Scene " .. self.id, 0, 0)
     end,
     exit = function(self)
         print("Exiting scene " .. self.id)

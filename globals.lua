@@ -20,6 +20,7 @@ GameState = require "libs.gamestate"
 Window = require "libs.window"
 Saveable = require "libs.saveable"
 Scene = require "libs.scene"
+System = require "libs.system"
 -- MenuEngine = require "libs.menuengine"
 Anim8 = require "libs.anim8"
 -- MenuEngine.stop_on_nil_functions = true
@@ -66,31 +67,18 @@ CONFIG = {
     }
 }
 
-local function makeFont(path)
-    return setmetatable(
-        {},
-        {
-            __index = function(t, size)
-                local f = love.graphics.newFont(path, size)
-                rawset(t, size, f)
-                return f
-            end
-        }
-    )
-end
-
 Fonts = {
     default = nil,
-    regular = makeFont "assets/fonts/Roboto-Regular.ttf",
-    bold = makeFont "assets/fonts/Roboto-Bold.ttf",
-    light = makeFont "assets/fonts/Roboto-Light.ttf",
-    thin = makeFont "assets/fonts/Roboto-Thin.ttf",
-    regularItalic = makeFont "assets/fonts/Roboto-Italic.ttf",
-    boldItalic = makeFont "assets/fonts/Roboto-BoldItalic.ttf",
-    lightItalic = makeFont "assets/fonts/Roboto-LightItalic.ttf",
-    thinItalic = makeFont "assets/fonts/Roboto-Italic.ttf",
-    monospace = makeFont "assets/fonts/RobotoMono-Regular.ttf",
-    pixel = makeFont "assets/fonts/Pixel.ttf"
+    regular = System.createFont "assets/fonts/Roboto-Regular.ttf",
+    bold = System.createFont "assets/fonts/Roboto-Bold.ttf",
+    light = System.createFont "assets/fonts/Roboto-Light.ttf",
+    thin = System.createFont "assets/fonts/Roboto-Thin.ttf",
+    regularItalic = System.createFont "assets/fonts/Roboto-Italic.ttf",
+    boldItalic = System.createFont "assets/fonts/Roboto-BoldItalic.ttf",
+    lightItalic = System.createFont "assets/fonts/Roboto-LightItalic.ttf",
+    thinItalic = System.createFont "assets/fonts/Roboto-Italic.ttf",
+    monospace = System.createFont "assets/fonts/RobotoMono-Regular.ttf",
+    pixel = System.createFont "assets/fonts/Pixel.ttf"
 }
 
 -- -@alias Colors table<string, number>
