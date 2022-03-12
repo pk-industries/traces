@@ -7,7 +7,6 @@ local Signal = require "libs.signal"
 ---@field direction string | "n" | "s" | "e" | "w"
 ---@field x number
 ---@field y number
----@field load fun() Loads player data
 local Player = Class {__includes = Saveable}
 local PlayerSignals = { PlayerMoved = "player.moved" }
 

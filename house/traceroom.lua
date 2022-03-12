@@ -1,6 +1,6 @@
 local Room = require "libs.room"
 
-local TraceRoom = Class { __includes = Room }
+local TraceRoom = Class {__includes = Room}
 
 --- Constructor
 ---@param id string
@@ -8,7 +8,7 @@ local TraceRoom = Class { __includes = Room }
 ---@param height number
 ---@param views table
 ---@param scenes table
----@param obstacles table 
+---@param obstacles table
 function TraceRoom:init(id, width, height, views, scenes, obstacles)
     Room.init(self, id)
     self.width = width
@@ -27,15 +27,49 @@ function TraceRoom:update(dt)
 end
 
 function TraceRoom:draw()
-    local _, err = pcall(
-        function() self:render() end
+    local _, err =
+        pcall(
+        function()
+            self:render()
+        end
     )
-    if err then print(err) end
+    if err then
+        print(err)
+    end
+end
+
+local function getFacingScene(self)
+    local playercoordinates = Player.direction .. "." .. tostring(Player.x) .. "." .. tostring(Player.y)
+    for scenecoordinates, scene in pairs(self.scenes) do
+        if playercoordinates == scenecoordinates then
+            return scene
+        end
+    end
+    return nil
+end
+
+local function navigate(self, key)
+    local _, err =
+        pcall(
+        function()
+            self.navigate(self, key)
+        end
+    )
+    if err then
+        print(err)
+    end
 end
 
 function TraceRoom:keypressed(key)
-    local _, err = pcall(function()self.navigate(self, key) end)
-    if err then print(err) end
+    local facingscene = getFacingScene(self)
+    if key == Controls.up
+    and facingscene
+    and facingscene.locked ~= true then
+        Player.room = facingscene.id
+        States.game:enter()
+    else
+        navigate(self, key)
+    end
 end
 
 function TraceRoom:wheelmoved(x, y)

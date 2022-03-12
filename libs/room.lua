@@ -15,7 +15,7 @@ function Room:render()
 
     local filepath = roomdir .. filename
     local scale = WINDOW.scale
-    System.setColor(255, 255, 255)
+    System.graphics.setColor(255, 255, 255)
     if System.filesystem.checkExists(filepath) then
         System.graphics.draw(System.graphics.createImage(filepath), 0, 0, 0, scale, scale)
     else

@@ -1,13 +1,3 @@
-local Hall =
-    Scene(
-    "hall",
-    "w",
-    1,
-    2,
-    {
-        type = "door",
-        locked = false
-    }
-)
-
+local Door = require "house.door"
+local Hall = Door("hall", "w", 1, 2, "door", false)
 return Hall
