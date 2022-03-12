@@ -1,7 +1,6 @@
----@author: snorhax 2022-02-14
-
 local Room = require "libs.room"
-local TraceRoom = Class { __includes = Room}
+
+local TraceRoom = Class { __includes = Room }
 
 --- Constructor
 ---@param id string

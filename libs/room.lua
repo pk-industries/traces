@@ -15,9 +15,9 @@ function Room:render()
 
     local filepath = roomdir .. filename
     local scale = WINDOW.scale
-    love.graphics.setColor(255, 255, 255)
-    if FileExists(filepath) then
-        love.graphics.draw(love.graphics.newImage(filepath), 0, 0, 0, scale, scale)
+    System.setColor(255, 255, 255)
+    if System.filesystem.checkExists(filepath) then
+        System.graphics.draw(System.graphics.createImage(filepath), 0, 0, 0, scale, scale)
     else
         error("File: " .. filepath .. " does not exist")
     end
