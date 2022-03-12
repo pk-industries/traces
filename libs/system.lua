@@ -97,14 +97,13 @@ System.event = {
 System.filesystem = {
     checkExists = function(filename)
         local f = io.open(filename, "r")
-        if not f then
+        if f ~= nil then
             io.close(f)
             return true
         else
             return false
         end
     end,
-    getSaveDir = function() return love.filesystem.getSaveDirectory end,
 }
 
 System.graphics = {
