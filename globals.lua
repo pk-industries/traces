@@ -92,7 +92,7 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-Player = nil
+Player = nil -- Player instantiated in states.game
 House = require "house.house"
 States = {
     start = require "states.start",
@@ -116,16 +116,3 @@ GamePad = {
     right = Controls.right
 }
 GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
-
-function string:split(sep)
-    local sep, fields = sep or ":", {}
-    local pattern = string.format("([^%s]+)", sep)
-    local shit =
-        self:gsub(
-        pattern,
-        function(c)
-            fields[#fields + 1] = c
-        end
-    )
-    return fields
-end

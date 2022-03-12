@@ -39,4 +39,10 @@ function TraceRoom:keypressed(key)
     if err then print(err) end
 end
 
+function TraceRoom:wheelmoved(x, y)
+    if type(self.scene) == "table" then
+        self.scene:wheelmoved(x, y)
+    end
+end
+
 return TraceRoom
