@@ -1,3 +1,2 @@
-local Door = require "house.door"
-local Bedroom = Door("bedroom", "e", 1, 2, "door", false)
+local Bedroom = Scene("bedroom", "e", 1, 2, true, false)
 return Bedroom

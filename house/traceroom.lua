@@ -49,24 +49,29 @@ local function getFacingScene(self)
 end
 
 local function navigate(self, key)
-    local _, err =
+    local ok, err =
         pcall(
         function()
             self.navigate(self, key)
         end
     )
-    if err then
+    if not ok then
         print(err)
     end
 end
 
 function TraceRoom:keypressed(key)
     local facingscene = getFacingScene(self)
-    if key == Controls.up
-    and facingscene
-    and facingscene.locked ~= true then
-        Player.room = facingscene.id
-        States.game:enter()
+    if key == Controls.up and facingscene then
+        if facingscene.isLocked then
+            print("It's locked.")
+            System.graphics.print("It's locked.")
+        elseif facingscene.isDoor then
+            Player.room = facingscene.id
+            States.game:enter()
+        else
+            GameState.push(House[facingscene.id])
+        end
     else
         navigate(self, key)
     end
