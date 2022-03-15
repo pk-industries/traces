@@ -1,13 +1,2 @@
-local Bathroom =
-    Scene(
-    "bathroom",
-    "n",
-    2,
-    2,
-    {
-        type = "door",
-        locked = true
-    }
-)
-
+local Bathroom = Scene("bathroom", "n", 2, 2, true, true)
 return Bathroom

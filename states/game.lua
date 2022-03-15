@@ -1,21 +1,16 @@
 local game = {}
 
-local House = require "house.house"
 function game:init()
-    local status, err =
-        pcall(
-        function()
-            Player:init("player")
-        end
-    )
+    local status, data = pcall(require "states.player", "player")
+
     if not status then
-        print("Error in game:init(): " .. err)
+        print("Error in game:init(): " .. data)
     else
-        print("game:init()")
+        Player = data
         Player:load()
     end
+    print("Game init complete.")
 end
-
 function game:enter()
     GameState.switch(House[Player.room])
 end

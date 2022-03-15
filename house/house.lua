@@ -3,9 +3,9 @@ House = {
     ["bedroom.radio"] = require "house.bedroom.radio",
     ["bedroom.dresser"] = require "house.bedroom.dresser",
     ["bedroom.closet"] = require "house.bedroom.closet",
-    ["bedroom.bathroom"] = require "house.bedroom.bathroom"
-    -- ["hall"] = require "house.hall"
-    -- ["test"] = require "example.main"
+    ["bedroom.bathroom"] = require "house.bedroom.bathroom",
+    ["bedroom.hall"] = require "house.bedroom.hall",
+    ["hall"] = require "house.hall.hall"
 }
 
 return House

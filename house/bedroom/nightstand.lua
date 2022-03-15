@@ -13,10 +13,10 @@ function view:init()
 end
 
 function view:draw()
-    bgImg = love.graphics.newImage(self.bgImgPath)
-    love.graphics.draw(bgImg, 0, 0, 0, WINDOW.scale, WINDOW.scale)
-    -- love.graphics.setFont(Fonts.pixel[30])
-    -- love.graphics.print("Scene " .. self.id, 0, 0)
+    bgImg = System.graphics.createImage(self.bgImgPath)
+    System.draw(bgImg, 0, 0, 0, WINDOW.scale, WINDOW.scale)
+    -- System.graphics.setFont(Fonts.pixel[30])
+    -- System.graphics.print("Scene " .. self.id, 0, 0)
 end
 
 function view:wheelmoved(x, y)

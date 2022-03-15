@@ -20,6 +20,7 @@ GameState = require "libs.gamestate"
 Window = require "libs.window"
 Saveable = require "libs.saveable"
 Scene = require "libs.scene"
+System = require "libs.system"
 -- MenuEngine = require "libs.menuengine"
 Anim8 = require "libs.anim8"
 -- MenuEngine.stop_on_nil_functions = true
@@ -66,31 +67,18 @@ CONFIG = {
     }
 }
 
-local function makeFont(path)
-    return setmetatable(
-        {},
-        {
-            __index = function(t, size)
-                local f = love.graphics.newFont(path, size)
-                rawset(t, size, f)
-                return f
-            end
-        }
-    )
-end
-
 Fonts = {
     default = nil,
-    regular = makeFont "assets/fonts/Roboto-Regular.ttf",
-    bold = makeFont "assets/fonts/Roboto-Bold.ttf",
-    light = makeFont "assets/fonts/Roboto-Light.ttf",
-    thin = makeFont "assets/fonts/Roboto-Thin.ttf",
-    regularItalic = makeFont "assets/fonts/Roboto-Italic.ttf",
-    boldItalic = makeFont "assets/fonts/Roboto-BoldItalic.ttf",
-    lightItalic = makeFont "assets/fonts/Roboto-LightItalic.ttf",
-    thinItalic = makeFont "assets/fonts/Roboto-Italic.ttf",
-    monospace = makeFont "assets/fonts/RobotoMono-Regular.ttf",
-    pixel = makeFont "assets/fonts/Pixel.ttf"
+    regular = System.graphics.createFont "assets/fonts/Roboto-Regular.ttf",
+    bold = System.graphics.createFont "assets/fonts/Roboto-Bold.ttf",
+    light = System.graphics.createFont "assets/fonts/Roboto-Light.ttf",
+    thin = System.graphics.createFont "assets/fonts/Roboto-Thin.ttf",
+    regularItalic = System.graphics.createFont "assets/fonts/Roboto-Italic.ttf",
+    boldItalic = System.graphics.createFont "assets/fonts/Roboto-BoldItalic.ttf",
+    lightItalic = System.graphics.createFont "assets/fonts/Roboto-LightItalic.ttf",
+    thinItalic = System.graphics.createFont "assets/fonts/Roboto-Italic.ttf",
+    monospace = System.graphics.createFont "assets/fonts/RobotoMono-Regular.ttf",
+    pixel = System.graphics.createFont "assets/fonts/Pixel.ttf"
 }
 
 -- -@alias Colors table<string, number>
@@ -104,10 +92,8 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-Player = require "states.player"
-House = {
-    Bedroom = require "house.bedroom.bedroom"
-}
+Player = nil -- Player instantiated in states.game
+House = require "house.house"
 States = {
     start = require "states.start",
     game = require "states.game"
@@ -130,25 +116,3 @@ GamePad = {
     right = Controls.right
 }
 GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
-
----@param name string
-function FileExists(name)
-    local f = io.open(name, "r")
-    if f ~= nil then
-        io.close(f)
-        return true
-    else
-        return false
-    end
-end
-function string:split(sep)
-    local sep, fields = sep or ":", {}
-    local pattern = string.format("([^%s]+)", sep)
-    self:gsub(
-        pattern,
-        function(c)
-            fields[#fields + 1] = c
-        end
-    )
-    return fields
-end
