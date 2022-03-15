@@ -1,27 +1,53 @@
+local Class = require "libs.class"
+local GameState = require "libs.gamestate"
+local Saveable = require "libs.saveable"
+local Signal = require "libs.signal"
+
 ---@class Player : Saveable
 ---@field direction string | "n" | "s" | "e" | "w"
 ---@field x number
 ---@field y number
-local Player = Saveable("player")
-Player.room = "bedroom"
----@alias Player.direction string
-Player.direction = "n"
-Player.x = 1
-Player.y = 1
+local Player = Class {__includes = Saveable}
+local PlayerSignals = { PlayerMoved = "player.moved" }
+
+function Player:init(id)
+    Saveable.init(self, id or "player")
+    self.room = "house"
+    self.direction = "n"
+    self.x = 1
+    self.y = 1    
+
+    Signal.register(
+        PlayerSignals.PlayerMoved,
+        function()
+            local state = GameState.current()
+            local str = self:__tostring()
+            GameState.current().info.str = str
+            print("Player moved to:", str)
+            if self:isScene(str) then
+                GameState.current().scene = state.scenes[str]
+            else -- not a scene
+                GameState.current().scene = nil
+            end
+        end
+    )
+end
 
 function Player:__tostring()
     return self.direction .. "." .. self.x .. "." .. self.y
 end
 
----@return string @String of Player coordinates
+---@return string String of Player coordinates
 -- example "x.y.direction" or "1.1.e"
 function Player:getPosition()
     return self.direction, self.x, self.y
 end
---- func description
+
+--- Set player position.
 ---@param d Player.direction
----@param x number
----@param y number
+---@param x Player.x
+---@param y Player.y
+---@return number d,number x,number y - Direction, X, Y
 function Player:setPosition(d, x, y)
     self.direction = d
     self.x = x
@@ -30,31 +56,14 @@ function Player:setPosition(d, x, y)
 end
 
 function Player:isScene(str)
-    local scenes
     local state = GameState.current()
     if type(state) == "table" and setContains(state, "scenes") then
-        newval = str
         if setContains(state.scenes, str) then
             return true
         end
     end
     return false
 end
-
-Signal.register(
-    "player.moved",
-    function()
-        local state = GameState.current()
-        local str = Player:__tostring()
-        GameState.current().info.str = str
-        print("Player moved to:", str)
-        if Player:isScene(str) then
-            GameState.current().scene = state.scenes[str]
-        else -- not a scene
-            GameState.current().scene = nil
-        end
-    end
-)
 
 function Player:move(key)
     local d, x, y = self:getPosition()
@@ -107,40 +116,7 @@ function Player:move(key)
     end
 
     self.direction, self.x, self.y = d, x, y
-    Signal.emit("player.moved")
+    Signal.emit(PlayerSignals.PlayerMoved)
 end
 
--- Player:include(Saveable)
-
 return Player
-
---[[ Signal.register(
-    "player.position-check",
-    function(direction, x, y)
-        local key = Player:__tostring()
-        local scenes = GameState.current().scenes
-
-        if setContains(scenes, key) then
-            love.window.setTitle(key)
-            if type(scenes[key]) == "table" then
-                Player.scene = scenes[key]
-                Signal.emit("scene.enter")
-            else
-                Player.scene = House[key]
-            end
-        else
-            GameState.current().scene = nil
-            love.window.setTitle(GameState.current().id)
-        end
-    end
-) ]]
---[[ Signal.register(
-    "scene.enter",
-    function()
-        local scene = Player.scene
-        -- print("scene.enter", scene.id)
-        print(Inspect(scene))
-        -- GameState.push(scene)
-    end
-)
- ]]
