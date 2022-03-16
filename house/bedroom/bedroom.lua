@@ -12,7 +12,6 @@ function Bedroom:init()
         "bedroom",
         2,
         2,
-        {},
         {
             ["e.2.2"] = nightstand,
             ["s.2.1"] = dresser,

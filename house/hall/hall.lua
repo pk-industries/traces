@@ -9,7 +9,6 @@ function Hall:init()
         "hall",
         1,
         2,
-        {},
         {
             ["e.1.2"] = bedroom
         },

@@ -7,7 +7,7 @@ local Signal = require "libs.signal"
 ---@field direction string | "n" | "s" | "e" | "w"
 ---@field x number
 ---@field y number
-local Player = Class {__includes = Saveable}
+local Player = Class { __includes = Saveable }
 local PlayerSignals = { PlayerMoved = "player.moved" }
 
 function Player:init(id)
@@ -15,7 +15,7 @@ function Player:init(id)
     self.room = "house"
     self.direction = "n"
     self.x = 1
-    self.y = 1    
+    self.y = 1
 
     Signal.register(
         PlayerSignals.PlayerMoved,

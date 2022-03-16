@@ -6,14 +6,12 @@ local TraceRoom = Class {__includes = Room}
 ---@param id string
 ---@param width number
 ---@param height number
----@param views table
 ---@param scenes table
 ---@param obstacles table
-function TraceRoom:init(id, width, height, views, scenes, obstacles)
+function TraceRoom:init(id, width, height, scenes, obstacles)
     Room.init(self, id)
     self.width = width
     self.height = height
-    self.views = views
     self.scenes = scenes
     self.obstacles = obstacles
 end
