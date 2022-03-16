@@ -1,5 +1,6 @@
 local TraceRoom = require "house.traceroom"
 local bedroom = require "house.hall.bedroom"
+local livingroom = require "house.hall.livingroom"
 
 local Hall = Class { __includes = TraceRoom }
 

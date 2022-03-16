@@ -1,7 +1,8 @@
 local MusicBox = require "house.bedroom.musicbox"
+local Dresser = Class {__includes = Scene}
 
-local Dresser = Scene("bedroom.dresser")
 function Dresser:init()
+    Scene.init(self, "bedroom.dresser", "s", 2, 1, false, false)
 end
 
 function Dresser:draw()
@@ -19,4 +20,4 @@ function Dresser:keypressed(key)
     end
 end
 
-return Dresser
+return Dresser()
