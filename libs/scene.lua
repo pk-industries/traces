@@ -3,14 +3,11 @@
 ---@field direction string Options: n, e, s, w
 ---@field x number The x coordinate within the room it resides in.
 ---@field y number The y coordinate within the room it resides in.
----@field isDoor boolean States whether the scene is a door.
 ---@field isLocked boolean States whether the scene is locked.
 ---@field string id The id of the scene
 ---@field string direction The cardinal direction in regards to it's location in the room. In char form.
 ---@field number x The x coordinate within the room it resides in.
 ---@field number y The y coordinate within the room it resides in.
----@field boolean isDoor States whether the scene is a door or not. This is important in indicating
----whether any resources should be loaded as another room or if it should load "inside" a room.
 ---@field boolean isLocked States whether a scene is locked. Usually indicates whether resources
 ---for a scene will be loaded or not.
 local Scene = Class {}
