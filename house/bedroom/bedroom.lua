@@ -14,10 +14,7 @@ function Bedroom:init()
             ["w.1.2"] = require "house.bedroom.hall",
             ["n.2.2"] = require "house.bedroom.bathroom"
         },
-        {
-            ["2.1"] = { "n" },
-            ["2.2"] = { "s" }
-        }
+        { "n.2.1", "s.2.2" }
     )
 end
 

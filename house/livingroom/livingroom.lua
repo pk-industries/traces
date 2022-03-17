@@ -10,9 +10,9 @@ function Livingroom:init()
         3,
         {
             ["e.3.1"] = require "house.livingroom.hall",
-            ["a.2.2"] = require "house.livingroom.couch"
+            ["w.3.2"] = require "house.livingroom.couch"
         },
-        {}
+        { "n.2.1", "e.1.2", "s.2.3" }
     )
 end
 

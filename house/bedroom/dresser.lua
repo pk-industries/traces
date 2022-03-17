@@ -15,7 +15,7 @@ function Dresser:keypressed(key)
     if key == GamePad.up and System.keyboard.isDown(GamePad.left) then
         GameState.push(MusicBox)
     end
-    if key == Controls.b then
+    if key == Controls.b or key == GamePad.down then
         GameState.pop()
     end
 end

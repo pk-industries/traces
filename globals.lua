@@ -116,4 +116,19 @@ GamePad = {
     left = Controls.left,
     right = Controls.right
 }
+
 GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
+
+function keyOf(table, value)
+    for k, v in pairs(table) do
+        if v == value then return k end
+    end
+    return nil
+end
+
+function indexOf(table, value)
+    for k, v in ipairs(table) do
+        if v == value then return k end
+    end
+    return nil
+end

@@ -3,7 +3,9 @@
 ---@field number height
 ---@field table scene
 ---@field table obstacles Fill table with ["x.y"] coordinates as the key and the illegal cardinal directions in a table as the value.
-local Room = Class {__includes = Saveable}
+local Room = Class {
+    __includes = Saveable
+}
 
 ---Constructor
 ---@param id string
@@ -28,23 +30,12 @@ function Room:update(dt)
 end
 
 function Room:draw()
-    local _, err =
-        pcall(
-        function()
-            self:render()
-        end
-    )
+    local _, err = pcall(function()
+        self:render()
+    end)
     if err then
         print(err)
     end
-end
-
-local function checkForObstacle(self, d, x, y)
-    local key = tostring(x) .. "." .. tostring(y)
-    if self.obstacles[key] == nil then
-        return false
-    end
-    return self.obstacles[key][d] ~= nil
 end
 
 local function getFacingScene(self)
@@ -63,45 +54,59 @@ end
 
 function Room:keypressed(key)
     if key == Controls.up then
-        local d, x, y = Player:getPosition()
-        if (checkForObstacle(self, d, x, y)) then
-            print("There's an obstacle in the way.")
-            return
-        else
-            local facingscene = getFacingScene(self)
-            if facingscene then
-                if facingscene.isLocked then
-                    print("It's locked.")
-                    System.graphics.print("It's locked.")
-                elseif facingscene.isDoor then
-                    Player.room = facingscene.id
-                    Player:setPosition(facingscene.destD, facingscene.destX, facingscene.destY)
-                    States.game:enter()
-                    return
-                else
-                    GameState.push(House[facingscene.id])
-                    return
-                end
+        local facingscene = getFacingScene(self)
+        if facingscene then
+            if facingscene.isLocked then
+                print("It's locked.")
+                System.graphics.print("It's locked.", 0, 0)
+            elseif facingscene.isDoor then
+                Player.room = facingscene.id
+                Player:setPosition(facingscene.destD, facingscene.destX, facingscene.destY)
+                States.game:enter()
+            else
+                GameState.push(House[facingscene.id])
             end
+            return
         end
     end
-    local ok, err =
-        pcall(
-        function()
-            self:navigate(key)
-        end
-    )
+    local ok, err = pcall(function()
+        self:navigate(key)
+    end)
     if not ok then
         print(err)
     end
 end
 
+---@param isMovingForward boolean If this is false, it is assumed moving backward.
+local function checkForObstacle(room, d, x, y, isMovingForward)
+    local key = tostring(x) .. "." .. tostring(y)
+    local cardinal = d
+    print("Cardinal: " .. cardinal)
+    if not isMovingForward then
+        cardinal = Cardinals.getOpposite(cardinal)
+        print("Opposite needed: " .. tostring(cardinal))
+    end
+    local coordinates = cardinal .. "." .. key
+    return keyOf(room.obstacles, coordinates) ~= nil
+end
+
 function Room:navigate(key)
     if key == "`" then
         self.debug = not self.debug
-    elseif GamePad.includes[key] then
-        Player:move(key)
+        return
     end
+    if not GamePad.includes[key] then
+        return
+    end
+    if key == Controls.up or key == Controls.down then
+        local d, x, y = Player:getPosition()
+        local isMovingForward = key == Controls.up
+        if (checkForObstacle(self, d, x, y, isMovingForward)) then
+            print("There's an obstacle in the way.")
+            return
+        end
+    end
+    Player:move(key)
 end
 
 function Room:render()
