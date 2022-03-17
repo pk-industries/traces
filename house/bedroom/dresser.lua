@@ -2,7 +2,7 @@ local MusicBox = require "house.bedroom.musicbox"
 local Dresser = Class {__includes = Scene}
 
 function Dresser:init()
-    Scene.init(self, "bedroom.dresser", "s", 2, 1, false, false)
+    Scene.init(self, "bedroom.dresser", "s", 2, 1, false)
 end
 
 function Dresser:draw()

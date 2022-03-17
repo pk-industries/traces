@@ -4,7 +4,6 @@ Room = Class {__includes = Saveable}
 
 function Room:init(id)
     Saveable.init(self, id or "room")
-    self.info = {}
 end
 
 function Room:render()
@@ -19,23 +18,20 @@ function Room:render()
     if System.filesystem.checkExists(filepath) then
         System.graphics.draw(System.graphics.createImage(filepath), 0, 0, 0, scale, scale)
     else
-        error("File: " .. filepath .. " does not exist")
-    end
-
-    if self.debug then
-        local cs = GameState:current()
-        local str = ""
-        for k, v in pairs(cs.views) do
-            str = str .. v .. "\n"
+        local id = self.id
+        local altpath = roomdir .. "x" .. x .. "y" .. y .. "_" .. id .. ".png"
+        if System.filesystem.checkExists(altpath) then
+            local offsetTbl = {
+                ["n"] = 0,
+                ["s"] = 400,
+                ["e"] = 800,
+                ["w"] = 1200
+            }
+            local offset = offsetTbl[d]
+            System.graphics.draw(System.graphics.createImage(altpath), 0, 0, 0, scale, scale, offset)
+        else
+            error("File: " .. altpath .. " does not exist")
         end
-        debug.getinfo(
-            Inspect(Room.info) .. "\n",
-            self.id,
-            Player:__tostring(),
-            "\n",
-            Inspect({id = cs.id, scenes = cs.scene, obsticals = cs.obsticals}),
-            str
-        )
     end
 end
 

@@ -22,7 +22,6 @@ function Player:init(id)
         function()
             local state = GameState.current()
             local str = self:__tostring()
-            GameState.current().info.str = str
             print("Player moved to:", str)
             if self:isScene(str) then
                 GameState.current().scene = state.scenes[str]
@@ -38,7 +37,6 @@ function Player:__tostring()
 end
 
 ---@return string String of Player coordinates
--- example "x.y.direction" or "1.1.e"
 function Player:getPosition()
     return self.direction, self.x, self.y
 end

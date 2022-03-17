@@ -1,27 +1,22 @@
-local TraceRoom = require "house.traceroom"
-local bathroom = require "house.bedroom.bathroom"
-local closet = require "house.bedroom.closet"
-local dresser = require "house.bedroom.dresser"
-local hall = require "house.bedroom.hall"
-local nightstand = require "house.bedroom.nightstand"
-local Bedroom = Class { __includes = TraceRoom }
+local Room = require "house.room"
+local Bedroom = Class { __includes = Room }
 
 function Bedroom:init()
-    TraceRoom.init(
+    Room.init(
         self,
         "bedroom",
         2,
         2,
         {
-            ["e.2.2"] = nightstand,
-            ["s.2.1"] = dresser,
-            ["s.1.1"] = closet,
-            ["w.1.2"] = hall,
-            ["n.2.2"] = bathroom
+            ["e.2.2"] = require "house.bedroom.nightstand",
+            ["s.2.1"] = require "house.bedroom.dresser",
+            ["s.1.1"] = require "house.bedroom.closet",
+            ["w.1.2"] = require "house.bedroom.hall",
+            ["n.2.2"] = require "house.bedroom.bathroom"
         },
         {
-            ["2.1"] = "2.2",
-            ["2.2"] = "2.1"
+            ["2.1"] = { "n" },
+            ["2.2"] = { "s" }
         }
     )
 end

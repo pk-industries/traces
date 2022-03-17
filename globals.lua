@@ -8,6 +8,7 @@ RELEASE = false
 DEBUG = not RELEASE
 
 require "libs.tablesave"
+require "libs.coordinates"
 Lume = require "libs.lume"
 Class = require "libs.class"
 Saver = require "libs.saver"
