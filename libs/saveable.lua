@@ -31,7 +31,7 @@ end
 function Saveable:load()
     print("Loading save file " .. self.saveFile .. "...")
 
-    if not System.filesystem.checkExists(self.saveFile) then
+    if not love.filesystem.exists(self.saveFile) then
         print("Save file does not exist. Skipping load.")
         return
     end

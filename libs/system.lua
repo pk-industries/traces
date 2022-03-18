@@ -95,14 +95,8 @@ System.event = {
 }
 
 System.filesystem = {
-    checkExists = function(filename)
-        local f = io.open(filename, "r")
-        if f ~= nil then
-            io.close(f)
-            return true
-        else
-            return false
-        end
+    checkFileExists = function(filename)
+        return love.filesystem.exists(filename)
     end,
 }
 

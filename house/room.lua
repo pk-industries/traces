@@ -118,7 +118,7 @@ function Room:render()
     local filepath = roomdir .. filename
     local scale = WINDOW.scale
     System.graphics.setColor(255, 255, 255)
-    if System.filesystem.checkExists(filepath) then
+    if System.filesystem.checkFileExists(filepath) then
         local image = System.graphics.createImage(filepath)
         local offsetTbl = {
             ["n"] = 0,
@@ -128,6 +128,8 @@ function Room:render()
         }
         local offset = offsetTbl[d]
         System.graphics.draw(image, 0, 0, 0, scale, scale, offset)
+    else
+        print("File " .. filepath .. " does not exist :(")
     end
 end
 
