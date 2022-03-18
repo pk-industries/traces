@@ -96,7 +96,7 @@ System.event = {
 
 System.filesystem = {
     checkFileExists = function(filename)
-        return love.filesystem.exists(filename)
+        return love.filesystem.getInfo(filename) ~= nil
     end,
 }
 
