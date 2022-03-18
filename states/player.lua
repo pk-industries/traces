@@ -12,7 +12,7 @@ local PlayerSignals = { PlayerMoved = "player.moved" }
 
 function Player:init(id)
     Saveable.init(self, id or "player")
-    self.room = "house"
+    self.room = "bedroom"
     self.direction = "n"
     self.x = 1
     self.y = 1
