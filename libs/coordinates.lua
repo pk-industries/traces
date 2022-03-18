@@ -19,12 +19,12 @@ Cardinals = {
     cardinals = {"n", "e", "s", "w"},
     getTurnRight = function(cardinal, rotations)
         local index = indexOf(Cardinals.cardinals, cardinal) - 1
-        local rotatedIndex = (index + rotations) % (#Cardinals.cardinals + 1)
+        local rotatedIndex = ((index + rotations) % #Cardinals.cardinals + 1)
         return Cardinals.cardinals[rotatedIndex]
     end,
     getTurnLeft = function(cardinal, rotations)
         local index = indexOf(Cardinals.cardinals, cardinal) - 1
-        local rotatedIndex = (index - rotations) % (#Cardinals.cardinals + 1)
+        local rotatedIndex = ((index - rotations) % #Cardinals.cardinals + 1)
         return Cardinals.cardinals[rotatedIndex]
     end,
     getOpposite = function(cardinal)
