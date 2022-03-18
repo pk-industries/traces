@@ -1,9 +1,9 @@
 # Identical to main testing workflow, but points only
 # at dev branch
-name: build[dev]
+name: build[master]
 on:
   push:
-    branches: [dev]
+    branches: [master]
 jobs:
   # Build the Traces application
   build-traces:
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: nhartland/love-build@master
-        id: Traces-Dev
+        id: Traces-Master
         with:
           app_name: "Traces"
           love_version: "11.4"
@@ -21,12 +21,12 @@ jobs:
       - uses: actions/upload-artifact@v3.0.0
         with:
           name: MacOS
-          path: ${{ steps.Traces-Dev.outputs.macos-filename }}
+          path: ${{ steps.Traces-Master.outputs.macos-filename }}
       - uses: actions/upload-artifact@v3.0.0
         with:
           name: Win32
-          path: ${{ steps.Traces-Dev.outputs.win32-filename }}
+          path: ${{ steps.Traces-Master.outputs.win32-filename }}
       - uses: actions/upload-artifact@v3.0.0
         with:
           name: Win64
-          path: ${{ steps.Traces-Dev.outputs.win64-filename }}
+          path: ${{ steps.Traces-Master.outputs.win64-filename }}
