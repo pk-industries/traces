@@ -11,7 +11,6 @@ local Saveable =
     init = function(self, id)
         self.id = id or "save"
         self.saveFile = love.filesystem.getSaveDirectory() .. "/" .. self.id .. ".lua"
-        -- self.saveFile = System.filesystem.getSaveDir() .. "/" .. self.id .. ".lua"
     end,
     __tostring = function(self)
         return "Save file: " .. self.saveFile
@@ -31,7 +30,7 @@ end
 function Saveable:load()
     print("Loading save file " .. self.saveFile .. "...")
 
-    if love.filesystem.getInfo(self.saveFile) ~= nil then
+    if love.filesystem.getInfo(self.saveFile) == nil then
         print("Save file does not exist. Skipping load.")
         return
     end
