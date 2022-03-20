@@ -20,7 +20,7 @@ end
 
 function love.quit()
     WINDOW:save()
-    Player:save()
+    if Player ~= nil then Player:save() end
 end
 
 function love:draw()
