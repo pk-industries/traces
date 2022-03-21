@@ -7,6 +7,7 @@ package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0
 local shader
 
 function love.load()
+    print("") -- Easier readability if newlined at beginning of program.
     local class = require "states.player"
     local ok, data = pcall(class, "player")
     if not ok then print("Player could not be created: ", data) end
