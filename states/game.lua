@@ -1,15 +1,13 @@
 local game = {}
 
 function game:init()
-    local status, data = pcall(require "states.player", "player")
+    local status, data = pcall(Player.load, Player)
 
     if not status then
-        print("Error in game:init(): " .. data)
+        print("Error in player load " .. data)
     else
-        Player = data
-        Player:load()
+        print("Game init complete.")
     end
-    print("Game init complete.")
 end
 function game:enter()
     GameState.switch(House[Player.room])

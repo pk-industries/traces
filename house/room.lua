@@ -1,11 +1,11 @@
+local Flags = require "libs.flags"
+
 ---@field string id
 ---@field number width
 ---@field number height
 ---@field table scene
 ---@field table obstacles Fill table with ["x.y"] coordinates as the key and the illegal cardinal directions in a table as the value.
-local Room = Class {
-    __includes = Saveable
-}
+local Room = Class { __includes = Flags }
 
 ---Constructor
 ---@param id string
@@ -14,11 +14,13 @@ local Room = Class {
 ---@param scenes table
 ---@param obstacles table Fill table with ["x.y"] coordinates as the key and the illegal cardinal directions in a table as the value.
 function Room:init(id, width, height, scenes, obstacles)
-    Saveable.init(self, id or "room")
+    Flags.init(self, id, Player)
+    self.id = id or "room"
     self.width = width
     self.height = height
     self.scenes = scenes or {}
     self.obstacles = obstacles or {}
+    self:loadFlags()
 end
 
 function Room:enter()

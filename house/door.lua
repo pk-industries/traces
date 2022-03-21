@@ -1,4 +1,4 @@
-local Scene = require "libs.scene"
+local Scene = require "house.scene"
 
 ---@param destId string The ID of the destination.
 ---@param destCoor table d,x,y - The direction, x, and y of the distination.
@@ -16,11 +16,11 @@ local Door = Class { __includes = Scene }
 ---@param coor table d,x,y - The direction, x, and y of the door itself.
 ---@param isLocked boolean Is the door locked or not.
 function Door:init(destId, destCoor, coor, isLocked)
-    Scene.init(self, destId, coor.d, coor.x, coor.y, isLocked)
     self.destD = destCoor.d
     self.destX = destCoor.x
     self.destY = destCoor.y
     self.isDoor = true
+    Scene.init(self, destId, coor.d, coor.x, coor.y, isLocked)
 end
 
 return Door

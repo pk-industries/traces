@@ -9,7 +9,6 @@ WINDOW = {
                     if type(save.width) == "number" and type(save.height) == "number" then
                         self.scale = save.scale
                         self.width = save.width
-
                         self.height = save.height
                         self.flags = save.flags
                     end

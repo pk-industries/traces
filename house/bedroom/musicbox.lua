@@ -1,6 +1,6 @@
 local currentFrame
 
-local MusicBox = Scene("musicbox", {})
+local MusicBox = Scene("bedroom.musicbox", {})
 
 function MusicBox:init()
     self.up = 0

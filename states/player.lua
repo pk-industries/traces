@@ -30,6 +30,13 @@ function Player:init(id)
             end
         end
     )
+
+    self.bedroom = {
+        ["isLocked"] = false
+    }
+    self.hall = {
+        ["isLocked"] = false
+    }
 end
 
 function Player:__tostring()

@@ -20,7 +20,7 @@ Inspect = require "libs.inspect"
 GameState = require "libs.gamestate"
 Window = require "libs.window"
 Saveable = require "libs.saveable"
-Scene = require "libs.scene"
+Scene = require "house.scene"
 System = require "libs.system"
 -- MenuEngine = require "libs.menuengine"
 Anim8 = require "libs.anim8"
@@ -93,7 +93,11 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-Player = nil -- Player instantiated in states.game
+local PlayerClass = require "states.player"
+local playerOk, playerData = pcall(PlayerClass, "player")
+if not playerOk then print("Player could not be created: ", playerData) end
+Player = playerData
+
 House = require "house.house"
 States = {
     start = require "states.start",
