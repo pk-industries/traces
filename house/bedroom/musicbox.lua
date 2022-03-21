@@ -1,8 +1,9 @@
 local currentFrame
 
-local MusicBox = Scene("bedroom.musicbox", {})
+local MusicBox = Class { __includes = Scene }
 
 function MusicBox:init()
+    Scene.init(self, "bedroom.musicbox")
     self.up = 0
     self.val = 0
     self.img = System.graphics.createImage("assets/images/bedroom/musicbox_turn_sheet.png")

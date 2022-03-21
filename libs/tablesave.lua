@@ -53,7 +53,7 @@ function table.load(table, path)
     end
     io.close(f)
 
-    local data, err = loadfile(path)
+    local data, err = loadfile(path, "t")
 
     if err then error(err) end
 
