@@ -23,6 +23,10 @@ function Saveable:save()
     if not ok then
         print("Failed to save data for " .. self.id .. ":\n" .. data)
     else
+        if love.filesystem.getInfo(self.saveFile) == nil then
+            print("Save failed. File doesn't exist.")
+            return
+        end
         print("Saved to: " .. self.saveFile)
     end
 end
