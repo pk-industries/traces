@@ -93,12 +93,8 @@ Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
-local PlayerClass = require "states.player"
-local playerOk, playerData = pcall(PlayerClass, "player")
-if not playerOk then print("Player could not be created: ", playerData) end
-Player = playerData
-
-House = require "house.house"
+Player = nil -- loaded in main
+House = nil -- loaded in main
 States = {
     start = require "states.start",
     game = require "states.game"

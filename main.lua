@@ -7,6 +7,12 @@ package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0
 local shader
 
 function love.load()
+    local PlayerClass = require "states.player"
+    local playerOk, playerData = pcall(PlayerClass, "player")
+    if not playerOk then print("Player could not be created: ", playerData) end
+    Player = playerData
+    House = require "house.house"
+
     love.window.setTitle("Traces")
     WINDOW:init()
     shader = love.graphics.newShader("assets/PlayDateShader.fs")
