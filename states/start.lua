@@ -1,58 +1,50 @@
-local welcome = {} -- previously: Gamestate.new()
-local newImage = love.graphics.newImage
+local image, animation
 
-local music = love.audio.newSource("assets/sounds/noisey-static.mp3", "stream")
+local StartSceen = {}
 
-function welcome:enter()
-    music:setLooping(true)
-    music:setVolume(0.1)
-    music:play()
+function StartSceen:init()
+    image = System.graphics.createImage("assets/images/startscreen.png")
+    local g = Anim8.newGrid(image:getWidth() / 3, image:getHeight(), image:getWidth(), image:getHeight())
+    animation = Anim8.newAnimation(g("1-3", 1), 0.15)
+    System.graphics.setBackgroundColor(Colors.white)
 end
 
-function welcome:leave()
-    music:stop()
+function StartSceen:enter()
 end
 
-function welcome:draw()
-    local bg = newImage("assets/images/startScreen.png")
-    love.graphics.draw(bg, 0, 0)
-    love.graphics.print("Press Enter to continue", 5, 5)
+function StartSceen:update(dt)
+    animation:update(dt)
 end
 
-function welcome:keyreleased(key, code)
-    if key == Controls.enter then
+function StartSceen:leave()
+end
+
+function StartSceen.buttonPosition()
+    local btnx = System.graphics.getWidth() * .72
+    local btny = System.graphics.getHeight() * .65
+    local textx, texty = btnx + 15, btny + 3
+    return btnx, btny, textx, texty
+end
+
+function StartSceen:draw()
+    local bx, by, px, py = StartSceen.buttonPosition()
+
+    local startbutton = System.graphics.createImage("assets/images/button.png")
+    animation:draw(image, 0, 0, 0, WINDOW.scale, WINDOW.scale)
+    System.graphics.draw(startbutton, bx, by, 0, WINDOW.scale, WINDOW.scale)
+
+    System.graphics.setFont(Fonts.pixel[20])
+    System.graphics.setColor(0, 0, 0) -- black
+    System.graphics.print("Start", px, py, 0, WINDOW.scale, WINDOW.scale)
+    System.graphics.setColor(1, 1, 1) -- white
+end
+
+function StartSceen:keypressed(key, scancode, isrepeat)
+    if key == Controls.a then
         GameState.switch(States.game)
+    elseif key == Controls.b then
+        System.event.quit()
     end
 end
 
-return welcome
-
---[[ welcome = {}
-local newImage = love.graphics.newImage
-
-function welcome:load()
-    welcome.screen = "start"
-end
-
-function menu.update(dt)
-
-end
-
-function menu:draw()
-    if menu.screen == "start" then
-        local frame = newImage("assets/images/startScreen.png")
-        love.graphics.draw(frame, 0, 0)
-    end
-end
-
-function menu:keypressed(key, scancode, isrepeat)
-    if key == Controls.enter then
-        state.mode = "game"
-        if game == nil then
-            game:load()
-        end
-
-    end
-end
-
-return menu ]]
+return StartSceen

@@ -1,36 +1,32 @@
 # Identical to main testing workflow, but points only
 # at dev branch
-name: Build[dev]
+name: build[dev]
 on:
   push:
-    branches: [ dev ]
+    branches: [dev]
 jobs:
   # Build the Traces application
   build-traces:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: nhartland/love-build@master
-      id: love-build
-      with:
-        app_name: 'traces'
-        love_version: '11.3'
-        source_dir: '.'
-    # Upload the resulting artifacts
-    - uses: actions/upload-artifact@v1
-      with:
-        name: hw_macos-build
-        path: ${{ steps.love-build.outputs.macos-filename }}
-    - uses: actions/upload-artifact@v1
-      with:
-        name: hw_win32-build
-        path: ${{ steps.love-build.outputs.win32-filename }}
-    - uses: actions/upload-artifact@v1
-      with:
-        name: hw_win64-build
-        path: ${{ steps.love-build.outputs.win64-filename }}
-    - uses: actions/upload-artifact@v1
-      with:
-        name: hw_love-build
-        path: ${{ steps.love-build.outputs.love-filename }}
-  
+      - uses: actions/checkout@v2
+      - uses: nhartland/love-build@master
+        id: Traces-Dev
+        with:
+          app_name: "Traces"
+          love_version: "11.4"
+          source_dir: "."
+
+      # Upload the resulting artifacts
+      - uses: actions/upload-artifact@v3.0.0
+        with:
+          name: MacOS
+          path: ${{ steps.Traces-Dev.outputs.macos-filename }}
+      - uses: actions/upload-artifact@v3.0.0
+        with:
+          name: Win32
+          path: ${{ steps.Traces-Dev.outputs.win32-filename }}
+      - uses: actions/upload-artifact@v3.0.0
+        with:
+          name: Win64
+          path: ${{ steps.Traces-Dev.outputs.win64-filename }}

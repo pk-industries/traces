@@ -1,61 +1,54 @@
--- require "utils.debug"
 require "globals"
 
----@type love.load
+package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0.3.49/debugger/emmy/mac/emmy_core.dylib"
+-- local dbg = require("emmy_core")
+-- dbg.tcpListen("localhost", 9966)
+
+local shader
+
 function love.load()
-    love.window.setTitle("traces")
+    local class = require "states.player"
+    local ok, data = pcall(class, "player")
+    if not ok then print("Player could not be created: ", data) end
+    Player = data
 
-    CONFIG.window.resize(CONFIG.window.scale, CONFIG.window.flags)
+    House = require "house.house"
+
+    love.window.setTitle("Traces")
+
+    class = require "libs.window"
+    ok, data = pcall(class)
+    if not ok then print("Window could not be created: ", data) end
+    WINDOW = data
+
+    shader = love.graphics.newShader("assets/PlayDateShader.fs")
     GameState.registerEvents()
-    GameState.switch(States.welcome)
-    collectgarbage()
+    GameState.switch(require "states.start")
 end
 
----@type love.update
 function love.update(dt)
-    collectgarbage("collect", 0)
+    Timer.update(dt)
 end
 
----@type love.draw
-function love.draw()
-    -- canvas:setFilter("nearest", "nearest", 1)
+function love.quit()
+    if WINDOW ~= nil then WINDOW:save() end
+    if Player ~= nil then Player:save() end
+end
+
+function love:draw()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     love.graphics.setLineStyle("rough")
-    love.graphics.setShader(PlayDateShader)
-
-    GameState.current():draw()
+    love.graphics.setShader(shader)
     love.graphics.setShader()
-    -- collectgarbage()
+    GameState.draw()
 end
 
----@type love.keypressed
 function love.keypressed(key, code)
-    local flags = CONFIG.window.flags
-    if key == "tab" then
-        if CONFIG.window.flags.display == 1 then
-            CONFIG.window.flags.display = 2
-        elseif CONFIG.window.flags.display == 2 then
-            CONFIG.window.flags.display = 1
-        end
-        CONFIG.window.resize(CONFIG.window.scale, CONFIG.window.flags)
-    end
     if key == "1" then
-        CONFIG.window.resize(1, flags)
-        local mainmenu = require "utils.menus"
+        WINDOW:resize(1)
     elseif key == "2" then
-        CONFIG.window.resize(2, flags)
+        WINDOW:resize(2)
     elseif key == "3" then
-        CONFIG.window.resize(3, flags)
+        WINDOW:resize(3)
     end
-    table.save(CONFIG.window, ".settings.lua")
-end
-
-function love.threaderror(thread, errorMessage)
-    print(errorMessage)
-end
-
----@type love.errorhandler
-function love.errorMessage(msg, trace)
-    print(msg)
-    -- Debugger:errorhandler(msg, trace)
 end

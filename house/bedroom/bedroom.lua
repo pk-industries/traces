@@ -1,30 +1,25 @@
-require "house.room"
+local Room = require  "house.room"
+local Bedroom = Class { __includes = Room }
 
-local Radio = require "house.bedroom.radio"
-local Closet = require "house.bedroom.closet"
-local Hall = require "house.bedroom.hall"
-local Bathroom = require "house.bedroom.bathroom"
+function Bedroom:init()
+    Room.init(
+        self,
+        "bedroom",
+        2,
+        2,
+        {
+            ["e.2.2"] = require ("house.bedroom.nightstand")(),
+            ["s.2.1"] = require ("house.bedroom.dresser")(),
+            ["s.1.1"] = require ("house.bedroom.closet")(),
+            ["w.1.2"] = require ("house.bedroom.hall")(),
+            ["n.2.2"] = require ("house.bedroom.bathroom")()
+        },
+        { "n.2.1", "s.2.2" }
+    )
+end
 
-local Dresser = Child("dresser", "s", 2, 1, {})
-
-local Bedroom =
-    Room(
-    "bedroom",
-    {
-        x = 1,
-        y = 1,
-        direction = "e",
-        width = 2,
-        height = 2,
-        description = "You are in a bedroom.",
-        children = {
-            Dresser,
-            Radio,
-            Bathroom,
-            Closet,
-            Hall
-        }
-    }
-)
+function Bedroom:enter()
+    System.setTitle("Bedroom")
+end
 
 return Bedroom
