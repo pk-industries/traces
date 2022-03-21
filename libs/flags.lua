@@ -12,6 +12,7 @@ local Flags =
 function Flags:init(flagname, parent)
         self.flagname = flagname
         self.parent = parent
+        self.flags = {}
 
         if parent == nil then
             print("Parent for " .. flagname .. " is nil.")
@@ -22,10 +23,12 @@ end
 
 function Flags:setFlags()
    if self.parent == nil then error("This Flag instance doesn't have a parent to write to.") end
-   for flag, value in pairs(self.parent[self.flagname]) do
-        if value ~= value and type(value) == "table" then
-            self.parent[flag] = value
-        end
+   if self.flagname == nil then error("This Flag class doesn't have a flagname to write to.") end
+
+   if self.parent[self.flagname] == nil then self.parent[self.flagname] = {} end
+
+   for flag, value in pairs(self.flags) do
+        self.parent[self.flagname][flag] = value
    end
 end
 
@@ -35,18 +38,16 @@ function Flags:loadFlags()
 
     local table = self.parent[self.flagname]
 
-    if table == nil then
+    if table == nil or (table ~= nil and type(table) ~= "table") then
         print("Nothing to load from " .. self.parent.id .. "." .. self.flagname) 
         return
     end
-
-    if table ~= nil and type(table) ~= "table" then return end
 
     print("Loading " .. tostring(self.flagname) .. " from parent " .. self.parent.id)
     for flag, value in pairs(table) do
         if value ~= nil and type(value) ~= "table" then     
             print(flag .. ":", value)
-            self[flag] = value
+            self.flags[flag] = value
         end
     end
     print("Done loading from parent.")

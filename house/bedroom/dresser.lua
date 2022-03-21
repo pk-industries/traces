@@ -20,4 +20,4 @@ function Dresser:keypressed(key)
     end
 end
 
-return Dresser()
+return Dresser

@@ -1,30 +1,19 @@
-local bgImg
-local view =
-    Scene(
-    "bedroom.2.2.e",
-    {
-        autoEnter = true,
-        windowOpen = false,
-        bgImgPath = "assets/images/bedroom/x2y2_e_bedroom.png"
-    }
-)
+local NightStand = Class { __includes = Scene }
 
-function view:init()
+function NightStand:init()
+    Scene.init(self, "bedroom.radio", "e", 2, 2, false)
 end
 
-function view:draw()
-    bgImg = System.graphics.createImage(self.bgImgPath)
-    System.draw(bgImg, 0, 0, 0, WINDOW.scale, WINDOW.scale)
-    -- System.graphics.setFont(Fonts.pixel[30])
-    -- System.graphics.print("Scene " .. self.id, 0, 0)
+function NightStand:draw()
+    local img = System.graphics.createImage("assets/images/bedroom/radio.png")
+    local scale = WINDOW.scale
+    System.graphics.draw(img, 0, 0, 0, scale, scale)
 end
 
-function view:wheelmoved(x, y)
-    print("wheelmoved", x, y)
-    if not self.windowOpen then
-        self.windowOpen = true
-        self.bgImgPath = "assets/images/bedroom/window_open_bedroom.png"
+function NightStand:keypressed(key)
+    if key == GamePad.down then
+        GameState.pop()
     end
 end
 
-return view
+return NightStand

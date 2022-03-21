@@ -1,6 +1,4 @@
 local Room = require "house.room"
-local bedroom = require "house.hall.bedroom"
-local livingroom = require "house.hall.livingroom"
 
 local Hall = Class { __includes = Room }
 
@@ -11,8 +9,8 @@ function Hall:init()
         1,
         2,
         {
-            ["e.1.2"] = bedroom,
-            ["w.1.1"] = livingroom
+            ["e.1.2"] = require("house.hall.bedroom")(),
+            ["w.1.1"] = require("house.hall.livingroom")()
         },
         {}
     )

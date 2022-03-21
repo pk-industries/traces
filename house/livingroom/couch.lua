@@ -16,4 +16,4 @@ function Couch:keypressed(key)
     end
 end
 
-return Couch()
+return Couch

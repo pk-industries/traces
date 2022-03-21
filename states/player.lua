@@ -31,12 +31,13 @@ function Player:init(id)
         end
     )
 
-    self.bedroom = {
-        ["isLocked"] = false
-    }
-    self.hall = {
-        ["isLocked"] = false
-    }
+    -- You can set values to inject/override like shown below. However, a save file will override these values.
+    -- self.bedroom = {
+    --     ["isLocked"] = false
+    -- }
+    -- self.hall = {
+    --     ["isLocked"] = false
+    -- }
 end
 
 function Player:__tostring()

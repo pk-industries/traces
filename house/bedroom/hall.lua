@@ -1,5 +1,13 @@
 local Door = require "house.door"
-local hallCoor = coordinates("w", 1, 2)
-local coor = coordinates("w", 1, 2)
-local Hall = Door("hall", hallCoor, coor, true)
-return Hall
+
+local HallDoor = Class {
+    __includes = Door
+}
+
+function HallDoor:init()
+    local hallCoor = coordinates("w", 1, 2)
+    local coor = coordinates("w", 1, 2)
+    Door.init(self, "hall", hallCoor, coor, true)
+end
+
+return HallDoor

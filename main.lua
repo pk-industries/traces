@@ -7,14 +7,20 @@ package.cpath = package.cpath .. ";/Users/gw/.vscode/extensions/tangzx.emmylua-0
 local shader
 
 function love.load()
-    local PlayerClass = require "states.player"
-    local playerOk, playerData = pcall(PlayerClass, "player")
-    if not playerOk then print("Player could not be created: ", playerData) end
-    Player = playerData
+    local class = require "states.player"
+    local ok, data = pcall(class, "player")
+    if not ok then print("Player could not be created: ", data) end
+    Player = data
+
     House = require "house.house"
 
     love.window.setTitle("Traces")
-    WINDOW:init()
+
+    class = require "libs.window"
+    ok, data = pcall(class)
+    if not ok then print("Window could not be created: ", data) end
+    WINDOW = data
+
     shader = love.graphics.newShader("assets/PlayDateShader.fs")
     GameState.registerEvents()
     GameState.switch(require "states.start")
@@ -25,7 +31,7 @@ function love.update(dt)
 end
 
 function love.quit()
-    WINDOW:save()
+    if WINDOW ~= nil then WINDOW:save() end
     if Player ~= nil then Player:save() end
 end
 
@@ -39,10 +45,10 @@ end
 
 function love.keypressed(key, code)
     if key == "1" then
-        WINDOW.resize(1)
+        WINDOW:resize(1)
     elseif key == "2" then
-        WINDOW.resize(2)
+        WINDOW:resize(2)
     elseif key == "3" then
-        WINDOW.resize(3)
+        WINDOW:resize(3)
     end
 end

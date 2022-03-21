@@ -1,192 +1,65 @@
---[[
-	Save Table to File
-	Load Table from File
-	v 1.0
+--- Made by Jacob Camacho 3/21/2022
+--- Serializes numbers, booleans, strings, and nested, tables into a table. Then, saves it to a file in the form of a return statement.
 
-	Lua 5.2 compatible
-
-	Only Saves Tables, Numbers and Strings
-	Insides Table References are saved
-	Does not save Userdata, Metatables, Functions and indices of these
-	----------------------------------------------------
-	table.save( table , filename )
-
-	on failure: returns an error msg
-
-	----------------------------------------------------
-	table.load( filename or stringtable )
-
-	Loads a table that has been saved via the table.save function
-
-	on success: returns a previously saved table
-	on failure: returns as second argument an error msg
-	----------------------------------------------------
-
-	Licensed under the same terms as Lua itself.
-]] --
-
-do
-    local function table_clone_internal(t, copies)
-        if type(t) ~= "table" then
-            return t
+function table.serialize(o, indent)
+    indent = indent or ""
+    if type(o) == "number" then
+        io.write(o)
+    elseif type(o) == "boolean" then
+        io.write(tostring(o))
+    elseif type(o) == "string" then
+        io.write(string.format("%q", o))
+    elseif type(o) == "table" then
+        io.write("{\n")
+        for k, v in pairs(o) do
+            io.write(indent .. "[")
+            table.serialize(k)
+            io.write("] = ")
+            table.serialize(v, "    ")
+            io.write(",\n")
         end
-
-        copies = copies or {}
-        if copies[t] then
-            return copies[t]
-        end
-
-        local copy = {}
-        copies[t] = copy
-
-        for k, v in pairs(t) do
-            copy[table_clone_internal(k, copies)] = table_clone_internal(v, copies)
-        end
-
-        setmetatable(copy, table_clone_internal(getmetatable(t), copies))
-
-        return copy
+        io.write("}")
+    else
+        error("Cannot serialize a " .. type(o))
     end
-
-    local function table_clone(t)
-        -- We need to implement this with a helper function to make sure that
-        -- user won't call this function with a second parameter as it can cause
-        -- unexpected troubles
-        return table_clone_internal(t)
-    end
-
-    function table.merge(...)
-        local tables_to_merge = {...}
-        assert(#tables_to_merge > 1, "There should be at least two tables to merge them")
-
-        for k, t in ipairs(tables_to_merge) do
-            assert(type(t) == "table", string.format("Expected a table as function parameter %d", k))
-        end
-
-        local result = table_clone(tables_to_merge[1])
-
-        for i = 2, #tables_to_merge do
-            local from = tables_to_merge[i]
-            for k, v in pairs(from) do
-                if type(v) == "table" then
-                    result[k] = result[k] or {}
-                    assert(type(result[k]) == "table", string.format("Expected a table: '%s'", k))
-                    result[k] = table_merge(result[k], v)
-                else
-                    result[k] = v
-                end
-            end
-        end
-
-        return result
-    end
-
-    -- declare local variables
-    --// exportstring( string )
-    --// returns a "Lua" portable version of the string
-    local function exportstring(s)
-        return string.format("%q", s)
-    end
-
-    --// The Save Function
-    function table.save(tbl, filename)
-        local charS, charE = "   ", "\n"
-        local file, err = io.open(filename, "wb")
-        if err then
-            return err
-        end
-
-        -- initiate variables for save procedure
-        local tables, lookup = {tbl}, {[tbl] = 1}
-        file:write("return {" .. charE)
-
-        for idx, t in ipairs(tables) do
-            file:write("-- Table: {" .. idx .. "}" .. charE)
-            file:write("{" .. charE)
-            local thandled = {}
-
-            for i, v in ipairs(t) do
-                thandled[i] = true
-                local stype = type(v)
-                -- only handle value
-                if stype == "table" then
-                    if not lookup[v] then
-                        table.insert(tables, v)
-                        lookup[v] = #tables
-                    end
-                    file:write(charS .. "{" .. lookup[v] .. "}," .. charE)
-                elseif stype == "string" then
-                    file:write(charS .. exportstring(v) .. "," .. charE)
-                elseif stype == "number" then
-                    file:write(charS .. tostring(v) .. "," .. charE)
-                end
-            end
-
-            for i, v in pairs(t) do
-                -- escape handled values
-                if (not thandled[i]) then
-                    local str = ""
-                    local stype = type(i)
-                    -- handle index
-                    if stype == "table" then
-                        if not lookup[i] then
-                            table.insert(tables, i)
-                            lookup[i] = #tables
-                        end
-                        str = charS .. "[{" .. lookup[i] .. "}]="
-                    elseif stype == "string" then
-                        str = charS .. "[" .. exportstring(i) .. "]="
-                    elseif stype == "number" then
-                        str = charS .. "[" .. tostring(i) .. "]="
-                    end
-
-                    if str ~= "" then
-                        stype = type(v)
-                        -- handle value
-                        if stype == "table" then
-                            if not lookup[v] then
-                                table.insert(tables, v)
-                                lookup[v] = #tables
-                            end
-                            file:write(str .. "{" .. lookup[v] .. "}," .. charE)
-                        elseif stype == "string" then
-                            file:write(str .. exportstring(v) .. "," .. charE)
-                        elseif stype == "number" then
-                            file:write(str .. tostring(v) .. "," .. charE)
-                        end
-                    end
-                end
-            end
-            file:write("}," .. charE)
-        end
-        file:write("}")
-        file:close()
-    end
-
-    function table.load(sfile)
-        local ftables, err = loadfile(sfile)
-        if err then
-            return _, err
-        end
-        local tables = ftables()
-        for idx = 1, #tables do
-            local tolinki = {}
-            for i, v in pairs(tables[idx]) do
-                if type(v) == "table" then
-                    tables[idx][i] = tables[v[1]]
-                end
-                if type(i) == "table" and tables[i[1]] then
-                    table.insert(tolinki, {i, tables[i[1]]})
-                end
-            end
-            -- link indices
-            for _, v in ipairs(tolinki) do
-                tables[idx][v[2]], tables[idx][v[1]] = tables[idx][v[1]], nil
-            end
-        end
-        return tables[1]
-    end
-    -- close do
 end
 
--- ChillCode
+function table.save(data, path)
+    print("Writing table to file " .. tostring(path) .. "...")
+    local f = io.open(path, "w+")
+    if f == nil then
+        error("Could not open to write to " .. path)
+    end
+
+    local ok, err = pcall(function()
+        io.output(f)
+        io.write("return ")
+        table.serialize(data)
+    end)
+
+    io.close(f)
+
+    if not ok then
+        error(err)
+    end
+end
+
+function table.load(table, path)
+    print("Loading save file " .. path .. "...")
+    local f = io.open(path, "r")
+    if f == nil then
+        print("Save file does not exist. Skipping load.")
+        return
+    end
+    io.close(f)
+
+    local data, err = loadfile(path)
+
+    if err then error(err) end
+
+    data = data()
+
+    for k, v in pairs(data) do
+        table[k] = v
+    end
+end

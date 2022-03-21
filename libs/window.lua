@@ -1,63 +1,42 @@
-WINDOW = {
-    savefile = "window.lua",
+require "libs.tablesave"
+local Saveable = require "libs.saveable"
+
+local WINDOW = Class {
+    __includes = Saveable,
     init = function(self)
-        pcall(
-            function()
-                local save = table.load(love.filesystem.getSaveDirectory() .. "/" .. self.savefile)
-                local w, h = love.graphics.getDimensions()
-                if type(save) == "table" then
-                    if type(save.width) == "number" and type(save.height) == "number" then
-                        self.scale = save.scale
-                        self.width = save.width
-                        self.height = save.height
-                        self.flags = save.flags
-                    end
-                else -- default values
-                    self.scale = 1
-                    self.width = 400
-                    self.height = 240
-                end
-                self.width = save.scale * w
-                self.height = save.scale * h
-            end
-        )
+        Saveable.init(self, "window")
+        self.scale = 1
+        self.width = 400
+        self.height = 240
         self.baseW = love.graphics.getWidth()
         self.baseH = love.graphics.getHeight()
+        local ok, err = pcall(self.load, self)
+        if not ok then print(err) end
         love.window.setMode(self.width, self.height, {display = 2})
+    end,
+    __tostring = function(self)
+        for k, v in pairs(self:storedValues()) do
+            print(k .. ":", v)
+        end
     end
 }
 
-function WINDOW.storedValues()
+function WINDOW:storedValues()
     return {
-        scale = WINDOW.scale,
-        height = WINDOW.height,
-        width = WINDOW.width,
-        flags = WINDOW.flags
+        scale = self.scale,
+        height = self.height,
+        width = self.width,
+        flags = self.flags
     }
 end
 
-WINDOW.resize = function(newScale)
-    WINDOW.scale = newScale
-    WINDOW.width = WINDOW.baseW * WINDOW.scale
-    WINDOW.height = WINDOW.baseH * WINDOW.scale
+function WINDOW:resize(newScale)
+    self.scale = newScale
+    self.width = self.baseW * self.scale
+    self.height = self.baseH * self.scale
 
-    love.window.setMode(WINDOW.width, WINDOW.height, WINDOW.flags)
-    WINDOW:printSettings()
-end
-
-function WINDOW:save()
-    local save = self.storedValues()
-    local err = table.save(save, love.filesystem.getSaveDirectory() .. "/" .. WINDOW.savefile)
-
-    if not err then
-        print("Saved window settings to " .. love.filesystem.getSaveDirectory() .. "/" .. self.savefile)
-    else
-        print("Error saving window settings to " .. love.filesystem.getSaveDirectory() .. "/" .. self.savefile)
-    end
-end
-
-function WINDOW:printSettings()
-    print("Window settings: " .. self.width .. ":" .. self.height .. ":" .. self.scale)
+    love.window.setMode(self.width, self.height, self.flags)
+    print(self:__tostring())
 end
 
 return WINDOW

@@ -6,33 +6,29 @@ local xmax = 364
 local velx = 0
 local station, music
 
-local Radio =
-    Scene(
-    "bedroom.radio",
-    {
-        x = xmin
-    }
-)
+local Radio = Class { __includes = Scene }
 
---[[ stations[2] = {
-    id = "masquerade-of-the-ghosts",
-    min = 199,
-    max = 203,
-    filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
-} ]]
 local function isInRange(x, min, max)
     return x >= min and x <= max
 end
+
 function Radio:init()
-    print("radio init")
-    Saveable.init(self, "bedroom.radio")
-    station = {
+    Scene.init(self, "bedroom.radio", "e", 2, 2, false)
+
+    --[[ stations[2] = {
         id = "masquerade-of-the-ghosts",
-        min = 287,
-        max = 291,
-        filePath = "assets/sounds/masquerade-of-the-ghosts.mp3",
-        vol = 0
-    }
+        min = 199,
+        max = 203,
+        filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
+    } ]]
+
+    print("radio init")
+    self.id = "masquerade-of-the-ghosts"
+    self.min = 287
+    self.max = 291
+    self.filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
+    self.vol = 0
+
     music = System.audio.createSource(station.filePath, "static")
     music:setLooping(true)
     music:play()
@@ -57,8 +53,6 @@ function Radio:init()
             static:setVolume(station.vol)
         end
     )
-
-    
 
     local wheelmoved = function (dx, dy)
         velx = velx + dy * 20
@@ -94,7 +88,7 @@ function Radio:draw()
     if self.currentStation then
         System.graphics.print("Current station: " .. stations[self.currentStation].id, 0, 10)
     end
-    local img = System.graphics.createImage("assets/images/bedroom/x2y2_e_bedroom_radio.png")
+    local img = System.graphics.createImage("assets/images/bedroom/radio.png")
     local scale = WINDOW.scale
     System.graphics.setColor(0, 0, 0, 1)
     System.graphics.drawRectangle("fill", Radio.x * WINDOW.scale, 45 * WINDOW.scale, 3 * WINDOW.scale, 50 * WINDOW.scale)

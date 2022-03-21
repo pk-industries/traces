@@ -1,3 +1,5 @@
+require "libs.tablesave"
+
 ---@class Saveable
 ---@field saveFile string the name of the file that this instance saves and loads to
 ---@field id string the id and file name of the object
@@ -5,8 +7,7 @@
 ---@field save fun() saves the object to the save file
 ---@field load fun() loads the object from the save file
 
-local Saveable =
-    Class {
+local Saveable = Class {
     ---@param id string
     init = function(self, id)
         self.id = id or "save"
@@ -18,36 +19,18 @@ local Saveable =
 }
 
 function Saveable:save()
-    local ok, data = pcall(table.save, self, self.saveFile)
-
+    local ok, err = pcall(table.save, self, self.saveFile)
     if not ok then
-        print("Failed to save data for " .. self.id .. ":\n" .. data)
-    else
-        if love.filesystem.getInfo(self.saveFile) == nil then
-            print("Save failed. File doesn't exist.")
-            return
-        end
-        print("Saved to: " .. self.saveFile)
+        print(err)
     end
 end
 
 function Saveable:load()
-    print("Loading save file " .. self.saveFile .. "...")
-
-    if love.filesystem.getInfo(self.saveFile) == nil then
-        print("Save file does not exist. Skipping load.")
-        return
-    end
-
-    local ok, data = pcall(table.load, self.saveFile)
+    local ok, data = pcall(table.load, self, self.saveFile)
 
     if not ok then
-        print("Error loading save file " .. self.saveFile .. ":\n" .. tostring(data))
+        print("Error loading save file " .. self.saveFile .. ":\n" .. data)
         return
-    end
-
-    for k,v in pairs(data) do
-        self[k] = v
     end
 
     print("Load successful.")

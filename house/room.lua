@@ -58,7 +58,7 @@ function Room:keypressed(key)
     if key == Controls.up then
         local facingscene = getFacingScene(self)
         if facingscene then
-            if facingscene.isLocked then
+            if facingscene.flags.isLocked then
                 print("It's locked.")
                 System.graphics.print("It's locked.", 0, 0)
             elseif facingscene.isDoor then
