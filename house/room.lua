@@ -55,7 +55,10 @@ local function getFacingScene(self)
 end
 
 function Room:keypressed(key)
-    if key == Controls.up then
+    print(key)
+    if key == GamePad.start then
+        GameState.push(States.pause)
+    elseif key == Controls.up then
         local facingscene = getFacingScene(self)
         if facingscene then
             if facingscene.flags.isLocked then

@@ -97,7 +97,8 @@ Player = nil -- loaded in main
 House = nil -- loaded in main
 States = {
     start = require "states.start",
-    game = require "states.game"
+    game = require "states.game",
+    pause = require "states.pause"
 }
 
 Controls = {
@@ -107,6 +108,7 @@ Controls = {
     right = "right",
     a = "return",
     b = "backspace",
+    start = "escape",
     arrowkeys = set("up", "down", "left", "right")
 }
 
@@ -114,10 +116,11 @@ GamePad = {
     up = Controls.up,
     down = Controls.down,
     left = Controls.left,
-    right = Controls.right
+    right = Controls.right,
+    start = Controls.start
 }
 
-GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
+GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right, GamePad.start)
 
 function keyOf(table, value)
     for k, v in pairs(table) do

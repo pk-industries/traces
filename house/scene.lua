@@ -51,4 +51,10 @@ function Scene:exit()
     print("Exiting scene " .. self.id)
 end
 
+function Scene:keypressed(key)
+    if key == GamePad.start then
+        GameState.push(States.pause)
+    end
+end
+
 return Scene
