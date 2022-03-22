@@ -14,7 +14,7 @@ local Door = Class { __includes = Scene }
 ---@param destId string The ID of the destination.
 ---@param destCoor table d,x,y - The direction, x, and y of the distination.
 ---@param coor table d,x,y - The direction, x, and y of the door itself.
----@param isLocked boolean Is the door locked or not.
+---@param isLocked boolean Is the door locked or not. This will set/be overridden by Player flags of destination.
 function Door:init(destId, destCoor, coor, isLocked)
     self.destD = destCoor.d
     self.destX = destCoor.x

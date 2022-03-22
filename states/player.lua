@@ -38,6 +38,11 @@ function Player:init(id)
     -- self.hall = {
     --     ["isLocked"] = false
     -- }
+
+    for _, room in ipairs({ "bedroom", "hall" }) do
+        self[room] = { isLocked = false }
+    end
+
 end
 
 function Player:__tostring()
