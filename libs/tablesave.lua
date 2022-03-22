@@ -1,5 +1,5 @@
 --- Made by Jacob Camacho 3/21/2022
---- Serializes numbers, booleans, strings, and nested, tables into a table. Then, saves it to a file in the form of a return statement.
+--- Serializes numbers, booleans, strings, and nested tables into a table. Then, saves it to a file in the form of a return statement.
 
 function table.serialize(o, indent)
     indent = indent or ""
