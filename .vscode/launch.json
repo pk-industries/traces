@@ -2,13 +2,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "launch",
+      "type": "lua",
+      "request": "launch",
+      "stopOnEntry": true,
+      "program": "${workspaceFolder}/main.lua",
+      "cwd": "${workspaceFolder}",
+      "path": "${workspaceFolder}/?.lua",
+      "cpath": "${workspaceFolder}/?.dll",
+      "arg": [],
+      "consoleCoding": "utf8"
+    },
+    {
       "type": "lua-local",
       "request": "launch",
       "name": "lua local debugger",
       "program": {
-        "command": "/usr/local/bin/love"
+        "command": "love"
       },
-      "args": ["${workspaceFolder}", "vsc_debug"]
+
+      "args": ["${workspaceFolder}", "vsc_debug", "--console"]
     }
   ]
 }

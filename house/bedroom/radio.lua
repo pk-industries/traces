@@ -1,52 +1,112 @@
-require "house.room"
+local static
+-- local click = System.graphics.createAudioSource("assets/sounds/button_press.wav", "static")
 
--- local static = love.audio.newSource("assets/sounds/static.mp3", "stream")
--- local click = love.audio.newSource("assets/sounds/button_press.wav", "static")
+local xmin = 154
+local xmax = 364
+local velx = 0
+local station, music
 
-local Radio = Child("radio", "e", 2, 2)
-Radio.tuner = {
-    xmin = 308,
-    xmax = 728,
-    x = 0,
-    velx = 0
-}
+local Radio = Class { __includes = Scene }
 
-local stations = {}
+local function isInRange(x, min, max)
+    return x >= min and x <= max
+end
 
 function Radio:init()
-    self.active = false
-    Radio.tuner.x = Radio.tuner.xmin
+    Scene.init(self, "bedroom.radio", "e", 2, 2, false)
+
+    --[[ stations[2] = {
+        id = "masquerade-of-the-ghosts",
+        min = 199,
+        max = 203,
+        filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
+    } ]]
+
+    print("radio init")
+    self.id = "masquerade-of-the-ghosts"
+    self.min = 287
+    self.max = 291
+    self.filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
+    self.vol = 0
+
+    music = System.audio.createSource(station.filePath, "static")
+    music:setLooping(true)
+    music:play()
+
+    static = System.audio.createSource("assets/sounds/static.mp3", "stream")
+    static:setLooping(true)
+    static:play()
+    if isInRange(self.x, station.min, station.max) then
+        music:play()
+        static:pause()
+    else
+        music:pause()
+        static:play()
+    end
+    Timer.tween(
+        10,
+        station,
+        {vol = 1},
+        "linear",
+        function()
+            music:setVolume(station.vol)
+            static:setVolume(station.vol)
+        end
+    )
+
+    local wheelmoved = function (dx, dy)
+        velx = velx + dy * 20
+    end
+
+    System.setWheelMoved(wheelmoved)
 end
 
-function Radio:enter()
-end
+-- function Radio:enter()
+--     static:play()
+-- end
 
 function Radio:update(dt)
-    local newpos = Radio.tuner.x + Radio.tuner.velx * dt
-    if newpos > Radio.tuner.xmin and newpos < Radio.tuner.xmax then
-        Radio.tuner.x = newpos
+    local newpos = Radio.x + velx * dt
+    if newpos > xmin and newpos < xmax then
+        Radio.x = newpos
     end
+
+    if isInRange(Radio.x, station.min, station.max) then
+        music:play()
+        static:pause()
+    else
+        music:pause()
+        static:play()
+    end
+
     -- Gradually reduce the velocity to create smooth scrolling effect.
-    Radio.tuner.velx = Radio.tuner.velx - Radio.tuner.velx * math.min(dt * 15, 1)
+    velx = velx - velx * math.min(dt * 15, .5)
+    Timer.update(dt)
 end
 
-function Radio:draw(key)
-    local img = love.graphics.newImage("assets/images/bedroom/x2y2_e_bedroom_radio.png")
-    local scale = CONFIG.window.scale
-    love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.rectangle("fill", Radio.tuner.x, 90, 7, 100)
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(img, 0, 0, 0, scale, scale)
-end
-
-function love.wheelmoved(dx, dy)
-    Radio.tuner.velx = Radio.tuner.velx + dy * 20
+function Radio:draw()
+    if self.currentStation then
+        System.graphics.print("Current station: " .. stations[self.currentStation].id, 0, 10)
+    end
+    local img = System.graphics.createImage("assets/images/bedroom/radio.png")
+    local scale = WINDOW.scale
+    System.graphics.setColor(0, 0, 0, 1)
+    System.graphics.drawRectangle("fill", Radio.x * WINDOW.scale, 45 * WINDOW.scale, 3 * WINDOW.scale, 50 * WINDOW.scale)
+    System.graphics.setColor(1, 1, 1, 1)
+    System.graphics.draw(img, 0, 0, 0, scale, scale)
+    System.graphics.setColor(0, 0, 0)
+    System.graphics.print("x: " .. Radio.x, 0, 0)
 end
 
 function Radio:keypressed(key)
-    if key == Controls.back then
+    if key == Controls.b then
         GameState.pop()
     end
+end
+
+function Radio:leave()
+    States.game.setBedroomRadio = true
+    Player.setRadio = self.save(self)
 end
 
 return Radio

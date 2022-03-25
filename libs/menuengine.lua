@@ -23,7 +23,7 @@
 ---@field disable function @self.disabled = true
 ---@field setDisabled fun(arg:boolean) @enable or disable the menu
 ---@field setFont fun(font:love.Font) @set the font for the menu
-
+---@field quit fun() : nil @quit the menu
 local menuengine = {}
 menuengine.VERSION = "0.9.9e Beta"
 

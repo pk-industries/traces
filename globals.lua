@@ -6,10 +6,9 @@ RELEASE = false
 
 -- Enables the debug stats
 DEBUG = not RELEASE
-require "utils.debug"
-GameState = require "libs.gamestate"
+
 require "libs.tablesave"
-Husl = require "libs.husl"
+require "libs.coordinates"
 Lume = require "libs.lume"
 Class = require "libs.class"
 Saver = require "libs.saver"
@@ -18,12 +17,18 @@ Camera = require "libs.camera"
 Signal = require "libs.signal"
 Vector = require "libs.vector"
 Inspect = require "libs.inspect"
-MenuEngine = require "libs.menuengine"
-MenuEngine.stop_on_nil_functions = false
-require "libs.colorize"
+GameState = require "libs.gamestate"
+Window = require "libs.window"
+Saveable = require "libs.saveable"
+Scene = require "house.scene"
+System = require "libs.system"
+-- MenuEngine = require "libs.menuengine"
+Anim8 = require "libs.anim8"
+-- MenuEngine.stop_on_nil_functions = true
+
+require "libs.set"
 
 CONFIG = {
-    saveDir = love.filesystem.getSaveDirectory(),
     graphics = {
         filter = {
             -- FilterModes: linear (blurry) / nearest (blocky)
@@ -34,13 +39,6 @@ CONFIG = {
             -- Amount of anisotropic filter performed
             anisotropy = 1
         }
-    },
-    window = {
-        icon = "assets/images/icon.png",
-        scale = 2,
-        width = 400,
-        height = 240,
-        flags = {}
     },
     debug = {
         -- The key (scancode) that will toggle the debug state.
@@ -70,109 +68,67 @@ CONFIG = {
     }
 }
 
-local windowsettings = table.load(".settings.lua")
-
-if windowsettings then
-    CONFIG.window = windowsettings
-end
-
-CONFIG.window.resize = function(newScale, flags)
-    CONFIG.window.scale = newScale
-    local w = CONFIG.window.width
-    local h = CONFIG.window.height
-    local s = CONFIG.window.scale
-
-    CONFIG.window.flags = flags
-    love.window.setMode(w * s, h * s, CONFIG.window.flags)
-end
-
-local function makeFont(path)
-    return setmetatable(
-        {},
-        {
-            __index = function(t, size)
-                local f = love.graphics.newFont(path, size)
-                rawset(t, size, f)
-                return f
-            end
-        }
-    )
-end
-
 Fonts = {
     default = nil,
-    regular = makeFont "assets/fonts/Roboto-Regular.ttf",
-    bold = makeFont "assets/fonts/Roboto-Bold.ttf",
-    light = makeFont "assets/fonts/Roboto-Light.ttf",
-    thin = makeFont "assets/fonts/Roboto-Thin.ttf",
-    regularItalic = makeFont "assets/fonts/Roboto-Italic.ttf",
-    boldItalic = makeFont "assets/fonts/Roboto-BoldItalic.ttf",
-    lightItalic = makeFont "assets/fonts/Roboto-LightItalic.ttf",
-    thinItalic = makeFont "assets/fonts/Roboto-Italic.ttf",
-    monospace = makeFont "assets/fonts/RobotoMono-Regular.ttf",
-    pixel = makeFont "assets/fonts/Pixel.ttf"
+    regular = System.graphics.createFont "assets/fonts/Roboto-Regular.ttf",
+    bold = System.graphics.createFont "assets/fonts/Roboto-Bold.ttf",
+    light = System.graphics.createFont "assets/fonts/Roboto-Light.ttf",
+    thin = System.graphics.createFont "assets/fonts/Roboto-Thin.ttf",
+    regularItalic = System.graphics.createFont "assets/fonts/Roboto-Italic.ttf",
+    boldItalic = System.graphics.createFont "assets/fonts/Roboto-BoldItalic.ttf",
+    lightItalic = System.graphics.createFont "assets/fonts/Roboto-LightItalic.ttf",
+    thinItalic = System.graphics.createFont "assets/fonts/Roboto-Italic.ttf",
+    monospace = System.graphics.createFont "assets/fonts/RobotoMono-Regular.ttf",
+    pixel = System.graphics.createFont "assets/fonts/Pixel.ttf"
 }
+
+-- -@alias Colors table<string, number>
 Colors = {
     white = {1, 1, 1, 1},
-    black = {0, 0, 0, 1}
+    black = {0, 0, 0, 1},
+    red = {255, 0, 0, 1}
 }
 
 Fonts.default = Fonts.regular
 CONFIG.debug.stats.font = Fonts.monospace
 CONFIG.debug.error.font = Fonts.monospace
 
+Player = nil -- loaded in main
+House = nil -- loaded in main
 States = {
-    welcome = require "states.welcome",
-    game = require "states.game",
-    pause = require "states.pause"
+    start = require "states.start",
+    game = require "states.game"
 }
 
-function set(...)
-    local ret = {}
-    for _, k in ipairs({...}) do
-        ret[k] = true
-    end
-    return ret
-end
----@class Controls
----@field up "up"
----@field down "down"
----@field left "left"
----@field right "right"
----@field enter "return"
----@field pause "p"
 Controls = {
     up = "up",
     down = "down",
     left = "left",
     right = "right",
-    enter = "return",
-    back = "escape",
-    pause = "p",
+    a = "return",
+    b = "backspace",
     arrowkeys = set("up", "down", "left", "right")
 }
 
-function FileExists(name)
-    local f = io.open(name, "r")
-    if f ~= nil then
-        io.close(f)
-        return true
-    else
-        return false
+GamePad = {
+    up = Controls.up,
+    down = Controls.down,
+    left = Controls.left,
+    right = Controls.right
+}
+
+GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
+
+function keyOf(table, value)
+    for k, v in pairs(table) do
+        if v == value then return k end
     end
+    return nil
 end
 
----@class love.shader
-PlayDateShader =
-    love.graphics.newShader [[
-vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords ){
-	vec4 pixel = Texel(texture, texture_coords );
-	if(pixel.r < 0.65) {
-		return vec4(0.193, 0.184, 0.158, pixel.a);
-	} else {
-		return vec4(0.747, 0.757, 0.743, pixel.a);
-	}
-}
-]]
-
--- GameObject = require "libs.gameobject"
+function indexOf(table, value)
+    for k, v in ipairs(table) do
+        if v == value then return k end
+    end
+    return nil
+end

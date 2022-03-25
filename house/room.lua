@@ -1,169 +1,144 @@
-local function positionCollision(pos, col)
-    return pos.direction == col.direction and pos.x == col.x and pos.y == col.y
+local Flags = require "libs.flags"
+
+---@field string id
+---@field number width
+---@field number height
+---@field table scene
+---@field table obstacles Fill table with ["x.y"] coordinates as the key and the illegal cardinal directions in a table as the value.
+local Room = Class { __includes = Flags }
+
+---Constructor
+---@param id string
+---@param width number
+---@param height number
+---@param scenes table
+---@param obstacles table Fill table with ["x.y"] coordinates as the key and the illegal cardinal directions in a table as the value.
+function Room:init(id, width, height, scenes, obstacles)
+    Flags.init(self, id, Player)
+    self.id = id or "room"
+    self.width = width
+    self.height = height
+    self.scenes = scenes or {}
+    self.obstacles = obstacles or {}
+    self:loadFlags()
 end
 
----@alias RoomId string | "bedroom"
----@alias Direction string | "n" | "s" | "e" | "w"
---  The position of the player in the home
----@class HomePosition
----@field id string | "bedroom" | "hall"
----@field x number x-axis position
----@field y number y-axis position
----@field direction Direction
-HomePosition =
-    Class {
-    init = function(self)
-        local save, error = table.load("save.lua")
-        if save then
-            for k, v in pairs(save) do
-                self[k] = v
-            end
-        else
-            self.id = "bedroom"
-            self.x = 2
-            self.y = 1
-            self.direction = "n"
-            self.child = nil
-            print(error)
-        end
-    end
-}
+function Room:enter()
+    System.setTitle(GameState.current().id)
+end
 
----@class Room : HomePosition
----@see HomePosition
----@field width number
----@field height number
----@field children table<RoomId, View>
----@field move fun(key:love.Scancode):nil
----@field keypressed fun(key:love.Scancode):nil
----@field update love.update
-Room =
-    Class {
-    __includes = HomePosition,
-    init = function(self, id, tbl)
-        self.id = id
-        if type(tbl) == "table" then
-            for k, v in pairs(tbl) do
-                self[k] = v
-            end
-        end
-    end,
-    update = function(self, dt)
-    end,
-    leave = function(self)
-    end
-}
+function Room:update(dt)
+    Timer.update(dt)
+end
 
 function Room:draw()
-    local cstate = GameState.current()
-    local d, x, y = cstate.direction, cstate.x, cstate.y
-    local assetsdir = "assets/images/"
-    local roomdir = assetsdir .. self.id .. "/" --- /assets/images/bedroom/
-    local filename = "x" .. x .. "y" .. y .. "_" .. d .. "_" .. self.id .. ".png"
-
-    local filepath = roomdir .. filename
-
-    if love.filesystem.getInfo(filepath) then
-        local img = love.graphics.newImage(filepath)
-        local scale = CONFIG.window.scale
-        love.graphics.draw(img, 0, 0, 0, scale, scale)
-    else
-        print("File not found: " .. filepath)
+    local _, err = pcall(function()
+        self:render()
+    end)
+    if err then
+        print(err)
     end
-    -- collectgarbage()
+end
+
+local function getFacingScene(self)
+    local d, x, y = Player:getPosition()
+    local coor = d .. "." .. x .. "." .. y
+    print("Player coordinates: " .. d .. "." .. coor)
+    for scenecoordinates, scene in pairs(self.scenes) do
+        print(scene.id .. " coordinates: " .. scenecoordinates)
+        if scenecoordinates == coor then
+            print("Scene matched")
+            return scene
+        end
+    end
+    return nil
 end
 
 function Room:keypressed(key)
-    local cstate = GameState.current()
-    local d, x, y = cstate.direction, cstate.x, cstate.y
-    local w, h = cstate.room.width, cstate.room.height
-
-    local nstate = {}
-
-    if d == "n" then
-        if key == Controls.up and y + 1 <= h then
-            nstate.y = y + 1
-        elseif key == Controls.right then
-            nstate.direction = "e"
-        elseif key == Controls.down and y - 1 >= 1 then
-            nstate.y = y - 1
-        elseif key == Controls.left then
-            nstate.direction = "w"
-        end
-    elseif d == "e" then
-        if key == Controls.up and x + 1 <= w then
-            nstate.x = x + 1
-        elseif key == Controls.right then
-            nstate.direction = "s"
-        elseif key == Controls.down and x - 1 >= 1 then
-            nstate.x = x - 1
-        elseif key == Controls.left then
-            nstate.direction = "n"
-        end
-    elseif d == "s" then
-        if key == Controls.up and y - 1 >= 1 then
-            nstate.y = y - 1
-        elseif key == Controls.right then
-            nstate.direction = "w"
-        elseif key == Controls.down and y + 1 <= h then
-            nstate.y = y + 1
-        elseif key == Controls.left then
-            nstate.direction = "e"
-        end
-    elseif d == "w" then
-        if key == Controls.up and x - 1 >= 1 then
-            nstate.x = x - 1
-        elseif key == Controls.right then
-            nstate.direction = "n"
-        elseif key == Controls.down and x + 1 <= w then
-            nstate.x = x + 1
-        elseif key == Controls.left then
-            nstate.direction = "s"
-        end
-    -- collectgarbage()
-    end
-
-    -- only change modified values
-    for k, v in pairs(nstate) do
-        GameState.current()[k] = v
-    end
-
-    self:scanchildren()
-end
-
-function Room:scanchildren()
-    for i, v in ipairs(GameState.current().room.children) do
-        local pos = GameState.current()
-        local ischild = pos.direction == v.direction and pos.x == v.x and pos.y == v.y
-
-        if ischild then
-            GameState.current().child = v
-            -- print("Child: " .. v.id)
+    if key == Controls.up then
+        local facingscene = getFacingScene(self)
+        if facingscene then
+            if facingscene.flags.isLocked then
+                print("It's locked.")
+                System.graphics.print("It's locked.", 0, 0)
+            elseif facingscene.isDoor then
+                Player.room = facingscene.id
+                Player:setPosition(facingscene.destD, facingscene.destX, facingscene.destY)
+                States.game:enter()
+            else
+                GameState.push(House[facingscene.id])
+            end
             return
         end
     end
-    GameState.current().child = nil
+    local ok, err = pcall(function()
+        self:navigate(key)
+    end)
+    if not ok then
+        print(err)
+    end
 end
 
----@class View : HomePosition
----@field id RoomId
----@field init fun(self:View, id:RoomId, d:Direction)
-Child =
-    Class {
-    ---@param id RoomId
-    ---@param x number
-    ---@param tbl table<string,any>
-    init = function(self, id, d, x, y, tbl)
-        self.id = id
-        self.direction = d
-        self.x = x
-        self.y = y
-        if type(tbl) == "table" then
-            for k, v in pairs(tbl) do
-                self[k] = v
-            end
+---@param isMovingForward boolean If this is false, it is assumed moving backward.
+local function checkForObstacle(room, d, x, y, isMovingForward)
+    local key = tostring(x) .. "." .. tostring(y)
+    local cardinal = d
+    print("Cardinal: " .. cardinal)
+    if not isMovingForward then
+        cardinal = Cardinals.getOpposite(cardinal)
+        print("Opposite needed: " .. tostring(cardinal))
+    end
+    local coordinates = cardinal .. "." .. key
+    return keyOf(room.obstacles, coordinates) ~= nil
+end
+
+function Room:navigate(key)
+    if key == "`" then
+        self.debug = not self.debug
+        return
+    end
+    if not GamePad.includes[key] then
+        return
+    end
+    if key == Controls.up or key == Controls.down then
+        local d, x, y = Player:getPosition()
+        local isMovingForward = key == Controls.up
+        if (checkForObstacle(self, d, x, y, isMovingForward)) then
+            print("There's an obstacle in the way.")
+            return
         end
     end
-}
+    Player:move(key)
+end
 
-return Room, Child
+function Room:render()
+    local d, x, y = Player:getPosition()
+    local assetsdir = "assets/images/"
+    local roomdir = assetsdir .. GameState:current().id .. "/"
+    local filename = "x" .. x .. "y" .. y .. "_" .. self.id .. ".png"
+
+    local filepath = roomdir .. filename
+    local scale = WINDOW.scale
+    System.graphics.setColor(255, 255, 255)
+    if System.filesystem.checkFileExists(filepath) then
+        local image = System.graphics.createImage(filepath)
+        local offsetTbl = {
+            ["n"] = 0,
+            ["s"] = 400,
+            ["e"] = 800,
+            ["w"] = 1200
+        }
+        local offset = offsetTbl[d]
+        System.graphics.draw(image, 0, 0, 0, scale, scale, offset)
+    else
+        print("File " .. filepath .. " does not exist :(")
+    end
+end
+
+function Room:wheelmoved(x, y)
+    if type(self.scene) == "table" then
+        self.scene:wheelmoved(x, y)
+    end
+end
+
+return Room
