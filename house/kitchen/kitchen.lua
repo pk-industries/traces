@@ -7,7 +7,7 @@ function Kitchen:init()
         self,
         "kitchen",
         1,
-        1,
+        3,
         {
             ["e.1.1"] = require("house.kitchen.livingroom")()
         },
