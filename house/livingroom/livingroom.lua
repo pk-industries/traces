@@ -10,6 +10,7 @@ function Livingroom:init()
         3,
         {
             ["w.1.1"] = require("house.kitchen.kitchen")(),
+            ["n.1.3"] = require("house.livingroom.coatcloset")(),
             ["e.3.1"] = require("house.livingroom.hall")(),
             ["w.3.2"] = require("house.livingroom.couch")()
         },
