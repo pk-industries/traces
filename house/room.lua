@@ -58,6 +58,8 @@ function Room:keypressed(key)
     print(key)
     if key == GamePad.start then
         GameState.push(States.pause)
+    elseif key == Controls.z then
+        Player.isFlashOn = not Player.isFlashOn
     elseif key == Controls.up then
         local facingscene = getFacingScene(self)
         if facingscene then
@@ -136,6 +138,7 @@ function Room:render()
     else
         print("File " .. filepath .. " does not exist :(")
     end
+    Flashlight.runRoutine()
 end
 
 function Room:wheelmoved(x, y)

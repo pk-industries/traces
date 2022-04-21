@@ -14,6 +14,7 @@ function love.load()
     Player = data
 
     House = require "house.house"
+    Flashlight = require "house.flashlight"
 
     love.window.setTitle("Traces")
 
@@ -35,6 +36,8 @@ function love.quit()
     if WINDOW ~= nil then WINDOW:save() end
     if Player ~= nil then Player:save() end
 end
+
+
 
 function love:draw()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)

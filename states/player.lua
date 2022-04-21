@@ -16,6 +16,7 @@ function Player:init(id)
     self.direction = "n"
     self.x = 1
     self.y = 1
+    self.isFlashOn = false
 
     Signal.register(
         PlayerSignals.PlayerMoved,

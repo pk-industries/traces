@@ -95,6 +95,7 @@ CONFIG.debug.error.font = Fonts.monospace
 
 Player = nil -- loaded in main
 House = nil -- loaded in main
+Flashlight = nil -- loaded in main
 States = {
     start = require "states.start",
     game = require "states.game",
@@ -109,6 +110,7 @@ Controls = {
     a = "return",
     b = "backspace",
     start = "escape",
+    z = "z",
     arrowkeys = set("up", "down", "left", "right")
 }
 
