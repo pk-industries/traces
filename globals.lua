@@ -110,7 +110,7 @@ Controls = {
     a = "return",
     b = "backspace",
     start = "escape",
-    z = "z",
+    z = "z", d = "d",
     arrowkeys = set("up", "down", "left", "right")
 }
 

@@ -16,6 +16,8 @@ function Player:init(id)
     self.direction = "n"
     self.x = 1
     self.y = 1
+    self.isDarkOn = false
+    self.isFlashUnlocked = true
     self.isFlashOn = false
 
     Signal.register(
@@ -40,6 +42,7 @@ function Player:init(id)
     --     ["isLocked"] = false
     -- }
 
+    -- Unlock doors
     for _, room in ipairs({ "bedroom", "hall" }) do
         self[room] = { isLocked = false }
     end
