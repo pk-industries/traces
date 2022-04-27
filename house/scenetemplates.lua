@@ -54,10 +54,36 @@ function ie:keypressed(key)
     end
 end
 
+local he = Class {
+    __includes = ie,
+    init = function(self, id, direction, x, y, isLocked, path)
+        ie.init(self, id, direction, x, y, isLocked, path)
+    end,
+    keypressed = function(self, key)
+        Scene.keypressed(self, key)
+
+        local xstep = WINDOW.baseW
+        local newx = self.img.x
+        local wlimit = self.img.image:getWidth() - xstep
+
+        if key == GamePad.left then
+            newx = newx - xstep
+            self.img.x = (newx >= 0) and newx or wlimit
+        elseif key == GamePad.right then
+            newx = newx + xstep
+            self.img.x = (newx <= wlimit) and newx or 0
+        elseif key == Controls.b then
+            GameState.pop()
+        end
+    end
+}
+
 
 return {
     --- Creates a Scene class with an additional img table used to traverse the given image path.
     --- Image is loaded once on initialization.
     --- Table 'img' contains three members: path (str), image (a loaded image), x (number), y (number). x/y are the offsets used in draw process.
-    ImageExplorer = ie
+    ImageExplorer = ie,
+    --- Like an image explorer, except only horizontally, and exploring wraps.
+    HorizontalExplorer = he
 }
