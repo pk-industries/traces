@@ -1,24 +1,13 @@
-local scenes = require "house.scenetemplates"
-local HorizontalExplorer = scenes.HorizontalExplorer
-local Closet = Class { __includes = HorizontalExplorer }
+local Door = require "house.door"
 
-function Closet:init()
-    HorizontalExplorer.init(self, "bedroom.closet", "s", 1, 1, true, "assets/images/bedroom/bedroom_closet.png")
+local ClosetDoor = Class {
+    __includes = Door
+}
+
+function ClosetDoor:init()
+    local closetCoor = coordinates("s", 1, 1)
+    local coor = coordinates("n", 1, 1)
+    Door.init(self, "closet", closetCoor, coor, true)
 end
 
-function Closet:enter()
-    self.img.x = (WINDOW.baseW * 2)
-end
-
-function Closet:keypressed(key)
-    if key == GamePad.up and self.img.x == 0 then
-        Player.direction = "n"
-        GameState.pop()
-    elseif key == GamePad.down and self.img.x == (WINDOW.baseW * 2) then
-        Player.direction = "s"
-        GameState.pop()
-    end
-    HorizontalExplorer.keypressed(self, key)
-end
-
-return Closet
+return ClosetDoor
