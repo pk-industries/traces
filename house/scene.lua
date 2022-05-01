@@ -59,4 +59,12 @@ function Scene:keypressed(key)
     end
 end
 
+function Scene:wheelmoved(x, y)
+    if y > 0 then
+        print("Wheel moved up" .. y)
+    elseif y < 0 then
+        print("Wheel moved down" .. y)
+    end
+end
+
 return Scene
