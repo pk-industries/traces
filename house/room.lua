@@ -73,7 +73,12 @@ function Room:keypressed(key)
                 Player:setPosition(facingscene.destD, facingscene.destX, facingscene.destY)
                 States.game:enter()
             else
-                GameState.push(House[facingscene.id])
+                local ok, err = pcall(function()
+                    GameState.push(House[facingscene.id])
+                end)
+                if not ok then
+                    print("ERROR:", err)
+                end
             end
             return
         end
