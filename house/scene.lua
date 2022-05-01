@@ -54,6 +54,8 @@ end
 function Scene:keypressed(key)
     if key == GamePad.start then
         GameState.push(States.pause)
+    elseif key == GamePad.b then
+        GameState.pop()
     end
 end
 

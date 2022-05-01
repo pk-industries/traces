@@ -58,6 +58,8 @@ function Room:keypressed(key)
     print(key)
     if key == GamePad.start then
         GameState.push(States.pause)
+    elseif key == Controls.d then
+        Player.isDarkOn = not Player.isDarkOn
     elseif key == Controls.z then
         Player.isFlashOn = not Player.isFlashOn
     elseif key == Controls.up then
