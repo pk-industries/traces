@@ -52,9 +52,10 @@ function Scene:exit()
 end
 
 function Scene:keypressed(key)
-    if key == GamePad.start then
+    print(tostring(key))
+    if key == Controls.start then
         GameState.push(States.pause)
-    elseif key == GamePad.b then
+    elseif key == Controls.b then
         GameState.pop()
     end
 end
