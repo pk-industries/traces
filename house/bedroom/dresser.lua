@@ -11,13 +11,17 @@ function Dresser:draw()
     System.graphics.draw(img, 0, 0, 0, scale, scale)
 end
 
-function Dresser:keypressed(key)
-    if key == GamePad.up and System.keyboard.isDown(GamePad.left) then
+function Dresser:update()
+    if System.keyboard.isDown(Controls.up) and System.keyboard.isDown(Controls.left) then
         GameState.push(MusicBox)
     end
-    if key == Controls.b or key == GamePad.down then
+end
+
+function Dresser:keypressed(key)
+    if key == Controls.down then
         GameState.pop()
     end
+    Scene.keypressed(self, key)
 end
 
 return Dresser

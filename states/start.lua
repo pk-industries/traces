@@ -6,8 +6,8 @@ function StartSceen:init()
     image = System.graphics.createImage("assets/images/startscreen.png")
     local height = System.graphics.getImageHeight(image)
     local width = System.graphics.getImageWidth(image)
-    local g = Anim8.newGrid(width / 3, height, width, height)
-    animation = Anim8.newAnimation(g("1-3", 1), 0.15)
+    local grid = Anim8.newGrid(width / 3, height, width, height)
+    animation = Anim8.newAnimation(grid("1-3", 1), 0.15)
     System.graphics.setBackgroundColor(Colors.white)
 end
 
