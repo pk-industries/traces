@@ -39,7 +39,7 @@ function ie:update()
     end
     if System.keyboard.isDown(GamePad.right) then
         newx = newx + xstep
-        local wlimit = self.img.image:getWidth() - WINDOW.baseW
+        local wlimit = System.graphics.getImageWidth(self.img.image) - WINDOW.baseW
         self.img.x = (newx < wlimit) and newx or wlimit
     end
     if System.keyboard.isDown(GamePad.up) then
@@ -48,7 +48,7 @@ function ie:update()
     end
     if System.keyboard.isDown(GamePad.down) then
         newy = newy + ystep
-        local hlimit = self.img.image:getHeight() - WINDOW.baseH
+        local hlimit = System.graphics.getImageHeight(self.img.image) - WINDOW.baseH
         self.img.y = (newy < hlimit) and newy or hlimit
     end
 end

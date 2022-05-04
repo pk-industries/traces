@@ -4,7 +4,9 @@ local StartSceen = {}
 
 function StartSceen:init()
     image = System.graphics.createImage("assets/images/startscreen.png")
-    local g = Anim8.newGrid(image:getWidth() / 3, image:getHeight(), image:getWidth(), image:getHeight())
+    local height = System.graphics.getImageHeight(image)
+    local width = System.graphics.getImageWidth(image)
+    local g = Anim8.newGrid(width / 3, height, width, height)
     animation = Anim8.newAnimation(g("1-3", 1), 0.15)
     System.graphics.setBackgroundColor(Colors.white)
 end

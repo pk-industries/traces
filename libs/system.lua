@@ -147,6 +147,12 @@ System.graphics = {
     createImage = function(filename, flags)
         return love.graphics.newImage(filename, flags)
     end,
+    getImageWidth = function(image)
+        return image:getWidth()
+    end,
+    getImageHeight = function(image)
+        return image:getHeight()
+    end,
     ---The purpose of a crop is to use a fraction of an image to draw objects, as opposed to drawing entire image.
     ---
     ---@param x number The top-left position in the Image along the x-axis.
