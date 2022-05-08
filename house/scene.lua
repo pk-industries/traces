@@ -39,9 +39,6 @@ function Scene:enter()
     print("Entering scene " .. self.id)
 end
 
-function Scene:update(dt)
-end
-
 function Scene:draw()
     System.setFont(Fonts.pixel[30])
     System.print("Scene " .. self.id, 0, 0)
