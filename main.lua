@@ -8,20 +8,14 @@ local shader
 
 function love.load()
     print("") -- Easier readability if newlined at beginning of program.
-    local class = require "states.player"
-    local ok, data = pcall(class, "player")
-    if not ok then print("Player could not be created: ", data) end
-    Player = data
+    Player = require("states.player")()
+    WINDOW = require("libs.window")()
 
     House = require "house.house"
     Flashlight = require "house.flashlight"
 
     love.window.setTitle("Traces")
 
-    class = require "libs.window"
-    ok, data = pcall(class)
-    if not ok then print("Window could not be created: ", data) end
-    WINDOW = data
 
     shader = love.graphics.newShader("assets/PlayDateShader.fs")
     GameState.registerEvents()
@@ -37,8 +31,6 @@ function love.quit()
     if Player ~= nil then Player:save() end
 end
 
-
-
 function love:draw()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     love.graphics.setLineStyle("rough")
@@ -47,7 +39,7 @@ function love:draw()
     GameState.draw()
 end
 
-function love.keypressed(key, code)
+function love.keypressed(key)
     if key == "1" then
         WINDOW:resize(1)
     elseif key == "2" then
