@@ -20,6 +20,10 @@ end
 
 function Bedroom:enter()
     System.setTitle("Bedroom")
+    if Player.playWakeup then
+        Player.playWakeup = false
+        GameState.push(require "house.bedroom.wakeup")
+    end
 end
 
 return Bedroom

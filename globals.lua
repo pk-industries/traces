@@ -24,6 +24,7 @@ Scene = require "house.scene"
 System = require "libs.system"
 -- MenuEngine = require "libs.menuengine"
 Anim8 = require "libs.anim8"
+CutScene = require "house.cutscene"
 -- MenuEngine.stop_on_nil_functions = true
 
 require "libs.set"
