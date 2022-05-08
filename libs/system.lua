@@ -165,6 +165,12 @@ System.graphics = {
     createCrop = function(x, y, width, height, sw, sh)
         return love.graphics.newQuad(x, y, width, height, sw, sh)
     end,
+    translate = function(dx, dy)
+        love.graphics.translate(dx, dy)
+    end,
+    rotate = function(angle)
+        love.graphics.rotate(angle)
+    end,
     ---@param drawable any A drawable object. May change actual type in the future, only meant to interact with drawables/images made in system.lua to ensure functionality.
     ---@param x? number The position to draw the object (x-axis).
     ---@param y? number The position to draw the object (y-axis).

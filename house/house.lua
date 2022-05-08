@@ -9,6 +9,7 @@ House = {
     ["closet.bedroom"] = require("house.closet.bedroom"),
     ["hall"] = require("house.hall.hall"),
     ["hall.bedroom"] = require("house.hall.bedroom"),
+    ["hall.phone"] = require("house.hall.phone"),
     ["hall.livingroom"] = require("house.hall.livingroom"),
     ["livingroom"] = require("house.livingroom.livingroom"),
     ["livingroom.couch"] = require("house.livingroom.couch"),
