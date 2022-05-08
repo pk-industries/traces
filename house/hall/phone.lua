@@ -22,19 +22,9 @@ function Phone:draw()
     -- Draw rotary
     local rotOx = System.graphics.getImageWidth(rotary) / 2
     local rotOy = System.graphics.getImageHeight(rotary) / 2
-    local posX = (WINDOW.baseW / 2)
+    local posX = (WINDOW.baseW / 2) - 2
     local posY = (WINDOW.baseH / 2) + 12
     g.draw(rotary, posX * scale, posY * scale, self.pos, scale, scale, rotOx, rotOy)
-end
-
-function Phone:keypressed(key)
-    local rotOx = System.graphics.getImageWidth(rotary) / 2
-    local rotOy = System.graphics.getImageHeight(rotary) / 2
-    local posX = (WINDOW.baseW / 2) - rotOx
-    local posY = (WINDOW.baseH / 2) - rotOy
-    
-    print("Rot: " .. tostring(rotOx) .. ", " .. tostring(rotOy))
-    print("X,Y: " .. tostring(posX) .. ", " .. tostring(posY))
 end
 
 function Phone:update()
