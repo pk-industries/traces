@@ -29,6 +29,9 @@ System.audio = {
     end,
     play = function(source, ...)
         return love.audio.play(source, ...)
+    end,
+    pause = function(source, ...)
+        return love.audio.pause(source, ...)
     end
 }
 

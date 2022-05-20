@@ -17,13 +17,32 @@ function Radio:init()
     static = System.audio.createSource("assets/sounds/static.mp3", "stream")
     static:setLooping(true)
 
-    System.audio.play(music, static)
-
     self.img = System.graphics.createImage("assets/images/bedroom/radio.png")
 
     self.flags = { pos = 0 }
 
     Scene.init(self, "bedroom.radio", "e", 2, 2, false)
+end
+
+function Radio:enter()
+    System.audio.play(music, static)
+    Scene.enter(self)
+end
+
+function Radio:leave()
+    System.audio.pause(music, static)
+    Scene.leave(self)
+end
+
+function Radio:draw()
+    local pos = self.flags.pos
+    local scale = WINDOW.scale
+    System.graphics.setColor(0, 0, 0, 1)
+    System.graphics.drawRectangle("fill", (pos + 154) * scale, 45 * scale, 3 * scale, 50 * scale)
+    System.graphics.setColor(1, 1, 1, 1)
+    System.graphics.draw(self.img, 0, 0, 0, scale, scale)
+    System.graphics.setColor(0, 0, 0)
+    System.graphics.print("x: " .. pos, 0, 0)
 end
 
 local decideVolumes = function(pos)
@@ -42,17 +61,6 @@ end
 
 function Radio:update(dt)
     decideVolumes(self.flags.pos)
-end
-
-function Radio:draw()
-    local pos = self.flags.pos
-    local scale = WINDOW.scale
-    System.graphics.setColor(0, 0, 0, 1)
-    System.graphics.drawRectangle("fill", (pos + 154) * scale, 45 * scale, 3 * scale, 50 * scale)
-    System.graphics.setColor(1, 1, 1, 1)
-    System.graphics.draw(self.img, 0, 0, 0, scale, scale)
-    System.graphics.setColor(0, 0, 0)
-    System.graphics.print("x: " .. pos, 0, 0)
 end
 
 function Radio:wheelmoved(x, y)

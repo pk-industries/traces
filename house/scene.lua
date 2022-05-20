@@ -46,7 +46,7 @@ function Scene:draw()
     System.print("Scene " .. self.id, 0, 0)
 end
 
-function Scene:exit()
+function Scene:leave()
     print("Exiting scene " .. self.id)
 
     local ok, err = pcall(self.setFlags, self)
