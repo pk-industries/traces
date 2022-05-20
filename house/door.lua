@@ -20,7 +20,24 @@ function Door:init(destId, destCoor, coor, isLocked)
     self.destX = destCoor.x
     self.destY = destCoor.y
     self.isDoor = true
+    self.openSnd = nil
+    self.lockedSnd = nil
     Scene.init(self, destId, coor.d, coor.x, coor.y, isLocked)
+end
+
+function Door:openDoor()
+    local snd
+    if self.isLocked then
+        snd = self.lockedSnd
+    else
+        snd = self.openSnd
+    end
+
+    if snd then
+        print("Playing sound " .. snd)
+        snd = System.audio.createSource(snd, "static")
+        System.audio.play(snd)
+    end
 end
 
 return Door

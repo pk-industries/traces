@@ -26,6 +26,9 @@ System.audio = {
     ---@return source source A new Source that can play the specified audio.
     createSource = function(filename, type)
         return love.audio.newSource(filename, type)
+    end,
+    play = function(source, ...)
+        return love.audio.play(source, ...)
     end
 }
 

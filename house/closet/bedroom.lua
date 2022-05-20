@@ -8,6 +8,7 @@ function BedroomDoor:init()
     local bedCoor = coordinates("n", 1, 1)
     local coor = coordinates("s", 1, 1)
     Door.init(self, "bedroom", bedCoor, coor, true)
+    self.openSnd = "assets/sounds/doorknob.wav"
 end
 
 return BedroomDoor

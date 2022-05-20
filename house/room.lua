@@ -62,17 +62,24 @@ function Room:keypressed(key)
         Player.isDarkOn = not Player.isDarkOn
     elseif key == Controls.z then
         Player.isFlashOn = not Player.isFlashOn
+    elseif key == Controls.u then
+        local facingscene = getFacingScene(self)
+        if facingscene then
+            print("Changing scene lock for " .. facingscene.id .. " to " .. tostring(not facingscene.isLocked))
+            facingscene.isLocked = not facingscene.isLocked
+        end
     elseif key == Controls.up then
         local facingscene = getFacingScene(self)
         if facingscene then
-            if facingscene.flags.isLocked then
-                print("It's locked.")
-                System.graphics.print("It's locked.", 0, 0)
-            elseif facingscene.isDoor then
-                Player.room = facingscene.id
-                Player:setPosition(facingscene.destD, facingscene.destX, facingscene.destY)
-                States.game:enter()
-            else
+            if facingscene.isDoor then
+                facingscene:openDoor()
+                if not facingscene.flags.isLocked then
+                    Player.room = facingscene.id
+                    Player:setPosition(facingscene.destD, facingscene.destX, facingscene.destY)
+                    facingscene:openDoor()
+                    States.game:enter()
+                end
+            elseif not facingscene.flags.isLocked then
                 GameState.push(House[facingscene.id])
             end
             return
