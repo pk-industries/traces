@@ -119,6 +119,8 @@ end
 function Phone:keypressed(key)
     if not controlsAreLocked and key == Controls.a then
         self:dial()
+    else
+        Scene.keypressed(self, key)
     end
 end
 
