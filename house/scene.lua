@@ -28,15 +28,17 @@ function Scene:init(id, direction, x, y, isLocked)
     self.x = x
     self.y = y
     self.flags.isLocked = isLocked or false
+end
+
+function Scene:enter()
+    print("Entering scene " .. self.id)
 
     local ok, err = pcall(self.loadFlags, self)
     if not ok then
         print(err)
     end
-end
 
-function Scene:enter()
-    print("Entering scene " .. self.id)
+    print("Flags loaded.")
 end
 
 function Scene:draw()
@@ -46,6 +48,13 @@ end
 
 function Scene:exit()
     print("Exiting scene " .. self.id)
+
+    local ok, err = pcall(self.setFlags, self)
+    if not ok then
+        print(err)
+    end
+
+    print("Flags set.")
 end
 
 function Scene:keypressed(key)
