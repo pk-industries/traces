@@ -1,112 +1,67 @@
-local static
--- local click = System.graphics.createAudioSource("assets/sounds/button_press.wav", "static")
-
-local xmin = 154
-local xmax = 364
-local velx = 0
-local station, music
+local max = 210
+local pass = 135
+local range = 30
+local musicMin = pass - range
+local musicMax = pass + range
+local music, static
 
 local Radio = Class { __includes = Scene }
 
-local function isInRange(x, min, max)
-    return x >= min and x <= max
-end
-
 function Radio:init()
-    Scene.init(self, "bedroom.radio", "e", 2, 2, false)
-
-    --[[ stations[2] = {
-        id = "masquerade-of-the-ghosts",
-        min = 199,
-        max = 203,
-        filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
-    } ]]
-
-    print("radio init")
-    self.id = "masquerade-of-the-ghosts"
-    self.min = 287
-    self.max = 291
     self.filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
     self.vol = 0
 
-    music = System.audio.createSource(station.filePath, "static")
+    music = System.audio.createSource(self.filePath, "stream")
     music:setLooping(true)
-    music:play()
 
     static = System.audio.createSource("assets/sounds/static.mp3", "stream")
     static:setLooping(true)
-    static:play()
-    if isInRange(self.x, station.min, station.max) then
-        music:play()
-        static:pause()
-    else
-        music:pause()
-        static:play()
-    end
-    Timer.tween(
-        10,
-        station,
-        {vol = 1},
-        "linear",
-        function()
-            music:setVolume(station.vol)
-            static:setVolume(station.vol)
-        end
-    )
 
-    local wheelmoved = function (dx, dy)
-        velx = velx + dy * 20
-    end
+    System.audio.play(music, static)
 
-    System.setWheelMoved(wheelmoved)
+    self.img = System.graphics.createImage("assets/images/bedroom/radio.png")
+
+    self.flags = { pos = 0 }
+
+    Scene.init(self, "bedroom.radio", "e", 2, 2, false)
 end
 
--- function Radio:enter()
---     static:play()
--- end
+local decideVolumes = function(pos)
+    if pos < musicMin or pos > musicMax then
+        static:setVolume(1)
+        music:setVolume(0)
+    else
+        local decimal = math.abs(pos - pass) / range * 2
+        decimal = math.pow(decimal, 3)
+        music:setVolume(1 - decimal)
+
+        decimal = math.max(0.2, decimal)
+        static:setVolume(decimal)
+    end
+end
 
 function Radio:update(dt)
-    local newpos = Radio.x + velx * dt
-    if newpos > xmin and newpos < xmax then
-        Radio.x = newpos
-    end
-
-    if isInRange(Radio.x, station.min, station.max) then
-        music:play()
-        static:pause()
-    else
-        music:pause()
-        static:play()
-    end
-
-    -- Gradually reduce the velocity to create smooth scrolling effect.
-    velx = velx - velx * math.min(dt * 15, .5)
-    Timer.update(dt)
+    decideVolumes(self.flags.pos)
 end
 
 function Radio:draw()
-    if self.currentStation then
-        System.graphics.print("Current station: " .. stations[self.currentStation].id, 0, 10)
-    end
-    local img = System.graphics.createImage("assets/images/bedroom/radio.png")
+    local pos = self.flags.pos
     local scale = WINDOW.scale
     System.graphics.setColor(0, 0, 0, 1)
-    System.graphics.drawRectangle("fill", Radio.x * WINDOW.scale, 45 * WINDOW.scale, 3 * WINDOW.scale, 50 * WINDOW.scale)
+    System.graphics.drawRectangle("fill", (pos + 154) * scale, 45 * scale, 3 * scale, 50 * scale)
     System.graphics.setColor(1, 1, 1, 1)
-    System.graphics.draw(img, 0, 0, 0, scale, scale)
+    System.graphics.draw(self.img, 0, 0, 0, scale, scale)
     System.graphics.setColor(0, 0, 0)
-    System.graphics.print("x: " .. Radio.x, 0, 0)
+    System.graphics.print("x: " .. pos, 0, 0)
 end
 
-function Radio:keypressed(key)
-    if key == Controls.b then
-        GameState.pop()
+function Radio:wheelmoved(x, y)
+    self.flags.pos = self.flags.pos + y
+    if self.flags.pos < 0 then
+        self.flags.pos = 0
+    elseif self.flags.pos > max then
+        self.flags.pos = max
     end
-end
-
-function Radio:leave()
-    States.game.setBedroomRadio = true
-    Player.setRadio = self.save(self)
 end
 
 return Radio

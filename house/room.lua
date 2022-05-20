@@ -65,8 +65,8 @@ function Room:keypressed(key)
     elseif key == Controls.u then
         local facingscene = getFacingScene(self)
         if facingscene then
-            print("Changing scene lock for " .. facingscene.id .. " to " .. tostring(not facingscene.isLocked))
-            facingscene.isLocked = not facingscene.isLocked
+            print("Changing scene lock for " .. facingscene.id .. " to " .. tostring(not facingscene.flags.isLocked))
+            facingscene.flags.isLocked = not facingscene.flags.isLocked
         end
     elseif key == Controls.up then
         local facingscene = getFacingScene(self)
