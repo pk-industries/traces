@@ -27,14 +27,14 @@ end
 
 function Door:openDoor()
     local snd
-    if self.isLocked then
+    if self.flags.isLocked then
         snd = self.lockedSnd
     else
         snd = self.openSnd
     end
 
+    print("Playing sound " .. tostring(snd))
     if snd then
-        print("Playing sound " .. snd)
         snd = System.audio.createSource(snd, "static")
         System.audio.play(snd)
     end
