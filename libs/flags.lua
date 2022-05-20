@@ -12,7 +12,7 @@ local Flags =
 function Flags:init(flagname, parent)
         self.flagname = flagname
         self.parent = parent
-        self.flags = {}
+        if not self.flags then self.flags = {} end
 
         if parent == nil then
             print("Parent for " .. flagname .. " is nil.")
