@@ -42,8 +42,12 @@ function Scene:enter()
 end
 
 function Scene:draw()
-    System.setFont(Fonts.pixel[30])
-    System.print("Scene " .. self.id, 0, 0)
+    if DEBUG ~= true then return end
+    local g = System.graphics
+    g.setFont(Fonts.pixel[30])
+    g.setColor(0, 0, 0)
+    g.print("Scene " .. self.id, 0, 0)
+    g.setColor(1, 1, 1)
 end
 
 function Scene:leave()
@@ -63,6 +67,8 @@ function Scene:keypressed(key)
         GameState.push(States.pause)
     elseif key == Controls.b then
         GameState.pop()
+    elseif key == CONFIG.debug.key then
+        DEBUG = not DEBUG
     end
 end
 

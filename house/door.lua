@@ -22,10 +22,23 @@ function Door:init(destId, destCoor, coor, isLocked)
     self.isDoor = true
     self.openSnd = nil
     self.lockedSnd = nil
-    Scene.init(self, destId, coor.d, coor.x, coor.y, isLocked)
+    Scene.init(self, destId, coor.d, coor.x, coor.y, isLocked or false)
+    self:loadFlags()
 end
 
 function Door:openDoor()
+    self:loadFlags()
+    self:playDoorSound()
+
+    if self.flags.isLocked then return end
+
+    -- If unlocked, enter room
+    Player.room = self.id
+    Player:setPosition(self.destD, self.destX, self.destY)
+    States.game:enter()
+end
+
+function Door:playDoorSound()
     local snd
     if self.flags.isLocked then
         snd = self.lockedSnd
@@ -33,7 +46,6 @@ function Door:openDoor()
         snd = self.openSnd
     end
 
-    print("Playing sound " .. tostring(snd))
     if snd then
         snd = System.audio.createSource(snd, "static")
         System.audio.play(snd)

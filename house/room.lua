@@ -32,20 +32,17 @@ function Room:update(dt)
 end
 
 function Room:draw()
-    local _, err = pcall(function()
-        self:render()
-    end)
-    if err then
-        print(err)
-    end
+    local _, err = pcall(Room.render, self)
+    if not err then return end
+    print(err)
 end
 
 local function getFacingScene(self)
     local d, x, y = Player:getPosition()
     local coor = d .. "." .. x .. "." .. y
-    print("Player coordinates: " .. d .. "." .. coor)
+    -- print("Player coordinates: " .. d .. "." .. coor)
     for scenecoordinates, scene in pairs(self.scenes) do
-        print(scene.id .. " coordinates: " .. scenecoordinates)
+        -- print(scene.id .. " coordinates: " .. scenecoordinates)
         if scenecoordinates == coor then
             print("Scene matched")
             return scene
@@ -65,50 +62,39 @@ function Room:keypressed(key)
     elseif key == Controls.u then
         local facingscene = getFacingScene(self)
         if facingscene then
-            print("Changing scene lock for " .. facingscene.id .. " to " .. tostring(not facingscene.flags.isLocked))
-            facingscene.flags.isLocked = not facingscene.flags.isLocked
+            local isLocked = Player[facingscene.id].isLocked
+            print("Changing scene lock for " .. facingscene.id .. " to " .. tostring(not isLocked))
+            Player[facingscene.id].isLocked = not isLocked
         end
     elseif key == Controls.up then
         local facingscene = getFacingScene(self)
         if facingscene then
             if facingscene.isDoor then
                 facingscene:openDoor()
-                if not facingscene.flags.isLocked then
-                    Player.room = facingscene.id
-                    Player:setPosition(facingscene.destD, facingscene.destX, facingscene.destY)
-                    facingscene:openDoor()
-                    States.game:enter()
-                end
             elseif not facingscene.flags.isLocked then
                 GameState.push(House[facingscene.id])
             end
             return
         end
     end
-    local ok, err = pcall(function()
-        self:navigate(key)
-    end)
-    if not ok then
-        print(err)
-    end
+    local ok, err = pcall(Room.navigate, self, key)
+    if not ok then print(err) end
 end
 
 ---@param isMovingForward boolean If this is false, it is assumed moving backward.
 local function checkForObstacle(room, d, x, y, isMovingForward)
     local key = tostring(x) .. "." .. tostring(y)
     local cardinal = d
-    print("Cardinal: " .. cardinal)
     if not isMovingForward then
         cardinal = Cardinals.getOpposite(cardinal)
-        print("Opposite needed: " .. tostring(cardinal))
     end
     local coordinates = cardinal .. "." .. key
     return keyOf(room.obstacles, coordinates) ~= nil
 end
 
 function Room:navigate(key)
-    if key == "`" then
-        self.debug = not self.debug
+    if key == CONFIG.debug.key then
+        DEBUG = not DEBUG
         return
     end
     if not GamePad.includes[key] then

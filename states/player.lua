@@ -45,6 +45,11 @@ function Player:init(id)
     --     ["isLocked"] = false
     -- }
 
+    self.bedroom = {
+        bedKey = false,
+        
+    }
+
     -- Unlock doors
     for _, room in ipairs({ "bedroom", "hall", "closet" }) do
         self[room] = { isLocked = false }

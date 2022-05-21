@@ -13,6 +13,7 @@ end
 function Dresser:draw()
     local scale = WINDOW.scale
     System.graphics.draw(img, 0, 0, 0, scale, scale)
+    Scene.draw(self)
 end
 
 function Dresser:update()

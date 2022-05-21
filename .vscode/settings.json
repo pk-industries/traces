@@ -11,5 +11,8 @@
     "setContains",
     "errorhandler"
   ],
-  "Lua.diagnostics.disable": ["redundant-parameter"]
+  "Lua.diagnostics.disable": [
+    "redundant-parameter"
+  ],
+  "Lua.completion.autoRequire": false
 }
