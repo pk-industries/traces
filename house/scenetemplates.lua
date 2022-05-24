@@ -1,9 +1,36 @@
 --- This file holds **BASE** templates for scenes. If this file gets too big, change this to a folder with classes in separate files.
 
+local ss = Class {
+    __includes = Scene
+}
+
+function ss:init(id, direction, x, y, isLocked, path)
+    Scene.init(self, id, direction, x, y, isLocked)
+    self.img = {
+        ["path"] = path,
+        ["image"] = nil
+    }
+end
+
+function ss:enter()
+    self.img.image = System.graphics.createImage(self.img.path)
+    Scene.enter(self)
+end
+
+function ss:leave()
+    self.img.image = nil
+    Scene.leave(self)
+end
+
+function ss:draw()
+    local scale = WINDOW.scale
+    System.graphics.draw(self.img.image, 0, 0, 0, scale, scale)
+    Scene.draw(self)
+end
 
 ---@field table img This contains three members: image (an image), image (a loaded image), x (number), y (number). x/y are the offsets used in draw process.
 local ie = Class {
-    __includes = Scene
+    __includes = ss
 }
 
 ---@param id string The id of the scene
@@ -13,19 +40,15 @@ local ie = Class {
 ---@param isLocked boolean? States whether the scene is locked.
 ---@param path string The path to the image to be drawn/explored.
 function ie:init(id, direction, x, y, isLocked, path)
-    local image = System.graphics.createImage(path)
-    Scene.init(self, id, direction, x, y, isLocked)
-    self.img = {
-        ["path"] = path,
-        ["image"] = image,
-        ["x"] = 0,
-        ["y"] = 0
-    }
+    ss.init(self, id, direction, x, y, isLocked, path)
+    self.img.x = 0
+    self.img.y = 0
 end
 
 function ie:draw()
     local scale = WINDOW.scale
     System.graphics.draw(self.img.image, 0, 0, 0, scale, scale, self.img.x, self.img.y)
+    Scene.draw(self)
 end
 
 function ie:update()
@@ -54,8 +77,10 @@ function ie:update()
 end
 
 return {
+    --- A scene with a single image that is loaded and dropped when entering and leaving it.
+    --- Table 'img' contains three members: path (str), image? (an image).
+    SimpleScene = ss,
     --- Creates a Scene class with an additional img table used to traverse the given image path.
-    --- Image is loaded once on initialization.
-    --- Table 'img' contains three members: path (str), image (a loaded image), x (number), y (number). x/y are the offsets used in draw process.
+    --- Table 'img' contains three members: path (str), image? (an image), x (number), y (number). x/y are the offsets used in draw process.
     ImageExplorer = ie
 }
