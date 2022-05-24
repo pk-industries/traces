@@ -1,19 +1,9 @@
+local SimpleScene = require("house.scenetemplates").SimpleScene
 local MusicBox = require "house.bedroom.musicbox"
-local Dresser = Class {__includes = Scene}
-local img
+local Dresser = Class {__includes = SimpleScene}
 
 function Dresser:init()
-    Scene.init(self, "bedroom.dresser", "s", 2, 1, false)
-end
-
-function Dresser:enter()
-    img = System.graphics.createImage("assets/images/bedroom/dresser.png")
-end
-
-function Dresser:draw()
-    local scale = WINDOW.scale
-    System.graphics.draw(img, 0, 0, 0, scale, scale)
-    Scene.draw(self)
+    SimpleScene.init(self, "bedroom.dresser", "s", 2, 1, false, "assets/images/bedroom/dresser.png")
 end
 
 function Dresser:update()
@@ -26,7 +16,7 @@ function Dresser:keypressed(key)
     if key == Controls.down then
         GameState.pop()
     end
-    Scene.keypressed(self, key)
+    SimpleScene.keypressed(self, key)
 end
 
 return Dresser
