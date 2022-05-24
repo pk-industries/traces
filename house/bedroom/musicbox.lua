@@ -3,19 +3,26 @@ local MusicBox = Class { __includes = Scene }
 function MusicBox:init()
     Scene.init(self, "bedroom.musicbox")
     self.frames = {}
-
-    for i = 0, 10 do
-        self.frames[i + 1] = System.graphics.createImage("assets/images/bedroom/musicbox/musicbox-" .. tostring(i) .. ".png")
-    end
-
-    self.currentFrame = 1
+    self.flags.currentFrame = 1
 end
 
 function MusicBox:enter()
+    for i = 0, 10 do
+        self.frames[i + 1] = System.graphics.createImage("assets/images/bedroom/musicbox/musicbox-" .. tostring(i) .. ".png")
+    end
+    Scene.enter(self)
+end
+
+function MusicBox:leave()
+    for i = 0, 10 do
+        self.frames[i + 1] = nil
+    end
+    Scene.leave(self)
 end
 
 function MusicBox:draw()
-    System.graphics.draw(self.frames[self.currentFrame], 0, 0, 0, WINDOW.scale, WINDOW.scale)
+    System.graphics.draw(self.frames[self.flags.currentFrame], 0, 0, 0, WINDOW.scale, WINDOW.scale)
+    Scene.draw(self)
 end
 
 function MusicBox:keypressed(key)
@@ -26,14 +33,14 @@ function MusicBox:keypressed(key)
 end
 
 function MusicBox:wheelmoved(x, y)
-    local f = self.currentFrame + y
+    local f = self.flags.currentFrame + y
     local total = #self.frames
     if f > total then
-        self.currentFrame = 1
+        self.flags.currentFrame = 1
     elseif f < 1 then
-        self.currentFrame = total
+        self.flags.currentFrame = total
     else
-        self.currentFrame = f
+        self.flags.currentFrame = f
     end
 end
 
