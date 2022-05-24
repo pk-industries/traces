@@ -9,8 +9,9 @@ function Hall:init()
         1,
         2,
         {
-            ["e.1.2"] = require("house.hall.bedroom")(),
             ["w.1.1"] = require("house.hall.livingroom")(),
+            ["n.1.2"] = require("house.hall.painting")(),
+            ["e.1.2"] = require("house.hall.bedroom")(),
             ["w.1.2"] = require("house.hall.phone")()
         },
         {}

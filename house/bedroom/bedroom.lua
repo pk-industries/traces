@@ -11,6 +11,7 @@ function Bedroom:init()
             ["e.2.2"] = require ("house.bedroom.nightstand")(),
             ["s.2.1"] = require ("house.bedroom.dresser")(),
             ["s.1.1"] = require ("house.bedroom.closet")(),
+            ["n.1.2"] = require ("house.bedroom.pictures")(),
             ["w.1.2"] = require ("house.bedroom.hall")(),
             ["n.2.2"] = require ("house.bedroom.bathroom")()
         },
