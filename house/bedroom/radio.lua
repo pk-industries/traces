@@ -11,11 +11,19 @@ function Radio:init()
     self.filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
     self.vol = 0
 
-    music = System.audio.createSource(self.filePath, "stream")
-    music:setLooping(true)
+    local a = System.audio
+    static = a.createSource("assets/sounds/static.mp3", "stream")
+    a.setLooping(static, true)
 
-    static = System.audio.createSource("assets/sounds/static.mp3", "stream")
-    static:setLooping(true)
+    music = a.createSource(self.filePath, "stream")
+    a.setLooping(music, true)
+
+    local start = a.getDuration(music)
+    print("Got the song length: " .. tostring(start))
+    start = math.random(start)
+    print("Got random start: " .. tostring(start))
+    a.seek(music, start)
+
 
     self.img = System.graphics.createImage("assets/images/bedroom/radio.png")
 
@@ -30,19 +38,28 @@ function Radio:enter()
 end
 
 function Radio:leave()
-    System.audio.pause(music, static)
+    System.audio.pause(static)
+    System.audio.setVolume(music, 0)
     Scene.leave(self)
 end
 
 function Radio:draw()
     local pos = self.flags.pos
     local scale = WINDOW.scale
-    System.graphics.setColor(0, 0, 0, 1)
-    System.graphics.drawRectangle("fill", (pos + 154) * scale, 45 * scale, 3 * scale, 50 * scale)
-    System.graphics.setColor(1, 1, 1, 1)
-    System.graphics.draw(self.img, 0, 0, 0, scale, scale)
-    System.graphics.setColor(0, 0, 0)
-    System.graphics.print("x: " .. pos, 0, 0)
+    local g = System.graphics
+    g.setColor(0, 0, 0, 1)
+    g.drawRectangle("fill", (pos + 154) * scale, 45 * scale, 3 * scale, 50 * scale)
+    g.setColor(1, 1, 1, 1)
+    g.draw(self.img, 0, 0, 0, scale, scale)
+    Scene.draw(self)
+end
+
+function Radio:drawDebug()
+    Scene.drawDebug(self)
+    local g = System.graphics
+    g.setColor(0, 0, 0)
+    g.printf("x: " .. self.flags.pos, 0, 0, WINDOW.width, "right")
+    g.setColor(1, 1, 1)
 end
 
 local decideVolumes = function(pos)
@@ -53,13 +70,11 @@ local decideVolumes = function(pos)
         local decimal = math.abs(pos - pass) / range * 2
         decimal = math.pow(decimal, 3)
         music:setVolume(1 - decimal)
-
-        decimal = math.max(0.2, decimal)
-        static:setVolume(decimal)
+        static:setVolume(math.max(0.2, decimal))
     end
 end
 
-function Radio:update(dt)
+function Radio:update()
     decideVolumes(self.flags.pos)
 end
 
