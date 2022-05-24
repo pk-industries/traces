@@ -41,15 +41,6 @@ function Scene:enter()
     print("Flags loaded.")
 end
 
-function Scene:draw()
-    if DEBUG ~= true then return end
-    local g = System.graphics
-    g.setFont(Fonts.pixel[30])
-    g.setColor(0, 0, 0)
-    g.print("Scene " .. self.id, 0, 0)
-    g.setColor(1, 1, 1)
-end
-
 function Scene:leave()
     print("Exiting scene " .. self.id)
 
@@ -59,6 +50,18 @@ function Scene:leave()
     end
 
     print("Flags set.")
+end
+
+function Scene:draw()
+    if DEBUG then self:drawDebug() end
+end
+
+function Scene:drawDebug()
+    local g = System.graphics
+    g.setFont(Fonts.pixel[30])
+    g.setColor(0, 0, 0)
+    g.print("Scene " .. self.id, 0, 0)
+    g.setColor(1, 1, 1)
 end
 
 function Scene:keypressed(key)
