@@ -1,5 +1,6 @@
 House = {
     ["bedroom"] = require("house.bedroom.bedroom"),
+    ["bedroom.window"] = require("house.bedroom.window"),
     ["bedroom.radio"] = require("house.bedroom.radio"),
     ["bedroom.dresser"] = require("house.bedroom.dresser"),
     ["bedroom.pictures"] = require("house.bedroom.pictures"),

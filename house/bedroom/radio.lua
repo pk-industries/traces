@@ -29,7 +29,7 @@ function Radio:init()
 
     self.flags = { pos = 0 }
 
-    Scene.init(self, "bedroom.radio", "e", 2, 2, false)
+    Scene.init(self, "bedroom.radio", false)
 end
 
 function Radio:enter()

@@ -1,7 +1,7 @@
 local Couch = Class { __includes = Scene }
 
 function Couch:init()
-    Scene.init(self, "livingroom.couch", "w", 3, 2 , false)
+    Scene.init(self, "livingroom.couch", false)
 end
 
 function Couch:draw()

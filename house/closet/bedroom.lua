@@ -6,8 +6,7 @@ local BedroomDoor = Class {
 
 function BedroomDoor:init()
     local bedCoor = coordinates("n", 1, 1)
-    local coor = coordinates("s", 1, 1)
-    Door.init(self, "bedroom", bedCoor, coor, true)
+    Door.init(self, "bedroom", bedCoor, true)
     self.openSnd = "assets/sounds/doorknob.wav"
 end
 

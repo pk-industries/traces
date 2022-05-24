@@ -13,16 +13,15 @@ local Door = Class { __includes = Scene }
 --- func desc
 ---@param destId string The ID of the destination.
 ---@param destCoor table d,x,y - The direction, x, and y of the distination.
----@param coor table d,x,y - The direction, x, and y of the door itself.
 ---@param isLocked boolean Is the door locked or not. This will set/be overridden by Player flags of destination.
-function Door:init(destId, destCoor, coor, isLocked)
+function Door:init(destId, destCoor, isLocked)
     self.destD = destCoor.d
     self.destX = destCoor.x
     self.destY = destCoor.y
     self.isDoor = true
     self.openSnd = nil
     self.lockedSnd = nil
-    Scene.init(self, destId, coor.d, coor.x, coor.y, isLocked or false)
+    Scene.init(self, destId, isLocked or false)
     self:loadFlags()
 end
 

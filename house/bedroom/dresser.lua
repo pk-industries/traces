@@ -3,7 +3,7 @@ local MusicBox = require "house.bedroom.musicbox"
 local Dresser = Class {__includes = SimpleScene}
 
 function Dresser:init()
-    SimpleScene.init(self, "bedroom.dresser", "s", 2, 1, false, "assets/images/bedroom/dresser.png")
+    SimpleScene.init(self, "bedroom.dresser", false, "assets/images/bedroom/dresser.png")
 end
 
 function Dresser:update()

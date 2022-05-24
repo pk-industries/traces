@@ -1,7 +1,7 @@
 local Bathroom = Class { __includes = Scene }
 
 function Bathroom:init()
-    Scene.init(self, "bedroom.bathroom", "n", 2, 2, true)
+    Scene.init(self, "bedroom.bathroom", true)
 end
 
 function Bathroom:draw()

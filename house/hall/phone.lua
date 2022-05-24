@@ -23,7 +23,7 @@ local Phone = Class {
 }
 
 function Phone:init()
-    Scene.init(self, "hall.phone", "w", 1, 2, false)
+    Scene.init(self, "hall.phone", false)
     self.pos = 0 -- The rotary's position in degrees.
     self.selected = 1 -- User's selected phone digit.
 end

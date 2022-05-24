@@ -4,8 +4,8 @@ local ss = Class {
     __includes = Scene
 }
 
-function ss:init(id, direction, x, y, isLocked, path)
-    Scene.init(self, id, direction, x, y, isLocked)
+function ss:init(id, isLocked, path)
+    Scene.init(self, id, isLocked)
     self.img = {
         ["path"] = path,
         ["image"] = nil
@@ -34,13 +34,10 @@ local ie = Class {
 }
 
 ---@param id string The id of the scene
----@param direction string Options: n, e, s, w.
----@param x number The x coordinate within the room it resides in.
----@param y number The y coordinate within the room it resides in.
 ---@param isLocked boolean? States whether the scene is locked.
 ---@param path string The path to the image to be drawn/explored.
-function ie:init(id, direction, x, y, isLocked, path)
-    ss.init(self, id, direction, x, y, isLocked, path)
+function ie:init(id, isLocked, path)
+    ss.init(self, id, isLocked, path)
     self.img.x = 0
     self.img.y = 0
 end

@@ -6,8 +6,7 @@ local LivingroomDoor = Class {
 
 function LivingroomDoor:init()
     local targetCoor = coordinates("w", 3, 1)
-    local coor = coordinates("w", 1, 1)
-    Door.init(self, "livingroom", targetCoor, coor, false)
+    Door.init(self, "livingroom", targetCoor, false)
 end
 
 return LivingroomDoor

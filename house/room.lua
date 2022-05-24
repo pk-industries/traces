@@ -5,7 +5,9 @@ local Flags = require "libs.flags"
 ---@field number height
 ---@field table scene
 ---@field table obstacles Fill table with ["x.y"] coordinates as the key and the illegal cardinal directions in a table as the value.
-local Room = Class { __includes = Flags }
+local Room = Class {
+    __includes = Flags
+}
 
 ---Constructor
 ---@param id string
@@ -33,16 +35,21 @@ end
 
 function Room:draw()
     local _, err = pcall(Room.render, self)
-    if not err then return end
+    if not err then
+        return
+    end
     print(err)
 end
 
-local function getFacingScene(self)
+local function getFacingScene(self, key)
     local d, x, y = Player:getPosition()
     local coor = d .. "." .. x .. "." .. y
-    -- print("Player coordinates: " .. d .. "." .. coor)
+
+    if key and key ~= Controls.up then
+        coor = coor .. "." .. key
+    end
+    
     for scenecoordinates, scene in pairs(self.scenes) do
-        -- print(scene.id .. " coordinates: " .. scenecoordinates)
         if scenecoordinates == coor then
             print("Scene matched")
             return scene
@@ -66,8 +73,8 @@ function Room:keypressed(key)
             print("Changing scene lock for " .. facingscene.id .. " to " .. tostring(not isLocked))
             Player[facingscene.id].isLocked = not isLocked
         end
-    elseif key == Controls.up then
-        local facingscene = getFacingScene(self)
+    else
+        local facingscene = getFacingScene(self, key)
         if facingscene then
             if facingscene.isDoor then
                 facingscene:openDoor()
@@ -78,7 +85,9 @@ function Room:keypressed(key)
         end
     end
     local ok, err = pcall(Room.navigate, self, key)
-    if not ok then print(err) end
+    if not ok then
+        print(err)
+    end
 end
 
 ---@param isMovingForward boolean If this is false, it is assumed moving backward.

@@ -6,8 +6,7 @@ local Kitchen = Class {
 
 function Kitchen:init()
     local targetCoor = coordinates("w", 1, 1)
-    local coor = coordinates("w", 1, 1)
-    Door.init(self, "kitchen", targetCoor, coor, false)
+    Door.init(self, "kitchen", targetCoor, false)
 end
 
 return Kitchen

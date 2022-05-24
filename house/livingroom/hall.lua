@@ -6,8 +6,7 @@ local HallDoor = Class {
 
 function HallDoor:init()
     local targetCoor = coordinates("e", 1, 1)
-    local coor = coordinates("e", 3, 1)
-    Door.init(self, "hall", targetCoor, coor, false)
+    Door.init(self, "hall", targetCoor, false)
 end
 
 return HallDoor

@@ -3,7 +3,7 @@ local SimpleScene = require("house.scenetemplates").SimpleScene
 local Pictures = Class { __includes = SimpleScene }
 
 function Pictures:init()
-    SimpleScene.init(self, "bedroom.pictures", "n", 1, 2, false, "assets/images/bedroom/pictures.png")
+    SimpleScene.init(self, "bedroom.pictures", false, "assets/images/bedroom/pictures.png")
 end
 
 function Pictures:keypressed(key)
