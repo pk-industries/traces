@@ -10,9 +10,7 @@ local FlashingPrompt = Class {
         self.val = 0 -- Dimming value.
     end,
     routine = function(self)
-        if not self.on then
-            return
-        end
+        if not self.on then return end
 
         local g = System.graphics
         local scale = WINDOW.scale
@@ -26,6 +24,7 @@ local FlashingPrompt = Class {
         elseif self.val > 0.9 then
             self.dim = true
         end
+
         g.setColor(self.val, self.val, self.val)
         g.print(self.text, Fonts.pixel[15], x, y, 0, scale, scale)
         g.setColor(1, 1, 1)
