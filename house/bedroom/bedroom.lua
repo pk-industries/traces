@@ -18,7 +18,7 @@ function Bedroom:init()
             ["n.2.2"] = require("house.bedroom.bathroom")()
         }, { "n.2.1", "s.2.2" }
     )
-    prompt = require("house.flashingprompt")("A", 328, 148, 0.01)
+    prompt = require("house.flashingprompt")("A", 328, 148)
 
     local promptPoint = function(text, x, y, dir, posX, posY)
         return {

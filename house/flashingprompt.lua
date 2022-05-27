@@ -3,7 +3,7 @@ local FlashingPrompt = Class {
         self.text = text or "text"
         self.x = x or 0
         self.y = y or 0
-        self.speed = speed or 0.1
+        self.speed = speed or 0.01
 
         self.on = false -- Turn routine off or on.
         self.dim = false -- Flag for 'dimming' or brightening the prompt.
