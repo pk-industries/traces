@@ -5,7 +5,7 @@ local prompt
 
 function Dresser:init()
     SimpleScene.init(self, "bedroom.dresser", false, "assets/images/bedroom/dresser.png")
-    prompt = require("house.flashingprompt")("A", 292, 124)
+    prompt = require("house.flashingprompt")("PlaceHolder", 292, 124)
 end
 
 function Dresser:enter()
