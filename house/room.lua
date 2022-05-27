@@ -145,10 +145,4 @@ function Room:render()
     Flashlight.runRoutine()
 end
 
-function Room:wheelmoved(x, y)
-    if type(self.scene) == "table" then
-        self.scene:wheelmoved(x, y)
-    end
-end
-
 return Room
