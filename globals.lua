@@ -24,6 +24,7 @@ Scene = require "house.scene"
 System = require "libs.system"
 -- MenuEngine = require "libs.menuengine"
 Anim8 = require "libs.anim8"
+CutScene = require "house.cutscene"
 -- MenuEngine.stop_on_nil_functions = true
 
 require "libs.set"
@@ -95,9 +96,11 @@ CONFIG.debug.error.font = Fonts.monospace
 
 Player = nil -- loaded in main
 House = nil -- loaded in main
+Flashlight = nil -- loaded in main
 States = {
     start = require "states.start",
-    game = require "states.game"
+    game = require "states.game",
+    pause = require "states.pause"
 }
 
 Controls = {
@@ -107,6 +110,8 @@ Controls = {
     right = "right",
     a = "return",
     b = "backspace",
+    start = "escape",
+    z = "z", d = "d", u = "u",
     arrowkeys = set("up", "down", "left", "right")
 }
 
@@ -114,10 +119,11 @@ GamePad = {
     up = Controls.up,
     down = Controls.down,
     left = Controls.left,
-    right = Controls.right
+    right = Controls.right,
+    start = Controls.start
 }
 
-GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right)
+GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right, GamePad.start)
 
 function keyOf(table, value)
     for k, v in pairs(table) do

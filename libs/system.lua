@@ -26,6 +26,32 @@ System.audio = {
     ---@return source source A new Source that can play the specified audio.
     createSource = function(filename, type)
         return love.audio.newSource(filename, type)
+    end,
+    play = function(source, ...)
+        return love.audio.play(source, ...)
+    end,
+    pause = function(source, ...)
+        return love.audio.pause(source, ...)
+    end,
+    ---Gets the duration of the Source. For streaming Sources it may not always be sample-accurate,
+    ---and may return -1 if the duration cannot be determined at all.
+    ---@param Source source The audio source.
+    ---@param unit? "seconds"|"samples" The duration in the unit given, or seconds if none given.
+    getDuration = function(source, unit)
+        return source:getDuration(unit)
+    end,
+    ---@param Source source The audio source.
+    ---@param unit? "seconds"|"samples" The duration in the unit given, or seconds if none given.
+    seek = function(source, position, unit)
+        return source:seek(position, unit)
+    end,
+    setLooping = function(source, loop)
+        return source:setLooping(loop)
+    end,
+    ---@param Source source
+    ---@param number? volume Decimal between 0.0 to 1.0.
+    setVolume = function(source, volume)
+        return source:setVolume(volume)
     end
 }
 
@@ -147,6 +173,12 @@ System.graphics = {
     createImage = function(filename, flags)
         return love.graphics.newImage(filename, flags)
     end,
+    getImageWidth = function(image)
+        return image:getWidth()
+    end,
+    getImageHeight = function(image)
+        return image:getHeight()
+    end,
     ---The purpose of a crop is to use a fraction of an image to draw objects, as opposed to drawing entire image.
     ---
     ---@param x number The top-left position in the Image along the x-axis.
@@ -158,6 +190,12 @@ System.graphics = {
     ---@return crop crop The new crop.
     createCrop = function(x, y, width, height, sw, sh)
         return love.graphics.newQuad(x, y, width, height, sw, sh)
+    end,
+    translate = function(dx, dy)
+        love.graphics.translate(dx, dy)
+    end,
+    rotate = function(angle)
+        love.graphics.rotate(angle)
     end,
     ---@param drawable any A drawable object. May change actual type in the future, only meant to interact with drawables/images made in system.lua to ensure functionality.
     ---@param x? number The position to draw the object (x-axis).
@@ -181,6 +219,7 @@ System.graphics = {
     drawRectangle = function(mode, x, y, width, height)
         love.graphics.rectangle(mode, x, y, width, height)
     end,
+    ---Print text to the screen.
     ---@param text string The text to draw.
     ---@param x? number The position to draw the object (x-axis).
     ---@param y? number The position to draw the object (y-axis).
@@ -193,6 +232,22 @@ System.graphics = {
     ---@param ky? number Shearing factor (y-axis).
     print = function(text, x, y, r, sx, sy, ox, oy, kx, ky)
         love.graphics.print(text, x, y, r, sx, sy, ox, oy, kx, ky)
+    end,
+    ---Print formatted text to the screen.
+    ---@param text string The text to draw.
+    ---@param x number The position to draw the object (x-axis).
+    ---@param y number The position to draw the object (y-axis).
+    ---@param limit number Wrap the line after this many horizontal pixels.
+    ---@param align? "center"|"justify"|"left"|"right"
+    ---@param r? number Orientation (radians).
+    ---@param sx? number Scale factor (x-axis).
+    ---@param sy? number Scale factor (y-axis).
+    ---@param ox? number Origin offset (x-axis).
+    ---@param oy? number Origin offset (y-axis).
+    ---@param kx? number Shearing factor (x-axis).
+    ---@param ky? number Shearing factor (y-axis).
+    printf = function(text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky)
+        love.graphics.printf(text, x, y, limit, align, r, sx, sy, ox, oy, kx, ky)
     end
 }
 

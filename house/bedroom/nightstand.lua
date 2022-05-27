@@ -1,7 +1,7 @@
 local NightStand = Class { __includes = Scene }
 
 function NightStand:init()
-    Scene.init(self, "bedroom.radio", "e", 2, 2, false)
+    Scene.init(self, "bedroom.radio", false)
 end
 
 function NightStand:draw()

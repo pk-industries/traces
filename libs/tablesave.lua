@@ -1,6 +1,7 @@
 --- Made by Jacob Camacho 3/21/2022
---- Serializes numbers, booleans, strings, and nested, tables into a table. Then, saves it to a file in the form of a return statement.
+--- Serializes numbers, booleans, strings, and nested tables into a table. Then, saves it to a file in the form of a return statement.
 
+--- Writes serialized table to io.
 function table.serialize(o, indent)
     indent = indent or ""
     if type(o) == "number" then
@@ -24,6 +25,7 @@ function table.serialize(o, indent)
     end
 end
 
+--- Writes return function of table to specified path.
 function table.save(data, path)
     print("Writing table to file " .. tostring(path) .. "...")
     local f = io.open(path, "w+")
@@ -44,6 +46,7 @@ function table.save(data, path)
     end
 end
 
+--- Loads return statement of source table from a file into the given receiving table. Preexisting values are overridden.
 function table.load(table, path)
     print("Loading save file " .. path .. "...")
     local f = io.open(path, "r")

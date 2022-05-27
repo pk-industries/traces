@@ -1,3 +1,4 @@
+--- Returns a table with the keys d,x,y.
 function coordinates(d, x, y)
     return {
         ["d"] = d,

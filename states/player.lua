@@ -14,8 +14,14 @@ function Player:init(id)
     Saveable.init(self, id or "player")
     self.room = "bedroom"
     self.direction = "n"
-    self.x = 1
+    self.x = 2
     self.y = 1
+
+    self.playWakeup = true
+
+    self.isDarkOn = false
+    self.isFlashUnlocked = true
+    self.isFlashOn = false
 
     Signal.register(
         PlayerSignals.PlayerMoved,
@@ -38,6 +44,17 @@ function Player:init(id)
     -- self.hall = {
     --     ["isLocked"] = false
     -- }
+
+    self.bedroom = {
+        bedKey = false,
+        
+    }
+
+    -- Unlock doors
+    for _, room in ipairs({ "bedroom", "hall", "closet" }) do
+        self[room] = { isLocked = false }
+    end
+
 end
 
 function Player:__tostring()

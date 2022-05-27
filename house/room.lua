@@ -5,7 +5,9 @@ local Flags = require "libs.flags"
 ---@field number height
 ---@field table scene
 ---@field table obstacles Fill table with ["x.y"] coordinates as the key and the illegal cardinal directions in a table as the value.
-local Room = Class { __includes = Flags }
+local Room = Class {
+    __includes = Flags
+}
 
 ---Constructor
 ---@param id string
@@ -32,20 +34,22 @@ function Room:update(dt)
 end
 
 function Room:draw()
-    local _, err = pcall(function()
-        self:render()
-    end)
-    if err then
-        print(err)
+    local _, err = pcall(Room.render, self)
+    if not err then
+        return
     end
+    print(err)
 end
 
-local function getFacingScene(self)
+local function getFacingScene(self, key)
     local d, x, y = Player:getPosition()
     local coor = d .. "." .. x .. "." .. y
-    print("Player coordinates: " .. d .. "." .. coor)
+
+    if key and key ~= Controls.up then
+        coor = coor .. "." .. key
+    end
+    
     for scenecoordinates, scene in pairs(self.scenes) do
-        print(scene.id .. " coordinates: " .. scenecoordinates)
         if scenecoordinates == coor then
             print("Scene matched")
             return scene
@@ -55,25 +59,32 @@ local function getFacingScene(self)
 end
 
 function Room:keypressed(key)
-    if key == Controls.up then
+    print(key)
+    if key == GamePad.start then
+        GameState.push(States.pause)
+    elseif key == Controls.d then
+        Player.isDarkOn = not Player.isDarkOn
+    elseif key == Controls.z then
+        Player.isFlashOn = not Player.isFlashOn
+    elseif key == Controls.u then
         local facingscene = getFacingScene(self)
         if facingscene then
-            if facingscene.flags.isLocked then
-                print("It's locked.")
-                System.graphics.print("It's locked.", 0, 0)
-            elseif facingscene.isDoor then
-                Player.room = facingscene.id
-                Player:setPosition(facingscene.destD, facingscene.destX, facingscene.destY)
-                States.game:enter()
-            else
+            local isLocked = Player[facingscene.id].isLocked
+            print("Changing scene lock for " .. facingscene.id .. " to " .. tostring(not isLocked))
+            Player[facingscene.id].isLocked = not isLocked
+        end
+    else
+        local facingscene = getFacingScene(self, key)
+        if facingscene then
+            if facingscene.isDoor then
+                facingscene:openDoor()
+            elseif not facingscene.flags.isLocked then
                 GameState.push(House[facingscene.id])
             end
             return
         end
     end
-    local ok, err = pcall(function()
-        self:navigate(key)
-    end)
+    local ok, err = pcall(Room.navigate, self, key)
     if not ok then
         print(err)
     end
@@ -83,18 +94,16 @@ end
 local function checkForObstacle(room, d, x, y, isMovingForward)
     local key = tostring(x) .. "." .. tostring(y)
     local cardinal = d
-    print("Cardinal: " .. cardinal)
     if not isMovingForward then
         cardinal = Cardinals.getOpposite(cardinal)
-        print("Opposite needed: " .. tostring(cardinal))
     end
     local coordinates = cardinal .. "." .. key
     return keyOf(room.obstacles, coordinates) ~= nil
 end
 
 function Room:navigate(key)
-    if key == "`" then
-        self.debug = not self.debug
+    if key == CONFIG.debug.key then
+        DEBUG = not DEBUG
         return
     end
     if not GamePad.includes[key] then
@@ -133,12 +142,7 @@ function Room:render()
     else
         print("File " .. filepath .. " does not exist :(")
     end
-end
-
-function Room:wheelmoved(x, y)
-    if type(self.scene) == "table" then
-        self.scene:wheelmoved(x, y)
-    end
+    Flashlight.runRoutine()
 end
 
 return Room
