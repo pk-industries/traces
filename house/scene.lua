@@ -8,7 +8,7 @@ local Flags = require "libs.flags"
 ---for a scene will be loaded or not.
 local Scene = Class {
     __includes = Flags
-}
+ }
 
 ---@param id string The id of the scene
 ---@param isLocked boolean? States whether the scene is locked.
@@ -22,9 +22,7 @@ function Scene:enter()
     print("Entering scene " .. self.id)
 
     local ok, err = pcall(self.loadFlags, self)
-    if not ok then
-        print(err)
-    end
+    if not ok then print(err) end
 
     print("Flags loaded.")
 end
@@ -33,16 +31,12 @@ function Scene:leave()
     print("Exiting scene " .. self.id)
 
     local ok, err = pcall(self.setFlags, self)
-    if not ok then
-        print(err)
-    end
+    if not ok then print(err) end
 
     print("Flags set.")
 end
 
-function Scene:draw()
-    if DEBUG then self:drawDebug() end
-end
+function Scene:draw() if DEBUG then self:drawDebug() end end
 
 function Scene:drawDebug()
     local g = System.graphics
@@ -55,12 +49,24 @@ end
 function Scene:keypressed(key)
     print(tostring(key))
     if key == Controls.start then
-        GameState.push(States.pause)
+        self:pause()
     elseif key == Controls.b then
         GameState.pop()
     elseif key == CONFIG.debug.key then
         DEBUG = not DEBUG
     end
 end
+
+local paused = false
+function Scene:update()
+    if GameState.current() == self and paused then self:resume() end
+end
+
+function Scene:pause()
+    paused = true
+    GameState.push(States.pause)
+end
+
+function Scene:resume() paused = false end
 
 return Scene

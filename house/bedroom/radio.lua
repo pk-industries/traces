@@ -5,7 +5,9 @@ local musicMin = pass - range
 local musicMax = pass + range
 local music, static
 
-local Radio = Class { __includes = Scene }
+local Radio = Class {
+    __includes = Scene
+ }
 
 function Radio:init()
     self.filePath = "assets/sounds/masquerade-of-the-ghosts.mp3"
@@ -24,22 +26,33 @@ function Radio:init()
     print("Got random start: " .. tostring(start))
     a.seek(music, start)
 
-
     self.img = System.graphics.createImage("assets/images/bedroom/radio.png")
 
-    self.flags = { pos = 0 }
+    self.flags = {
+        pos = 0
+     }
 
     Scene.init(self, "bedroom.radio", false)
 end
 
-function Radio:enter()
+function Radio:resume()
     System.audio.play(music, static)
+    Scene.resume(self)
+end
+
+function Radio:pause()
+    System.audio.pause(static)
+    System.audio.setVolume(music, 0)
+    Scene.pause(self)
+end
+
+function Radio:enter()
+    self:resume()
     Scene.enter(self)
 end
 
 function Radio:leave()
-    System.audio.pause(static)
-    System.audio.setVolume(music, 0)
+    self:pause()
     Scene.leave(self)
 end
 
@@ -48,7 +61,9 @@ function Radio:draw()
     local scale = WINDOW.scale
     local g = System.graphics
     g.setColor(0, 0, 0, 1)
-    g.drawRectangle("fill", (pos + 154) * scale, 45 * scale, 3 * scale, 50 * scale)
+    g.drawRectangle(
+        "fill", (pos + 154) * scale, 45 * scale, 3 * scale, 50 * scale
+    )
     g.setColor(1, 1, 1, 1)
     g.draw(self.img, 0, 0, 0, scale, scale)
     Scene.draw(self)
@@ -62,7 +77,8 @@ function Radio:drawDebug()
     g.setColor(1, 1, 1)
 end
 
-local decideVolumes = function(pos)
+function Radio:decideVolumes()
+    local pos = self.flags.pos
     if pos < musicMin or pos > musicMax then
         static:setVolume(1)
         music:setVolume(0)
@@ -75,7 +91,8 @@ local decideVolumes = function(pos)
 end
 
 function Radio:update()
-    decideVolumes(self.flags.pos)
+    self:decideVolumes()
+    Scene.update(self)
 end
 
 function Radio:wheelmoved(x, y)
