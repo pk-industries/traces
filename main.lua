@@ -12,7 +12,8 @@ function love.load()
     WINDOW = require("libs.window")()
 
     House = require "house.house"
-    Flashlight = require "house.flashlight"
+    Fade = require "house.overlays.fade"
+    Flashlight = require "house.overlays.flashlight"
 
     love.window.setTitle("Traces")
 
@@ -34,7 +35,6 @@ end
 function love:draw()
     love.graphics.setDefaultFilter("nearest", "nearest", 1)
     love.graphics.setLineStyle("rough")
-    love.graphics.setShader(shader)
     love.graphics.setShader()
     GameState.draw()
 end

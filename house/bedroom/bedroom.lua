@@ -1,7 +1,5 @@
 local Room = require "house.room"
-local Bedroom = Class {
-    __includes = Room
- }
+local Bedroom = Class { __includes = Room }
 local prompt
 local promptCoor
 
@@ -18,7 +16,7 @@ function Bedroom:init()
             ["n.2.2"] = require("house.bedroom.bathroom")()
         }, { "n.2.1", "s.2.2" }
     )
-    prompt = require("house.flashingprompt")("A", 328, 148)
+    prompt = require("house.overlays.flashingprompt")("A", 328, 148)
 
     local promptPoint = function(text, x, y, dir, posX, posY)
         return {
@@ -37,6 +35,8 @@ function Bedroom:enter()
     if Player.playWakeup then
         Player.playWakeup = false
         GameState.push(require "house.bedroom.wakeup")
+    else
+        Fade.fadeIn()
     end
 end
 
@@ -61,32 +61,16 @@ function Bedroom:draw()
     promptRoutine()
 end
 
-function Bedroom:update()
-    local asset = promptCoor[2].data
-    local k = love.keyboard
-    if k.isDown("r") then
-        if k.isDown(Controls.right) then
-            asset.x = asset.x + 1
-        elseif k.isDown(Controls.left) and asset.x > 0 then
-            asset.x = asset.x - 1
-        elseif k.isDown(Controls.up) and asset.y > 0 then
-            asset.y = asset.y - 1
-        elseif k.isDown(Controls.down) then
-            asset.y = asset.y + 1
-        end
-        print(asset.x .. ", " .. asset.y)
-        return
-    end
-end
-
 --- Asset navigator script
+-- function Bedroom:update()
+--     local asset = promptCoor[2].data
 --     local k = love.keyboard
---     if k.isDown("a") then
+--     if k.isDown("r") then
 --         if k.isDown(Controls.right) then
 --             asset.x = asset.x + 1
 --         elseif k.isDown(Controls.left) and asset.x > 0 then
 --             asset.x = asset.x - 1
---         elseif k.isDown(Controls.up)  and asset.y > 0 then
+--         elseif k.isDown(Controls.up) and asset.y > 0 then
 --             asset.y = asset.y - 1
 --         elseif k.isDown(Controls.down) then
 --             asset.y = asset.y + 1
@@ -94,5 +78,6 @@ end
 --         print(asset.x .. ", " .. asset.y)
 --         return
 --     end
+-- end
 
 return Bedroom

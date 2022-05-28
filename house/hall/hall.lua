@@ -20,6 +20,7 @@ end
 
 function Hall:enter()
     System.setTitle("Hall")
+    Room.enter(self)
 end
 
 return Hall

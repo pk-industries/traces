@@ -1,15 +1,14 @@
 local flash = System.graphics.createImage('assets/images/flashlight_overlay.png')
-local drawFlash = function() local scale = WINDOW.scale; love.graphics.draw(flash,0,0,0,scale,scale,scale) end
-
 local dark = System.graphics.createImage('assets/images/darkness_overlay.png')
-local drawDark = function() local scale = WINDOW.scale; love.graphics.draw(dark,0,0,0,scale,scale,scale) end
+
+local draw = function(img) love.graphics.draw(img, 0, 0, 0, WINDOW.scale, WINDOW.scale, WINDOW.scale) end
 
 local routine = function()
     if Player.isDarkOn then
         if Player.isFlashUnlocked and Player.isFlashOn then
-            drawFlash()
+            draw(flash)
         else
-            drawDark()
+            draw(dark)
         end
     end
 end
@@ -18,6 +17,6 @@ local Flashlight = {
     flashImage = flash,
     darkImage = dark,
     runRoutine = routine
-}
+ }
 
 return Flashlight

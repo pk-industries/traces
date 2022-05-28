@@ -24,6 +24,7 @@ end
 
 function ss:draw()
     local scale = WINDOW.scale
+    System.graphics.setColor(255, 255, 255)
     System.graphics.draw(self.img.image, 0, 0, 0, scale, scale)
     Scene.draw(self)
 end

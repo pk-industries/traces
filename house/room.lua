@@ -25,7 +25,10 @@ function Room:init(id, width, height, scenes, obstacles)
     self:loadFlags()
 end
 
+
 function Room:enter()
+    print("Fading in")
+    Fade.fadeIn()
     System.setTitle(GameState.current().id)
 end
 
@@ -60,6 +63,7 @@ end
 
 function Room:keypressed(key)
     print(key)
+    if Fade.interrupt() then return end
     if key == GamePad.start then
         GameState.push(States.pause)
     elseif key == Controls.d then
@@ -143,6 +147,7 @@ function Room:render()
         print("File " .. filepath .. " does not exist :(")
     end
     Flashlight.runRoutine()
+    Fade.draw()
 end
 
 return Room

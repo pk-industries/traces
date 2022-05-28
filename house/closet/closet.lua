@@ -17,6 +17,7 @@ function Closet:init()
 end
 
 function Closet:enter()
+    Room.enter(self)
     System.setTitle("Closet")
 end
 

@@ -16,6 +16,7 @@ function Kitchen:init()
 end
 
 function Kitchen:enter()
+    Room.enter(self)
     System.setTitle("Kitchen")
 end
 
