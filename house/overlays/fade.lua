@@ -55,7 +55,8 @@ local Fade = {
     ["fadeIn"] = fadeIn,
     ["fadeOut"] = fadeOut,
     ["interrupt"] = interrupt,
-    ["draw"] = draw
+    ["draw"] = draw,
+    getCurr = function() return current.val end
 }
 
 return Fade
