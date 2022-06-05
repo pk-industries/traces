@@ -18,6 +18,7 @@ end
 function Pause:draw()
     local img = System.graphics.createImage("assets/images/pause.png")
     local scale = WINDOW.scale
+    System.graphics.setColor(255,255,255)
     System.graphics.draw(img, 0, 0, 0, scale, scale)
 end
 
