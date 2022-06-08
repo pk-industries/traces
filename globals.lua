@@ -50,21 +50,33 @@ CONFIG = {
             font = nil, -- set after fonts are created
             fontSize = 10,
             lineHeight = 12,
-            foreground = {1, 1, 1, 1},
-            shadow = {0, 0, 0, 1},
-            shadowOffset = {x = 1, y = 1},
-            position = {x = 420, y = 6},
+            foreground = { 1, 1, 1, 1 },
+            shadow = { 0, 0, 0, 1 },
+            shadowOffset = {
+                x = 1,
+                y = 1
+             },
+            position = {
+                x = 420,
+                y = 6
+             },
             kilobytes = false
         },
         -- Error screen config
         error = {
             font = nil, -- set after fonts are created
             fontSize = 16,
-            background = {.1, .31, .5},
-            foreground = {1, 1, 1},
-            shadow = {0, 0, 0, .88},
-            shadowOffset = {x = 1, y = 1},
-            position = {x = 70, y = 70}
+            background = { .1, .31, .5 },
+            foreground = { 1, 1, 1 },
+            shadow = { 0, 0, 0, .88 },
+            shadowOffset = {
+                x = 1,
+                y = 1
+             },
+            position = {
+                x = 70,
+                y = 70
+             }
         }
     }
 }
@@ -77,7 +89,8 @@ Fonts = {
     thin = System.graphics.createFont "assets/fonts/Roboto-Thin.ttf",
     regularItalic = System.graphics.createFont "assets/fonts/Roboto-Italic.ttf",
     boldItalic = System.graphics.createFont "assets/fonts/Roboto-BoldItalic.ttf",
-    lightItalic = System.graphics.createFont "assets/fonts/Roboto-LightItalic.ttf",
+    lightItalic = System.graphics
+        .createFont "assets/fonts/Roboto-LightItalic.ttf",
     thinItalic = System.graphics.createFont "assets/fonts/Roboto-Italic.ttf",
     monospace = System.graphics.createFont "assets/fonts/RobotoMono-Regular.ttf",
     pixel = System.graphics.createFont "assets/fonts/Pixel.ttf"
@@ -85,9 +98,9 @@ Fonts = {
 
 -- -@alias Colors table<string, number>
 Colors = {
-    white = {1, 1, 1, 1},
-    black = {0, 0, 0, 1},
-    red = {255, 0, 0, 1}
+    white = { 1, 1, 1, 1 },
+    black = { 0, 0, 0, 1 },
+    red = { 255, 0, 0, 1 }
 }
 
 Fonts.default = Fonts.regular
@@ -96,6 +109,7 @@ CONFIG.debug.error.font = Fonts.monospace
 
 Player = nil -- loaded in main
 House = nil -- loaded in main
+Fade = nil -- loaded in main
 Flashlight = nil -- loaded in main
 States = {
     start = require "states.start",
@@ -108,10 +122,12 @@ Controls = {
     down = "down",
     left = "left",
     right = "right",
-    a = "return",
-    b = "backspace",
-    start = "escape",
-    z = "z", d = "d", u = "u",
+    a = "a",
+    b = "s",
+    start = "enter",
+    z = "z",
+    d = "d",
+    u = "u",
     arrowkeys = set("up", "down", "left", "right")
 }
 
@@ -123,18 +139,30 @@ GamePad = {
     start = Controls.start
 }
 
-GamePad.includes = set(GamePad.up, GamePad.down, GamePad.left, GamePad.right, GamePad.start)
+GamePad.includes = set(
+                       GamePad.up, GamePad.down, GamePad.left, GamePad.right,
+                       GamePad.start
+                   )
 
 function keyOf(table, value)
-    for k, v in pairs(table) do
-        if v == value then return k end
-    end
+    for k, v in pairs(table) do if v == value then return k end end
     return nil
 end
 
 function indexOf(table, value)
-    for k, v in ipairs(table) do
-        if v == value then return k end
-    end
+    for k, v in ipairs(table) do if v == value then return k end end
     return nil
+end
+
+function cloneFunction(fn)
+    local dumped = string.dump(fn)
+    local cloned = loadstring(dumped)
+    local i = 1
+    while true do
+        local name = debug.getupvalue(fn, i)
+        if not name then break end
+        debug.upvaluejoin(cloned, i, fn, i)
+        i = i + 1
+    end
+    return cloned
 end

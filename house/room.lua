@@ -25,7 +25,10 @@ function Room:init(id, width, height, scenes, obstacles)
     self:loadFlags()
 end
 
+
 function Room:enter()
+    print("Fading in")
+    Fade.fadeIn()
     System.setTitle(GameState.current().id)
 end
 
@@ -60,6 +63,7 @@ end
 
 function Room:keypressed(key)
     print(key)
+    if Fade.interrupt() then return end
     if key == GamePad.start then
         GameState.push(States.pause)
     elseif key == Controls.d then
@@ -128,7 +132,8 @@ function Room:render()
 
     local filepath = roomdir .. filename
     local scale = WINDOW.scale
-    System.graphics.setColor(255, 255, 255)
+    local color = 255 * (1 - Fade.getCurr()) -- Formalize this process in a healthier way ASAP
+    System.graphics.setColor(color, color, color)
     if System.filesystem.checkFileExists(filepath) then
         local image = System.graphics.createImage(filepath)
         local offsetTbl = {
@@ -143,6 +148,7 @@ function Room:render()
         print("File " .. filepath .. " does not exist :(")
     end
     Flashlight.runRoutine()
+    Fade.draw()
 end
 
 return Room

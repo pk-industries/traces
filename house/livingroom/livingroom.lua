@@ -9,7 +9,7 @@ function Livingroom:init()
         3,
         3,
         {
-            ["w.1.1"] = require("house.kitchen.kitchen")(),
+            ["w.1.1"] = require("house.livingroom.kitchen")(),
             ["n.1.3"] = require("house.livingroom.coatcloset")(),
             ["e.3.1"] = require("house.livingroom.hall")(),
             ["w.3.2"] = require("house.livingroom.couch")()
@@ -19,6 +19,7 @@ function Livingroom:init()
 end
 
 function Livingroom:enter()
+    Room.enter(self)
     System.setTitle "Living Room"
 end
 

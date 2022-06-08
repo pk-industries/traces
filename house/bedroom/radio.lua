@@ -36,6 +36,7 @@ function Radio:init()
 end
 
 function Radio:resume()
+    self:decideVolumes()
     System.audio.play(music, static)
     Scene.resume(self)
 end
@@ -97,6 +98,13 @@ end
 function Radio:update()
     self:decideVolumes()
     Scene.update(self)
+end
+
+function Radio:keypressed(key)
+    if key == Controls.down then
+        GameState.pop()
+    end
+    Scene.keypressed(self, key)
 end
 
 function Radio:wheelmoved(x, y)

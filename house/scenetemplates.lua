@@ -8,7 +8,9 @@ function ss:init(id, isLocked, path)
     Scene.init(self, id, isLocked)
     self.img = {
         ["path"] = path,
-        ["image"] = nil
+        ["image"] = nil,
+        ["x"] = 0,
+        ["y"] = 0
     }
 end
 
@@ -24,7 +26,8 @@ end
 
 function ss:draw()
     local scale = WINDOW.scale
-    System.graphics.draw(self.img.image, 0, 0, 0, scale, scale)
+    System.graphics.setColor(255, 255, 255)
+    System.graphics.draw(self.img.image, 0, 0, 0, scale, scale, self.img.x, self.img.y)
     Scene.draw(self)
 end
 
@@ -32,21 +35,6 @@ end
 local ie = Class {
     __includes = ss
 }
-
----@param id string The id of the scene
----@param isLocked boolean? States whether the scene is locked.
----@param path string The path to the image to be drawn/explored.
-function ie:init(id, isLocked, path)
-    ss.init(self, id, isLocked, path)
-    self.img.x = 0
-    self.img.y = 0
-end
-
-function ie:draw()
-    local scale = WINDOW.scale
-    System.graphics.draw(self.img.image, 0, 0, 0, scale, scale, self.img.x, self.img.y)
-    Scene.draw(self)
-end
 
 function ie:update()
     local xstep = WINDOW.baseW / 100
@@ -71,6 +59,7 @@ function ie:update()
         local hlimit = System.graphics.getImageHeight(self.img.image) - WINDOW.baseH
         self.img.y = (newy < hlimit) and newy or hlimit
     end
+    ss.update(self)
 end
 
 return {

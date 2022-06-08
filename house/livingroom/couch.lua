@@ -1,19 +1,16 @@
-local Couch = Class { __includes = Scene }
+local SimpleScene = require("house.scenetemplates").SimpleScene
+
+local Couch = Class { __includes = SimpleScene }
 
 function Couch:init()
-    Scene.init(self, "livingroom.couch", false)
-end
-
-function Couch:draw()
-    local img = System.graphics.createImage("assets/images/livingroom/x2y2_livingroom.png")
-    local scale = WINDOW.scale
-    System.graphics.draw(img, 0, 0, 0, scale, scale)
+    SimpleScene.init(self, "livingroom.couch", false, "assets/images/livingroom/x2y2_livingroom.png")
 end
 
 function Couch:keypressed(key)
-    if key == GamePad.up or key == Controls.b then
+    if key == Controls.up then
         GameState.pop()
     end
+    SimpleScene.keypressed(self, key)
 end
 
 return Couch

@@ -8,7 +8,9 @@ local Scene = require "house.scene"
 ---@field string destX The X coordinate of the destination.
 ---@field string destY The Y coordinate of the destination.
 ---@field boolean isDoor Indicates that this class is a door.
-local Door = Class { __includes = Scene }
+local Door = Class {
+    __includes = Scene
+ }
 
 --- func desc
 ---@param destId string The ID of the destination.
@@ -33,8 +35,14 @@ function Door:openDoor()
 
     -- If unlocked, enter room
     Player.room = self.id
-    Player:setPosition(self.destD, self.destX, self.destY)
-    States.game:enter()
+    Fade.fadeOut(
+        function()
+            Player:setPosition(self.destD, self.destX, self.destY)
+            States.game:enter()
+        end
+    )
+
+    return self.flags.isLocked
 end
 
 function Door:playDoorSound()
