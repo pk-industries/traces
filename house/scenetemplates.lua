@@ -59,6 +59,7 @@ function ie:update()
         local hlimit = System.graphics.getImageHeight(self.img.image) - WINDOW.baseH
         self.img.y = (newy < hlimit) and newy or hlimit
     end
+    ss.update(self)
 end
 
 return {
