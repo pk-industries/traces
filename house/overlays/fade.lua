@@ -10,6 +10,7 @@ local current = {
 local tween
 local isFadeIn = true
 
+--- Functions
 local fadeIn, fadeOut, interrupt, draw
 
 local fade = function(fadeIn, after)

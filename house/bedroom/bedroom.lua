@@ -26,7 +26,8 @@ function Bedroom:init()
     end
 
     promptCoor = {
-        promptPoint("A", 328, 148, "e", 2, 2), promptPoint("A", 260, 90, "s", 1, 1)
+        promptPoint("A", 328, 148, "e", 2, 2),
+        promptPoint("A", 260, 90, "s", 1, 1)
     }
 end
 
