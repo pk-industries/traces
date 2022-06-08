@@ -13,15 +13,12 @@ end
 
 function Dresser:enter()
     prompt.on = self.flags.flashObtained ~= true
-    self.offset = self.flags.flashObtained and WINDOW.width or 0
+    self.offset = self.flags.flashObtained and WINDOW.baseW or 0
     SimpleScene.enter(self)
 end
 
 function Dresser:draw()
-    local scale = WINDOW.scale
-    System.graphics.setColor(255, 255, 255)
-    System.graphics.draw(self.img.image, 0, 0, 0, scale, scale, self.offset)
-    Scene.draw(self)
+    SimpleScene.draw(self)
     prompt:routine()
 end
 
