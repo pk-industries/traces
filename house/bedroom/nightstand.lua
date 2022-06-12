@@ -14,6 +14,18 @@ function NightStand:init()
     prompt = require("house.overlays.flashingprompt")("A", 199, 201)
     self.flags.paperUnlocked = false
     self.isOpen = false
+    
+    Radio:init()
+end
+
+function NightStand:enter()
+    SimpleScene.enter(self)
+    Radio:resume()
+end
+
+function NightStand:leave()
+    Radio:pause()
+    SimpleScene.leave(self)
 end
 
 function NightStand:draw()

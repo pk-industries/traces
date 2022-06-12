@@ -41,24 +41,19 @@ function Radio:resume()
     Scene.resume(self)
 end
 
-local pauseMusic = function()
+function Radio:pauseMusic()
     System.audio.pause(static)
     System.audio.setVolume(music, 0)
 end
 
 function Radio:pause()
-    pauseMusic()
+    self:pauseMusic()
     Scene.pause(self)
 end
 
 function Radio:enter()
     self:resume()
     Scene.enter(self)
-end
-
-function Radio:leave()
-    pauseMusic()
-    Scene.leave(self)
 end
 
 function Radio:draw()
