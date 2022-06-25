@@ -36,14 +36,18 @@ end
 function NightStand:keypressed(key)
     if key == GamePad.up then
         GameState.push(Radio)
+        return
     elseif key == Controls.a then
         self.isOpen = not self.isOpen
         self.img.path = self.isOpen and
                             "assets/images/bedroom/nightstand_open.png" or
                             "assets/images/bedroom/Nightstand.png"
         self.img.image = System.graphics.createImage(self.img.path)
+        return
     elseif key == GamePad.down then
-        GameState.pop()
+        -- GameState.pop()
+        GameState.switch(House.bedroom) -- GameState.pop() goes to pause screen for some reason...
+        return
     end
     SimpleScene.keypressed(self, key)
 end
