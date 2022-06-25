@@ -13,6 +13,7 @@ House = {
     ["closet.bedroom"] = require("house.closet.bedroom"),
     ["hall"] = require("house.hall.hall"),
     ["hall.bedroom"] = require("house.hall.bedroom"),
+    ["hall.hallface"] = require("house.hall.hall_face"),
     ["hall.fusebox"] = require("house.hall.fusebox"),
     ["hall.painting"] = require("house.hall.painting"),
     ["hall.phone"] = require("house.hall.phone"),

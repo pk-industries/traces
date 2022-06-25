@@ -25,10 +25,13 @@ end
 function Dresser:keypressed(key)
     if key == Controls.up then
         GameState.push(MusicBox)
+        return
     elseif not self.flags.flashObtained and key == Controls.a then
         GameState.push(FlashScene)
+        return
     elseif key == Controls.down then
         GameState.pop()
+        return
     end
     SimpleScene.keypressed(self, key)
 end

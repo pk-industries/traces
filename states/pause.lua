@@ -22,8 +22,10 @@ function Pause:draw()
     System.graphics.draw(img, 0, 0, 0, scale, scale)
 end
 
+Pause.locked = false
+
 function Pause:keypressed(key)
-    if key == GamePad.start then
+    if key == GamePad.start and not self.locked then
         GameState.pop(self)
     end
 end
